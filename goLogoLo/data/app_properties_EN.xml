@@ -14,8 +14,8 @@
 	<property name="APP_CSS"	    value="gol_style.css"></property>
 
         <!-- PREFERRED GEOMETRY -->
-        <property name="PREF_WIDTH"         value="800"></property>
-        <property name="PREF_HEIGHT"        value="600"></property>
+        <property name="PREF_WIDTH"         value="100"></property>
+        <property name="PREF_HEIGHT"        value="100"></property>
         <property name="START_MAXIMIZED"    value="true"></property>
         
         <!-- PROGRAM ICON FILES -->
@@ -31,6 +31,9 @@
         <property name="CHANGE_LANGUAGE_ICON"     value="change_language.png"></property>
         <property name="ABOUT_ICON"     value="about.png"></property>
         
+        <property name="UNDO_ICON"     value="Undo.png"></property>
+        <property name="REDO_ICON"     value="Redo.png"></property>
+        
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New Logo"></property>
@@ -38,12 +41,16 @@
         <property name="SAVE_TOOLTIP"		value="Save this Logo"></property>
         <property name="EXIT_TOOLTIP"		value="Exit the Application"></property>
         
-        <property name="COPY_TOOLTIP"		value="Copy a selected node"></property>
-        <property name="CUT_TOOLTIP"		value="Cut out node, and keep it on reserve"></property>
+        <property name="COPY_TOOLTIP"		value="Copy a selected item"></property>
+        <property name="CUT_TOOLTIP"		value="Cut out item, and keep it on reserve"></property>
         <property name="PASTE_TOOLTIP"		value="Paste from copy button, or clipboard"></property>
         
         <property name="CHANGE_LANGUAGE_TOOLTIP"     value="Change language of UI"></property>
         <property name="ABOUT_TOOLTIP"     value="Learn about the program and its maker"></property>
+        
+        <property name="UNDO_TOOLTIP"     value="Undo last added image/shape/text"></property>
+        <property name="REDO_TOOLTIP"     value="Redo your undo command"></property>
+        
         
         
         <!-- ERROR MESSAGES -->
@@ -58,15 +65,18 @@
         <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="An error occured loading a properties file."></property>	
         <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Properties File Loading Error"></property>
         
-        <property name="COPY_ERROR_MESSAGE"             value="Cannot copy if not a parent node"></property>
-        <property name="COPY_ERROR_TITLE"       value="Copy Node Error"></property>
+        <property name="COPY_ERROR_MESSAGE"             value="Cannot copy selected item"></property>
+        <property name="COPY_ERROR_TITLE"       value="Copy item Error"></property>
         <property name="PASTE_ERROR_MESSAGE"            value="Nothing to paste from clipboard"></property>
         <property name="PASTE_ERROR_TITLE"      value="Paste Node Error"></property>
-        <property name="CUT_ERROR_MESSAGE"              value="Cannot cut from a non-parent node"></property>
+        <property name="CUT_ERROR_MESSAGE"              value="Cannot cut item"></property>
         <property name="CUT_ERROR_TITLE"        value="Cut Node Error"></property>
         
         <property name="CHANGE_LANGUAGE_ERROR_MESSAGE"  value="Cannot change language"></property>
         <property name="CHANGE_LANGUAGE_ERROR_TITLE"       value="Change Language Error"></property>
+        
+        <property name="REDO_ERROR_MESSAGE"     value="Nothing to redo"></property>
+        <property name="REDO_ERROR_TITLE"       value="Redo Error"></property>
 	
         <!-- VERIFICATION MESSAGES -->
 	

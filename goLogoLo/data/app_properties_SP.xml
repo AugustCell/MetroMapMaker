@@ -31,6 +31,10 @@
         <property name="CHANGE_LANGUAGE_ICON"     value="change_language.png"></property>
         <property name="ABOUT_ICON"     value="about.png"></property>
         
+        <property name="UNDO_ICON"     value="Undo.png"></property>
+        <property name="REDO_ICON"     value="Redo.png"></property>
+        
+        
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"    	value="Crear un nuevo logotipo"></property>
         <property name="LOAD_TOOLTIP"           value="Cargar un logotipo existente"></property>
@@ -43,6 +47,9 @@
         
         <property name="CHANGE_LANGUAGE_TOOLTIP"     value="Cambiar el idioma de la interfaz de usuario"></property>
         <property name="ABOUT_TOOLTIP"     value="Aprenda sobre el programa y su creador"></property>
+        
+        <property name="UNDO_TOOLTIP"     value="Deshacer la última imagen / forma / texto añadido"></property>
+        <property name="REDO_TOOLTIP"     value="Rehacer el comando de deshacer"></property>
         
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Close"></property>
@@ -65,6 +72,9 @@
         
         <property name="CHANGE_LANGUAGE_ERROR_MESSAGE"  value="No se puede cambiar el idioma"></property>
         <property name="CHANGE_LANGUAGE_ERROR_TITLE"       value="Cambiar el idioma de error"></property>
+        
+        <property name="REDO_ERROR_MESSAGE"     value="Nada que rehacer"></property>
+        <property name="REDO_ERROR_TITLE"       value="Redo Error"></property>
 	
         <!-- VERIFICATION MESSAGES -->
 	

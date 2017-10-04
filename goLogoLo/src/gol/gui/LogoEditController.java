@@ -15,6 +15,8 @@ import gol.data.golState;
 import djf.AppTemplate;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME_SPANISH;
+import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
+import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -24,9 +26,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import static javafx.scene.input.KeyCode.C;
+import javafx.scene.layout.VBox;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * This class responds to interactions with other UI logo editing controls.
@@ -45,78 +50,32 @@ public class LogoEditController {
 	dataManager = (golData)app.getDataComponent();
     }
     
-    
-    /**
-     * This will handle changing the language of the UI
-     * to make it more readable for the user
-     */
-    public void handleChangeLanguageRequest(){
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
-            alert.setTitle("Language picker");
-            alert.setContentText("Choose your preferred language");
-        } else if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
-            alert.setTitle("Selector de idioma");
-            alert.setContentText("Elija su idioma preferido");
-        }
-        ButtonType englishButton = new ButtonType("English");
-        ButtonType spanishButton = new ButtonType("Espanol");
-
-        alert.getButtonTypes().setAll(englishButton, spanishButton);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == englishButton) {
-            app.englishButtonRequest();
-        } else if (result.get() == spanishButton) {
-            app.spanishButtonRequest();
-        };
-        
-        
-    }
-    /**
-     * This will show a box with about information about the program including 
-     * its title, and image of the app.
-     * 
-     * @throws IOException Throws exception if the image is not found.
-     */
-    public void handleAboutRequest() throws IOException{
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information about goLogoLo");
-        alert.setHeaderText(null);
-        BufferedImage img = ImageIO.read(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\goLogoLo\\Logo.png"));
-        ImageIcon icon = new ImageIcon(img);
-        //alert.setGraphic(icon);
-        // Image image = new Image(getClass().getResource("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\goLogoLo\\Logo.png").toExternalForm());
-        // ImageView imageView = new ImageView(image);
-        // alert.setGraphic(imageView);
-        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
-            alert.setContentText("Welcome to goLogoLo!!!\n"
-                    + "Credits for work on this project go to Richard McKenna, and co editor Augusto Celis\n"
-                    + "The project has been worked on during 2017");
-        } else if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
-            alert.setContentText("Bienvenido a goLogoLo !!!\n"
-                    + "Los créditos para trabajar en este proyecto van a Richard McKenna, y el co editor Augusto Celis\n"
-                    + "El proyecto se ha trabajado durante 2017");
-        }
-        alert.showAndWait();
-    }
-    
+   
     public void handleAddImageRequest(){
         Scene scene = app.getGUI().getPrimaryScene();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "png", "jpeg");
         JFileChooser fc = new JFileChooser();
-        JLabel image = new JLabel();
+        fc.setFileFilter(filter);
+        ImageView image = new ImageView();
         int result = fc.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             try {
-                image.setIcon(new ImageIcon(ImageIO.read(file)));
+                image = new ImageView(file.toURI().toURL().toExternalForm());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        workspaceManager.getCanvas().setOnMouseClicked(e -> {
-           // workspaceManager.getCanvas().getChildren().add(image);
-        });
+
+        scene.setCursor(Cursor.DEFAULT);
+        double xPos = ((workspaceManager.getCanvas().getWidth()) / 2);
+        double yPos = ((workspaceManager.getCanvas().getHeight()) / 2);
+        dataManager.setState(golState.ADD_IMAGE);
+        image.relocate(xPos, yPos);
+       
+        workspaceManager.getCanvas().getChildren().add(image);
+
+
     }
 
     public void handleAddTextRequets(){

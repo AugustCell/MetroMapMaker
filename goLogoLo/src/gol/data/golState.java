@@ -16,5 +16,6 @@ public enum golState {
     STARTING_ELLIPSE,
     SIZING_SHAPE,
     DRAGGING_NOTHING,
-    SIZING_NOTHING
+    SIZING_NOTHING,
+    ADD_IMAGE
 }

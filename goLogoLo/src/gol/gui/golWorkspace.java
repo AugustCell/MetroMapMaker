@@ -52,6 +52,7 @@ import static gol.golLanguageProperty.ADD_TEXT_TOOLTIP;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.FlowPane;
 
 /**
  * This class serves as the workspace component for this application, providing
@@ -127,11 +128,7 @@ public class golWorkspace extends AppWorkspaceComponent {
     // FOR DISPLAYING DEBUG STUFF
     Text debugText;
     
-    private Button copyButton;
-    private Button pasteButton;
-    private Button cutButton;
-    private Button changeLanguageButton;
-    private Button aboutButton;
+   
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -188,74 +185,10 @@ public class golWorkspace extends AppWorkspaceComponent {
     public Pane getCanvas() {
 	return canvas;
     }
-    
-    public Button getCopyButton(){
-        return copyButton;
-    }
-    
-    public Button getPasteButton(){
-        return pasteButton;
-    }
-    
-    public Button getCutButton(){
-        return cutButton;
-    }
-    
-    public Button getChangeLanguageButton(){
-        return changeLanguageButton;
-    }
-    
-    public Button getAboutButton(){
-        return aboutButton;
-    }
         
     // HELPER SETUP METHOD
-    private void initLayout() {
-    /*    
-    //Add copy and paste button into toolbar
-        
-        copyButton = gui.initChildButton(gui.getFileToolbar(), LanguageProperty.COPY_ICON.toString(), LanguageProperty.COPY_TOOLTIP.toString(), true);
-        copyButton.setMaxWidth(30);
-        copyButton.setMinWidth(30);
-        copyButton.setPrefWidth(30);
-        copyButton.setMaxHeight(25);
-        copyButton.setMinHeight(25);
-        copyButton.setPrefHeight(25);
-
-        pasteButton = gui.initChildButton(gui.getFileToolbar(), LanguageProperty.PASTE_ICON.toString(), LanguageProperty.PASTE_TOOLTIP.toString(), true);
-        pasteButton.setMaxWidth(30);
-        pasteButton.setMinWidth(30);
-        pasteButton.setPrefWidth(30);
-        pasteButton.setMaxHeight(25);
-        pasteButton.setMinHeight(25);
-        pasteButton.setPrefHeight(25);
-        
-         cutButton = gui.initChildButton(gui.getFileToolbar(), LanguageProperty.CUT_ICON.toString(), LanguageProperty.CUT_TOOLTIP.toString(), true);
-        cutButton.setMaxWidth(30);
-        cutButton.setMinWidth(30);
-        cutButton.setPrefWidth(30);   
-        cutButton.setMaxHeight(25);
-        cutButton.setMinHeight(25);
-        cutButton.setPrefHeight(25);
-        */
-    
-        changeLanguageButton = gui.initChildButton(gui.getFileToolbar(), golLanguageProperty.CHANGE_LANGUAGE_ICON.toString(), golLanguageProperty.CHANGE_LANGUAGE_TOOLTIP.toString(), true);
-        changeLanguageButton.setMaxWidth(30);
-        changeLanguageButton.setMinWidth(30);
-        changeLanguageButton.setPrefWidth(30);   
-        changeLanguageButton.setMaxHeight(25);
-        changeLanguageButton.setMinHeight(25);
-        changeLanguageButton.setPrefHeight(25);
-        
-        aboutButton = gui.initChildButton(gui.getFileToolbar(), golLanguageProperty.ABOUT_ICON.toString(), golLanguageProperty.ABOUT_TOOLTIP.toString(), true);
-        aboutButton.setMaxWidth(30);
-        aboutButton.setMinWidth(30);
-        aboutButton.setPrefWidth(30);   
-        aboutButton.setMaxHeight(25);
-        aboutButton.setMinHeight(25);
-        aboutButton.setPrefHeight(25);
-    
-
+    private void initLayout() {  
+ 
 	// THIS WILL GO IN THE LEFT SIDE OF THE WORKSPACE
 	editToolbar = new VBox();
 	
@@ -362,26 +295,15 @@ public class golWorkspace extends AppWorkspaceComponent {
         
         //Handle requests for change language and about 
         //request
-        changeLanguageButton.setOnAction(e -> {
-            logoEditController.handleChangeLanguageRequest();
-        });
-
-        aboutButton.setOnAction(e -> {
-            try {
-                logoEditController.handleAboutRequest();
-            } catch (IOException ex) {
-                Logger.getLogger(golWorkspace.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+       
 
         // AND NOW SETUP THE WORKSPACE
         workspace = new BorderPane();
         ((BorderPane) workspace).setLeft(editToolbar);
         ((BorderPane) workspace).setCenter(canvas);
-        /*editToolbar.prefHeightProperty().bind(((BorderPane) workspace));
-        editToolbar.prefWidthProperty().bind(workspace.widthProperty());
-        canvas.prefHeightProperty().bind(workspace.);
-        canvas.prefWidthProperty().bind(workspace.widthProperty());*/
+        editToolbar.setMaxHeight(100);
+        editToolbar.setMinHeight(100);
+        editToolbar.setPrefHeight(100); 
 
     }
 
@@ -499,8 +421,6 @@ public class golWorkspace extends AppWorkspaceComponent {
     @Override
     public void reloadWorkspace(AppDataComponent data) {
 	golData dataManager = (golData)data;
-        changeLanguageButton.setDisable(false);
-        aboutButton.setDisable(false);
         imageButton.setDisable(false);
         textBoxButton.setDisable(false);
         

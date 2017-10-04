@@ -52,7 +52,7 @@ public class CanvasController {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
             dataManager.startNewEllipse(x, y);
-        }
+        } 
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }

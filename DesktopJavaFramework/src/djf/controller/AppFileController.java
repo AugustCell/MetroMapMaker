@@ -26,7 +26,16 @@ import static djf.settings.AppPropertyType.SAVE_ERROR_TITLE;
 import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static djf.settings.AppPropertyType.SAVE_WORK_TITLE;
+import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
+import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME_SPANISH;
+import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
+import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.settings.AppStartupConstants.PATH_WORK;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * This class provides the event programmed responses for the file controls
@@ -38,6 +47,7 @@ import static djf.settings.AppStartupConstants.PATH_WORK;
 public class AppFileController {
     // HERE'S THE APP
     AppTemplate app;
+    AppGUI appGui;
     
     // WE WANT TO KEEP TRACK OF WHEN SOMETHING HAS NOT BEEN SAVED
     boolean saved;
@@ -72,6 +82,64 @@ public class AppFileController {
         gui.updateToolbarControls(saved);
     }
 
+    
+       /**
+     * This will handle changing the language of the UI
+     * to make it more readable for the user
+     */
+  /*  public void handleChangeLanguageRequest(){
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
+            alert.setTitle("Language picker");
+            alert.setContentText("Choose your preferred language");
+        } else if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
+            alert.setTitle("Selector de idioma");
+            alert.setContentText("Elija su idioma preferido");
+        }
+        ButtonType englishButton = new ButtonType("English");
+        ButtonType spanishButton = new ButtonType("Espanol");
+
+        alert.getButtonTypes().setAll(englishButton, spanishButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == englishButton) {
+            app.englishButtonRequest();
+        } else if (result.get() == spanishButton) {
+            app.spanishButtonRequest();
+        };
+        
+        app.loadProperties(app.getPreferredLanguage());
+        
+          
+    }*/
+    /**
+     * This will show a box with about information about the program including 
+     * its title, and image of the app.
+     * 
+     * @throws IOException Throws exception if the image is not found.
+     */
+    public void handleAboutRequest() throws IOException{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information about goLogoLo");
+        alert.setHeaderText(null);
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + "goLogoLoLogo.png";
+        Image tempImage = new Image(imagePath);
+        ImageView alertImage = new ImageView();
+        alertImage.setImage(tempImage);
+        alert.setGraphic(alertImage);
+        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
+            alert.setContentText("Welcome to goLogoLo!!!\n"
+                    + "Credits for work on this project go to Richard McKenna, and co editor Augusto Celis\n"
+                    + "The project has been worked on during 2017");
+        } else if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
+            alert.setContentText("Bienvenido a goLogoLo !!!\n"
+                    + "Los créditos para trabajar en este proyecto van a Richard McKenna, y el co editor Augusto Celis\n"
+                    + "El proyecto se ha trabajado durante 2017");
+        }
+        alert.showAndWait();
+    }
+    
+    
     /**
      * This method starts the process of editing new Work. If work is
      * already being edited, it will prompt the user to save it first.

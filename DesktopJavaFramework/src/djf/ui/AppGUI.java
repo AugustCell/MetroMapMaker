@@ -15,9 +15,17 @@ import properties_manager.PropertiesManager;
 import djf.controller.AppFileController;
 import djf.AppTemplate;
 import static djf.settings.AppPropertyType.*;
+import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
+import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME_SPANISH;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  * This class provides the basic user interface for this application,
@@ -45,6 +53,9 @@ public class AppGUI {
     // THIS IS THE TOP PANE WHERE WE CAN PUT TOOLBAR
     protected FlowPane topToolbarPane;
     
+    protected FlowPane rightToolbar;
+    protected FlowPane centerToolbar;
+    
     // THIS IS THE FILE TOOLBAR AND ITS CONTROLS
     protected FlowPane fileToolbar;
 
@@ -53,6 +64,15 @@ public class AppGUI {
     protected Button loadButton;
     protected Button saveButton;
     protected Button exitButton;
+    
+    private Button copyButton;
+    private Button pasteButton;
+    private Button cutButton;
+    private Button changeLanguageButton;
+    private Button aboutButton;
+    
+    
+    
     
     // THIS DIALOG IS USED FOR GIVING FEEDBACK TO THE USER
     protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
@@ -136,6 +156,27 @@ public class AppGUI {
      * @return This application's primary stage (i.e. window).
      */    
     public Stage getWindow() { return primaryStage; }
+    
+    
+    public Button getCopyButton() {
+        return copyButton;
+    }
+
+    public Button getPasteButton() {
+        return pasteButton;
+    }
+    
+    public Button getCutButton(){
+        return cutButton;
+    }
+    
+    public Button getChangeLanguageButton(){
+        return changeLanguageButton;
+    }
+    
+    public Button getAboutButton(){
+        return aboutButton;
+    }
 
     /**
      * This method is used to activate/deactivate toolbar buttons when
@@ -168,6 +209,8 @@ public class AppGUI {
      */
     private void initTopToolbar(AppTemplate app) {
         fileToolbar = new FlowPane();
+        centerToolbar = new FlowPane();
+        rightToolbar = new FlowPane();
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
@@ -175,6 +218,16 @@ public class AppGUI {
         loadButton = initChildButton(fileToolbar,	LOAD_ICON.toString(),	    LOAD_TOOLTIP.toString(),	false);
         saveButton = initChildButton(fileToolbar,	SAVE_ICON.toString(),	    SAVE_TOOLTIP.toString(),	true);
         exitButton = initChildButton(fileToolbar,	EXIT_ICON.toString(),	    EXIT_TOOLTIP.toString(),	false);
+        
+        //Add copy, cut, paste button into toolbar
+        
+        copyButton = initChildButton(centerToolbar, COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
+        pasteButton = initChildButton(centerToolbar, PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
+        cutButton = initChildButton(centerToolbar, CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+        
+        changeLanguageButton = initChildButton(rightToolbar, CHANGE_LANGUAGE_ICON.toString(), CHANGE_LANGUAGE_TOOLTIP.toString(), false);
+        aboutButton = initChildButton(rightToolbar, ABOUT_ICON.toString(), ABOUT_TOOLTIP.toString(), false);
+       
 
 	// AND NOW SETUP THEIR EVENT HANDLERS
         fileController = new AppFileController(app);
@@ -190,11 +243,49 @@ public class AppGUI {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });	
+        changeLanguageButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
+                alert.setTitle("Language picker");
+                alert.setContentText("Choose your preferred language");
+            } else if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
+                alert.setTitle("Selector de idioma");
+                alert.setContentText("Elija su idioma preferido");
+            }
+            ButtonType englishButton = new ButtonType("English");
+            ButtonType spanishButton = new ButtonType("Espanol");
+
+            alert.getButtonTypes().setAll(englishButton, spanishButton);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == englishButton) {
+                app.englishButtonRequest();
+            } else if (result.get() == spanishButton) {
+                app.spanishButtonRequest();
+            };
+
+            app.loadProperties(app.getPreferredLanguage());
+     
+        });
+
+        aboutButton.setOnAction(e -> {
+            try {
+                fileController.handleAboutRequest();
+            } catch (IOException ex) {
+               
+            }
+        });
         
         // NOW PUT THE FILE TOOLBAR IN THE TOP TOOLBAR, WHICH COULD
         // ALSO STORE OTHER TOOLBARS
         topToolbarPane = new FlowPane();
+        fileToolbar.setPrefWrapLength(150);
+        centerToolbar.setPrefWrapLength(125);
+        rightToolbar.setPrefWrapLength(85);
         topToolbarPane.getChildren().add(fileToolbar);
+        topToolbarPane.getChildren().add(centerToolbar);
+        topToolbarPane.getChildren().add(rightToolbar);
+        topToolbarPane.setHgap(375);
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
@@ -302,10 +393,15 @@ public class AppGUI {
      */
     private void initFileToolbarStyle() {
 	topToolbarPane.getStyleClass().add(CLASS_BORDERED_PANE);
+        rightToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
+        centerToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
         fileToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
 	newButton.getStyleClass().add(CLASS_FILE_BUTTON);
 	loadButton.getStyleClass().add(CLASS_FILE_BUTTON);
 	saveButton.getStyleClass().add(CLASS_FILE_BUTTON);
 	exitButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        changeLanguageButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        aboutButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        
     }
 }

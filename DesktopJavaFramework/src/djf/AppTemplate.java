@@ -91,7 +91,7 @@ public abstract class AppTemplate extends Application {
      * Accessor for the app preffered language. 
      */
 
-    public String getPrefferedLanguage(){ return preferredLanguage;  }
+    public String getPreferredLanguage(){ return preferredLanguage;  }
     
     /**
      * This is where our Application begins its initialization, it will load

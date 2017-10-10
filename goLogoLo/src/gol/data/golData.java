@@ -17,6 +17,10 @@ import static gol.data.golState.SIZING_SHAPE;
 import gol.gui.golWorkspace;
 import djf.components.AppDataComponent;
 import djf.AppTemplate;
+import java.util.Optional;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 /**
  * This class serves as the data management component for this application.
@@ -31,16 +35,22 @@ public class golData implements AppDataComponent {
     // THESE ARE THE SHAPES TO DRAW
     ObservableList<Node> shapes;
     
+    ObservableList<Node> images;
+    
     // THE BACKGROUND COLOR
     Color backgroundColor;
     
     // AND NOW THE EDITING DATA
 
     // THIS IS THE SHAPE CURRENTLY BEING SIZED BUT NOT YET ADDED
-    Shape newShape;
+    Node newShape;
 
     // THIS IS THE SHAPE CURRENTLY SELECTED
-    Shape selectedShape;
+    Node selectedShape;
+    
+    ImageView newImage;
+    
+    ImageView selectedImage;
 
     // FOR FILL AND OUTLINE
     Color currentFillColor;
@@ -76,6 +86,8 @@ public class golData implements AppDataComponent {
 	// NO SHAPE STARTS OUT AS SELECTED
 	newShape = null;
 	selectedShape = null;
+        newImage = null;
+        selectedImage = null;
 
 	// INIT THE COLORS
 	currentFillColor = Color.web(WHITE_HEX);
@@ -91,6 +103,10 @@ public class golData implements AppDataComponent {
 	dropShadowEffect.setBlurType(BlurType.GAUSSIAN);
 	dropShadowEffect.setRadius(15);
 	highlightedEffect = dropShadowEffect;
+    }
+    
+    public ObservableList<Node> getImages(){
+        return images;
     }
     
     public ObservableList<Node> getShapes() {
@@ -113,6 +129,10 @@ public class golData implements AppDataComponent {
 	return currentBorderWidth;
     }
     
+    public void setImages(ObservableList<Node> initImage){
+        images = initImage;
+    }
+    
     public void setShapes(ObservableList<Node> initShapes) {
 	shapes = initShapes;
     }
@@ -129,20 +149,20 @@ public class golData implements AppDataComponent {
     public void setCurrentFillColor(Color initColor) {
 	currentFillColor = initColor;
 	if (selectedShape != null)
-	    selectedShape.setFill(currentFillColor);
+	    ((Shape)selectedShape).setFill(currentFillColor);
     }
 
     public void setCurrentOutlineColor(Color initColor) {
 	currentOutlineColor = initColor;
 	if (selectedShape != null) {
-	    selectedShape.setStroke(initColor);
+	    ((Shape)selectedShape).setStroke(initColor);
 	}
     }
 
     public void setCurrentOutlineThickness(int initBorderWidth) {
 	currentBorderWidth = initBorderWidth;
 	if (selectedShape != null) {
-	    selectedShape.setStrokeWidth(initBorderWidth);
+	    ((Shape)selectedShape).setStrokeWidth(initBorderWidth);
 	}
     }
     
@@ -153,31 +173,64 @@ public class golData implements AppDataComponent {
 	}
     }
     
+    public void removeSelectedImage(){
+        if(selectedImage != null){
+            images.remove(selectedImage);
+            selectedImage = null;
+        }
+    }
+
     public void moveSelectedShapeToBack() {
-	if (selectedShape != null) {
-	    shapes.remove(selectedShape);
-	    if (shapes.isEmpty()) {
-		shapes.add(selectedShape);
-	    }
-	    else {
-		ArrayList<Node> temp = new ArrayList<>();
-		temp.add(selectedShape);
-		for (Node node : shapes)
-		    temp.add(node);
-		shapes.clear();
-		for (Node node : temp)
-		    shapes.add(node);
-	    }
-	}
+        if (selectedShape != null) {
+            shapes.remove(selectedShape);
+            if (shapes.isEmpty()) {
+                shapes.add(selectedShape);
+            } else {
+                ArrayList<Node> temp = new ArrayList<>();
+                temp.add(selectedShape);
+                for (Node node : shapes) {
+                    temp.add(node);
+                }
+                shapes.clear();
+                for (Node node : temp) {
+                    shapes.add(node);
+                }
+            }
+        }
     }
-    
+
+    public void moveSelectedImageToBack() {
+        if (selectedImage != null) {
+            images.remove(selectedImage);
+            if (images.isEmpty()) {
+                images.add(selectedImage);
+            } else {
+                ArrayList<Node> temp = new ArrayList<>();
+                temp.add(selectedImage);
+                for (Node node : images) {
+                    temp.add(node);
+                }
+                images.clear();
+                for (Node node : temp) {
+                    images.add(node);
+                }
+            }
+        }
+    }
+
     public void moveSelectedShapeToFront() {
-	if (selectedShape != null) {
-	    shapes.remove(selectedShape);
-	    shapes.add(selectedShape);
-	}
+        if (selectedShape != null) {
+            shapes.remove(selectedShape);
+            shapes.add(selectedShape);
+        }
     }
- 
+
+    public void moveSelectedImageToFront(){
+        if(selectedImage != null){
+            images.remove(selectedImage);
+            images.add(selectedImage);
+        }
+    }
     /**
      * This function clears out the HTML tree and reloads it with the minimal
      * tags, like html, head, and body such that the user can begin editing a
@@ -208,14 +261,29 @@ public class golData implements AppDataComponent {
 	}
     }
     
-    public void unhighlightShape(Shape shape) {
-	selectedShape.setEffect(null);
+    public void selectSizedImage(){
+        if(selectedImage != null)
+            unhighlightImage(selectedImage);
+        selectedImage = newImage;
+        highlightImage(selectedImage);
+        newImage = null;
     }
     
-    public void highlightShape(Shape shape) {
+    public void unhighlightShape(Node shape) {
+	selectedShape.setEffect(null);
+    }
+    public void unhighlightImage(ImageView image){
+        selectedImage.setEffect(null);
+    }
+    
+    public void highlightShape(Node shape) {
 	shape.setEffect(highlightedEffect);
     }
 
+    public void highlightImage(ImageView image){
+        image.setEffect(highlightedEffect);
+    }
+    
     public void startNewRectangle(int x, int y) {
 	DraggableRectangle newRectangle = new DraggableRectangle();
 	newRectangle.start(x, y);
@@ -229,7 +297,18 @@ public class golData implements AppDataComponent {
 	newShape = newEllipse;
 	initNewShape();
     }
-
+    
+  
+    public void initNewImage(){
+        if(selectedImage != null){
+            unhighlightImage(selectedImage);
+            selectedImage = null;
+        }
+        
+        images.add(newImage);
+        state = golState.DRAGGING_IMAGE;
+    }
+    
     public void initNewShape() {
 	// DESELECT THE SELECTED SHAPE IF THERE IS ONE
 	if (selectedShape != null) {
@@ -239,9 +318,9 @@ public class golData implements AppDataComponent {
 
 	// USE THE CURRENT SETTINGS FOR THIS NEW SHAPE
 	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	newShape.setFill(workspace.getFillColorPicker().getValue());
-	newShape.setStroke(workspace.getOutlineColorPicker().getValue());
-	newShape.setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
+	((Shape)newShape).setFill(workspace.getFillColorPicker().getValue());
+	((Shape)newShape).setStroke(workspace.getOutlineColorPicker().getValue());
+	((Shape)newShape).setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
 	
 	// ADD THE SHAPE TO THE CANVAS
 	shapes.add(newShape);
@@ -250,20 +329,32 @@ public class golData implements AppDataComponent {
 	state = golState.SIZING_SHAPE;
     }
 
-    public Shape getNewShape() {
+    public Node getNewShape() {
 	return newShape;
     }
 
-    public Shape getSelectedShape() {
+    public ImageView getNewImage(){
+        return newImage;
+    }
+    
+    public Node getSelectedShape() {
 	return selectedShape;
     }
 
-    public void setSelectedShape(Shape initSelectedShape) {
+    public ImageView getSelectedImage(){
+        return selectedImage;
+    }
+    
+    public void setSelectedShape(Node initSelectedShape) {
 	selectedShape = initSelectedShape;
     }
 
-    public Shape selectTopShape(int x, int y) {
-	Shape shape = getTopShape(x, y);
+    public void setSelectedImage(ImageView initImage){
+        selectedImage = initImage;
+    }
+    
+    public Node selectTopText(int x, int y){
+        Node shape = getTopShape(x, y);
 	if (shape == selectedShape)
 	    return shape;
 	
@@ -277,14 +368,45 @@ public class golData implements AppDataComponent {
 	}
 	selectedShape = shape;
 	if (shape != null) {
-	    ((Draggable)shape).start(x, y);
+	    ((DraggableText)(Node)shape).start(x, y);
+	}
+	return shape;
+    }
+    
+    
+    public Node selectTopShape(int x, int y) {
+	Node shape = getTopShape(x, y);
+	if (shape == selectedShape)
+	    return shape;
+	
+	if (selectedShape != null) {
+	    unhighlightShape(selectedShape);
+	}
+	if (shape != null) {
+	    highlightShape(shape);
+	    golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
+	    workspace.loadSelectedShapeSettings(shape);
+	}
+	selectedShape = shape;
+	if (shape != null) {
+	    ((Draggable)(Node)shape).start(x, y);
 	}
 	return shape;
     }
 
-    public Shape getTopShape(int x, int y) {
+    public ImageView getTopImage(int x, int y){
+        for(int i = images.size() - 1; i >= 0; i--){
+            ImageView img = (ImageView)images.get(i);
+            if(img.contains(x, y)){
+                return img;
+            }
+        }
+        return null;
+    }
+    
+    public Node getTopShape(int x, int y) {
 	for (int i = shapes.size() - 1; i >= 0; i--) {
-	    Shape shape = (Shape)shapes.get(i);
+	    Node shape = (Node)shapes.get(i);
 	    if (shape.contains(x, y)) {
 		return shape;
 	    }
@@ -292,14 +414,22 @@ public class golData implements AppDataComponent {
 	return null;
     }
 
-    public void addShape(Shape shapeToAdd) {
+    public void addShape(Node shapeToAdd) {
 	shapes.add(shapeToAdd);
     }
 
-    public void removeShape(Shape shapeToRemove) {
+    public void addImage(ImageView imageToAdd){
+        images.add(imageToAdd);
+    }
+    
+    public void removeShape(Node shapeToRemove) {
 	shapes.remove(shapeToRemove);
     }
 
+    public void removeImage(ImageView imageToRemove){
+        images.remove(imageToRemove);
+    }
+    
     public golState getState() {
 	return state;
     }

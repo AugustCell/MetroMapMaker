@@ -86,16 +86,16 @@ public class golFiles implements AppFileComponent {
 	JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 	ObservableList<Node> shapes = dataManager.getShapes();
 	for (Node node : shapes) {
-	    Shape shape = (Shape)node;
+	    Node shape = (Node)node;
 	    Draggable draggableShape = ((Draggable)shape);
 	    String type = draggableShape.getShapeType();
 	    double x = draggableShape.getX();
 	    double y = draggableShape.getY();
 	    double width = draggableShape.getWidth();
 	    double height = draggableShape.getHeight();
-	    JsonObject fillColorJson = makeJsonColorObject((Color)shape.getFill());
-	    JsonObject outlineColorJson = makeJsonColorObject((Color)shape.getStroke());
-	    double outlineThickness = shape.getStrokeWidth();
+	    JsonObject fillColorJson = makeJsonColorObject((Color)((Shape)shape).getFill());
+	    JsonObject outlineColorJson = makeJsonColorObject((Color)((Shape)shape).getStroke());
+	    double outlineThickness = ((Shape)shape).getStrokeWidth();
 	    
 	    JsonObject shapeJson = Json.createObjectBuilder()
 		    .add(JSON_TYPE, type)
@@ -174,7 +174,7 @@ public class golFiles implements AppFileComponent {
 	JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
 	for (int i = 0; i < jsonShapeArray.size(); i++) {
 	    JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
-	    Shape shape = loadShape(jsonShape);
+	    Node shape = loadShape(jsonShape);
 	    dataManager.addShape(shape);
 	}
     }
@@ -185,10 +185,10 @@ public class golFiles implements AppFileComponent {
 	return number.bigDecimalValue().doubleValue();	
     }
     
-    private Shape loadShape(JsonObject jsonShape) {
+    private Node loadShape(JsonObject jsonShape) {
 	// FIRST BUILD THE PROPER SHAPE TYPE
 	String type = jsonShape.getString(JSON_TYPE);
-	Shape shape;
+	Node shape;
 	if (type.equals(RECTANGLE)) {
 	    shape = new DraggableRectangle();
 	}
@@ -200,9 +200,9 @@ public class golFiles implements AppFileComponent {
 	Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
 	Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
 	double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
-	shape.setFill(fillColor);
-	shape.setStroke(outlineColor);
-	shape.setStrokeWidth(outlineThickness);
+	((Shape)shape).setFill(fillColor);
+	((Shape)shape).setStroke(outlineColor);
+	((Shape)shape).setStrokeWidth(outlineThickness);
 	
 	// AND THEN ITS DRAGGABLE PROPERTIES
 	double x = getDataAsDouble(jsonShape, JSON_X);

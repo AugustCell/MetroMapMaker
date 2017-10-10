@@ -9,13 +9,13 @@
 <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo"></property>
-	<property name="APP_LOGO"	    value="goLogoLo.png"></property>
+	<property name="APP_LOGO"	    value="goLogoLoLogo.png"></property>
 	<property name="APP_PATH_CSS"	    value="css/"></property>
 	<property name="APP_CSS"	    value="gol_style.css"></property>
 
         <!-- PREFERRED GEOMETRY -->
-        <property name="PREF_WIDTH"         value="100"></property>
-        <property name="PREF_HEIGHT"        value="100"></property>
+        <property name="PREF_WIDTH"         value="1920"></property>
+        <property name="PREF_HEIGHT"        value="1080"></property>
         <property name="START_MAXIMIZED"    value="true"></property>
         
         <!-- PROGRAM ICON FILES -->
@@ -116,6 +116,9 @@
     <property name="ADD_IMAGE_ICON"     value="add_image.png"></property>
     <property name="ADD_TEXT_ICON"     value="add_text.png"></property>
         
+    <property name="BOLD_ICON"     value="bold.png"></property>
+    <property name="ITALIC_ICON"     value="italic.png"></property>
+        
         <!-- TOOLTIPS FOR BUTTONS -->
 	<property name="SELECTION_TOOL_TOOLTIP"	    value="Use Shape Selection Tool"></property>
         <property name="REMOVE_ELEMENT_TOOLTIP"	    value="Remove Element"></property>
@@ -131,6 +134,11 @@
         
     <property name="ADD_IMAGE_TOOLTIP"     value="Choose and add an image to the canvas"></property>
     <property name="ADD_TEXT_TOOLTIP"     value="Add a textbox to the Canvas"></property>
+        
+    <property name="FONT_TOOLTIP"     value="Choose a different font for selected text"></property>
+    <property name="SIZE_TOOLTIP"     value="Choose a different size for the text"></property>
+    <property name="BOLD_TOOLTIP"     value="Bold the text"></property>
+    <property name="ITALIC_TOOLTIP"     value="Italicize the text"></property>
 	
 	<!-- MESSAGES -->
 	<property name="REMOVE_ELEMENT_MESSAGE"	    value="Are you sure you wish to remove that element?"></property>

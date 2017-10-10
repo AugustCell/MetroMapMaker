@@ -17,17 +17,30 @@ import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME_SPANISH;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
+import gol.data.DraggableRectangle;
+import gol.data.DraggableText;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.C;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -43,7 +56,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class LogoEditController {
     AppTemplate app;
     golData dataManager;
-    golWorkspace workspaceManager;
+    Color imageFill;
+    
+    public Color getImageFill(){
+        return imageFill;
+    }
+    
     
     public LogoEditController(AppTemplate initApp) {
 	app = initApp;
@@ -53,32 +71,49 @@ public class LogoEditController {
    
     public void handleAddImageRequest(){
         Scene scene = app.getGUI().getPrimaryScene();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "png", "jpeg");
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(filter);
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Resource File");
+        fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         ImageView image = new ImageView();
-        int result = fc.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            try {
-                image = new ImageView(file.toURI().toURL().toExternalForm());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        
+        File selectedFile = fc.showOpenDialog(null);
+        try {
+            BufferedImage bufferImg = ImageIO.read(selectedFile);
+            Image img = SwingFXUtils.toFXImage(bufferImg, null);
+            double widthImg = img.getWidth();
+            double heightImg = img.getHeight();
+            image.setImage(img);
+            scene.setCursor(Cursor.DEFAULT);
+
+            dataManager.setState(golState.SELECTING_SHAPE);
+            DraggableRectangle temp = new DraggableRectangle();
+            temp.setFill(new ImagePattern(img));
+            
+            temp.setHeight(heightImg);
+            temp.setWidth(widthImg);
+            golWorkspace workspaceManager = (golWorkspace) app.getWorkspaceComponent();
+            workspaceManager.getCanvas().getChildren().add(temp);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(LogoEditController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        scene.setCursor(Cursor.DEFAULT);
-        double xPos = ((workspaceManager.getCanvas().getWidth()) / 2);
-        double yPos = ((workspaceManager.getCanvas().getHeight()) / 2);
-        dataManager.setState(golState.ADD_IMAGE);
-        image.relocate(xPos, yPos);
-       
-        workspaceManager.getCanvas().getChildren().add(image);
-
 
     }
 
     public void handleAddTextRequets(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Text Box Dialog");
+        dialog.setContentText("Please enter your text:");
+        DraggableText t = new DraggableText();
+        
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+           t.setText(result.get());
+        }
+        dataManager.setState(golState.SELECTING_SHAPE);
+        golWorkspace workspaceManager = (golWorkspace) app.getWorkspaceComponent();
+        
+        workspaceManager.getCanvas().getChildren().add(t);
         
     }
 
@@ -162,7 +197,8 @@ public class LogoEditController {
 	dataManager.moveSelectedShapeToFront();
 	app.getGUI().updateToolbarControls(false);
     }
-        
+      
+    
     /**
      * This method processes a user request to select a fill color for
      * a shape.

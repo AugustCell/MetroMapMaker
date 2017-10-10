@@ -11,6 +11,13 @@ import static gol.data.golState.DRAGGING_SHAPE;
 import static gol.data.golState.SELECTING_SHAPE;
 import static gol.data.golState.SIZING_SHAPE;
 import djf.AppTemplate;
+import gol.data.DraggableText;
+import static gol.data.golState.DRAGGING_IMAGE;
+import static gol.data.golState.DRAGGING_TEXT;
+import static gol.data.golState.SELECTING_IMAGE;
+import static gol.data.golState.SELECT_TEXT;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 
 /**
  * This class responds to interactions with the rendering surface.
@@ -35,7 +42,7 @@ public class CanvasController {
         golData dataManager = (golData) app.getDataComponent();
         if (dataManager.isInState(SELECTING_SHAPE)) {
             // SELECT THE TOP SHAPE
-            Shape shape = dataManager.selectTopShape(x, y);
+            Node shape = dataManager.selectTopShape(x, y);
             Scene scene = app.getGUI().getPrimaryScene();
 
             // AND START DRAGGING IT
@@ -52,7 +59,7 @@ public class CanvasController {
             dataManager.startNewRectangle(x, y);
         } else if (dataManager.isInState(golState.STARTING_ELLIPSE)) {
             dataManager.startNewEllipse(x, y);
-        } 
+        }
         golWorkspace workspace = (golWorkspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace(dataManager);
     }
@@ -70,7 +77,7 @@ public class CanvasController {
             Draggable selectedDraggableShape = (Draggable) dataManager.getSelectedShape();
             selectedDraggableShape.drag(x, y);
             app.getGUI().updateToolbarControls(false);
-        }
+        } 
     }
 
     /**
@@ -90,5 +97,6 @@ public class CanvasController {
         } else if (dataManager.isInState(golState.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }
+      
     }
 }

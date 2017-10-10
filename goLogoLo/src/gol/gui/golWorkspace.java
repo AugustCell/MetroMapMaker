@@ -39,20 +39,44 @@ import djf.ui.AppGUI;
 import djf.AppTemplate;
 import djf.components.AppDataComponent;
 import djf.components.AppWorkspaceComponent;
+import static djf.settings.AppPropertyType.COPY_ICON;
+import static djf.settings.AppPropertyType.COPY_TOOLTIP;
+import static djf.settings.AppPropertyType.CUT_ICON;
+import static djf.settings.AppPropertyType.CUT_TOOLTIP;
+import static djf.settings.AppPropertyType.PASTE_ICON;
+import static djf.settings.AppPropertyType.PASTE_TOOLTIP;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME;
 import static djf.settings.AppStartupConstants.APP_PROPERTIES_FILE_NAME_SPANISH;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static gol.css.golStyle.*;
+import gol.data.DraggableEllipse;
+import gol.data.DraggableRectangle;
+import gol.data.DraggableText;
 import gol.golLanguageProperty;
 import static gol.golLanguageProperty.ADD_IMAGE_ICON;
 import static gol.golLanguageProperty.ADD_IMAGE_TOOLTIP;
 import static gol.golLanguageProperty.ADD_TEXT_ICON;
 import static gol.golLanguageProperty.ADD_TEXT_TOOLTIP;
+import static gol.golLanguageProperty.BOLD_ICON;
+import static gol.golLanguageProperty.BOLD_TOOLTIP;
+import static gol.golLanguageProperty.ITALIC_ICON;
+import static gol.golLanguageProperty.ITALIC_TOOLTIP;
+import static gol.golLanguageProperty.REDO_ICON;
+import static gol.golLanguageProperty.REDO_TOOLTIP;
+import static gol.golLanguageProperty.UNDO_ICON;
+import static gol.golLanguageProperty.UNDO_TOOLTIP;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * This class serves as the workspace component for this application, providing
@@ -68,9 +92,18 @@ public class golWorkspace extends AppWorkspaceComponent {
 
     // IT KNOWS THE GUI IT IS PLACED INSIDE
     AppGUI gui;
-
+    
+    golData dataManager;
+    
     // HAS ALL THE CONTROLS FOR EDITING
     VBox editToolbar;
+    
+    
+    private Button copyButton;
+    private Button pasteButton;
+    private Button cutButton;
+    private Button undoButton;
+    private Button redoButton;
     
     // FIRST ROW
     HBox row1Box;
@@ -83,6 +116,14 @@ public class golWorkspace extends AppWorkspaceComponent {
     HBox rowTempBox;
     Button imageButton;
     Button textBoxButton;
+    
+    
+    //Row for editing text and stuff
+    HBox editTextBox;
+    Button boldButton;
+    Button italicButton;
+    ComboBox<String> font;
+    ComboBox<String> size;
     
     // SECOND ROW
     HBox row2Box;
@@ -128,6 +169,9 @@ public class golWorkspace extends AppWorkspaceComponent {
     // FOR DISPLAYING DEBUG STUFF
     Text debugText;
     
+    Node copiedNode;
+    
+    
    
 
     /**
@@ -142,10 +186,12 @@ public class golWorkspace extends AppWorkspaceComponent {
     public golWorkspace(AppTemplate initApp) {
 	// KEEP THIS FOR LATER
 	app = initApp;
-
+        
 	// KEEP THE GUI FOR LATER
 	gui = app.getGUI();
 
+        
+        dataManager = (golData) app.getDataComponent();
         // LAYOUT THE APP
         initLayout();
         
@@ -185,13 +231,40 @@ public class golWorkspace extends AppWorkspaceComponent {
     public Pane getCanvas() {
 	return canvas;
     }
-        
+      
+     public Button getCopyButton() {
+        return copyButton;
+    }
+
+    public Button getPasteButton() {
+        return pasteButton;
+    }
+    
+    public Button getCutButton(){
+        return cutButton;
+    }
+    
+    public Button getUndoButton(){
+        return undoButton;
+    }
+    
+    public Button getRedoButton(){
+        return redoButton;
+    }
+    
     // HELPER SETUP METHOD
     private void initLayout() {  
  
 	// THIS WILL GO IN THE LEFT SIDE OF THE WORKSPACE
 	editToolbar = new VBox();
 	
+        copyButton = gui.initChildButton(gui.getCenterToolbar(), COPY_ICON.toString(), COPY_TOOLTIP.toString(), false); 
+        pasteButton = gui.initChildButton(gui.getCenterToolbar(), PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false); 
+        cutButton = gui.initChildButton(gui.getCenterToolbar(), CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
+        undoButton = gui.initChildButton(gui.getCenterToolbar(), UNDO_ICON.toString(), UNDO_TOOLTIP.toString(), false);
+        redoButton = gui.initChildButton(gui.getCenterToolbar(), REDO_ICON.toString(), REDO_TOOLTIP.toString(), false);
+        
+        
 	// ROW 1
 	row1Box = new HBox();
 	selectionToolButton = gui.initChildButton(row1Box, SELECTION_TOOL_ICON.toString(), SELECTION_TOOL_TOOLTIP.toString(), true);
@@ -210,6 +283,46 @@ public class golWorkspace extends AppWorkspaceComponent {
         textBoxButton.setMinWidth(95);
         textBoxButton.setPrefWidth(95);
 
+        
+        //Row for modifying text and stuff
+        editTextBox = new HBox();
+        VBox editHolder = new VBox();
+        font = new ComboBox<>();
+        size = new ComboBox<>();
+        ObservableList<String> fontOptions
+                = FXCollections.observableArrayList(
+                        "Times New Roman",
+                        "Forte",
+                        "Elephant",
+                        "Verdana",
+                        "Helvetica",
+                        "Comic Sans MS"
+                );
+        ObservableList<String> sizeOptions
+                = FXCollections.observableArrayList(
+                        "10", "12", "14", "16", "18", "20", "24", "28", "32", "36", "40", "44", "48", "50", "52", "54", "56", "58", "60", "70"
+                );
+        font.setItems(fontOptions);
+        
+        size.setItems(sizeOptions);
+        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME)) {
+            font.setPromptText("Change font");
+            size.setPromptText("Change text size");
+        }
+        if (app.getPreferredLanguage().equals(APP_PROPERTIES_FILE_NAME_SPANISH)) {
+            font.setPromptText("Cambiar fuente");
+            size.setPromptText("Cambiar el tamaño del texto");
+        }
+        editHolder.getChildren().addAll(font, size);
+
+        VBox boldItalic = new VBox();
+        boldButton = gui.initChildButton(boldItalic, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
+        italicButton = gui.initChildButton(boldItalic, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+        
+        editTextBox.getChildren().addAll(editHolder, boldItalic);
+        
+        
+        
 	// ROW 2
 	row2Box = new HBox();
 	moveToBackButton = gui.initChildButton(row2Box, MOVE_TO_BACK_ICON.toString(), MOVE_TO_BACK_TOOLTIP.toString(), true);
@@ -274,6 +387,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         // NOW ORGANIZE THE EDIT TOOLBAR
         editToolbar.getChildren().add(row1Box);
         editToolbar.getChildren().add(rowTempBox);
+        editToolbar.getChildren().add(editTextBox);
         editToolbar.getChildren().add(row2Box);
         editToolbar.getChildren().add(row3Box);
         editToolbar.getChildren().add(row4Box);
@@ -305,6 +419,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         editToolbar.setMinHeight(100);
         editToolbar.setPrefHeight(100); 
 
+        
     }
 
     // HELPER SETUP METHOD
@@ -322,6 +437,7 @@ public class golWorkspace extends AppWorkspaceComponent {
         rectButton.setOnAction(e -> {
             logoEditController.processSelectRectangleToDraw();
         });
+        
         ellipseButton.setOnAction(e -> {
             logoEditController.processSelectEllipseToDraw();
         });
@@ -355,7 +471,119 @@ public class golWorkspace extends AppWorkspaceComponent {
         textBoxButton.setOnAction(e -> {
             logoEditController.handleAddTextRequets();
         });
-
+        font.setOnAction(e -> {
+            
+            Node node = dataManager.getSelectedShape();
+            if (node != null) {
+                String s = font.getSelectionModel().getSelectedItem();
+                if (s != null) {
+                    ((DraggableText) node).setFont(Font.font(s, FontWeight.NORMAL, ((DraggableText)node).getFont().getSize()));
+                }
+            }
+        });
+        size.setOnAction(e -> {
+            
+            Node node = dataManager.getSelectedShape();
+            if(node != null){
+                String i = size.getSelectionModel().getSelectedItem();
+                double val = Double.parseDouble(i);
+                if(i != null){
+                  ((DraggableText) node).setFont(Font.font(((DraggableText)node).getFont().getFamily(), FontWeight.NORMAL, val));
+                }
+            }
+        });
+        
+        boldButton.setOnAction(e -> {
+            Node node = dataManager.getSelectedShape();
+            if (node != null) {
+                String i = size.getSelectionModel().getSelectedItem();
+                if (i != null) {
+                    ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontWeight.BOLD, ((DraggableText) node).getFont().getSize()));
+                }
+            }
+        });
+        
+        italicButton.setOnAction(e -> {
+            Node node = dataManager.getSelectedShape();
+            if (node != null) {
+                String i = size.getSelectionModel().getSelectedItem();
+                if (i != null) {
+                    ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontPosture.ITALIC, ((DraggableText) node).getFont().getSize()));
+                }
+            }
+        });
+        
+        copyButton.setOnAction(e -> {
+            Node node = dataManager.getSelectedShape();
+            if (node instanceof DraggableRectangle) {
+                DraggableRectangle tempRect = new DraggableRectangle();
+                tempRect.setWidth(((DraggableRectangle) node).getWidth());
+                tempRect.setHeight(((DraggableRectangle) node).getHeight());
+                tempRect.setX(((DraggableRectangle) node).getX());
+                tempRect.setY(((DraggableRectangle) node).getY());
+                tempRect.setFill(((DraggableRectangle) node).getFill());
+                tempRect.setEffect(node.getEffect());
+                copiedNode = tempRect;
+            } else if(node instanceof DraggableEllipse){
+                DraggableEllipse tempEllipse = new DraggableEllipse();
+                tempEllipse.setCenterX(((DraggableEllipse) node).getCenterX());
+                tempEllipse.setCenterY(((DraggableEllipse) node).getCenterY());
+                tempEllipse.setRadiusX(((DraggableEllipse) node).getRadiusX());
+                tempEllipse.setRadiusY(((DraggableEllipse) node).getRadiusY());
+                tempEllipse.setFill(((DraggableEllipse) node).getFill());
+                tempEllipse.setEffect(node.getEffect());
+                copiedNode = tempEllipse;
+            } else if(node instanceof DraggableText){
+                DraggableText tempText = new DraggableText();
+                tempText.setText(((DraggableText) node).getText());
+                tempText.setEffect(node.getEffect());
+                tempText.setFont(((DraggableText) node).getFont());
+                copiedNode = tempText;
+            }
+        });
+        
+        pasteButton.setOnAction(e -> {
+            canvas.getChildren().add(copiedNode);
+        });
+        
+        cutButton.setOnAction(e -> {
+             Node node = dataManager.getSelectedShape();
+            if (node instanceof DraggableRectangle) {
+                DraggableRectangle tempRect = new DraggableRectangle();
+                tempRect.setWidth(((DraggableRectangle) node).getWidth());
+                tempRect.setHeight(((DraggableRectangle) node).getHeight());
+                tempRect.setX(((DraggableRectangle) node).getX());
+                tempRect.setY(((DraggableRectangle) node).getY());
+                tempRect.setFill(((DraggableRectangle) node).getFill());
+                tempRect.setEffect(node.getEffect());
+                copiedNode = tempRect;
+            } else if(node instanceof DraggableEllipse){
+                DraggableEllipse tempEllipse = new DraggableEllipse();
+                tempEllipse.setCenterX(((DraggableEllipse) node).getCenterX());
+                tempEllipse.setCenterY(((DraggableEllipse) node).getCenterY());
+                tempEllipse.setRadiusX(((DraggableEllipse) node).getRadiusX());
+                tempEllipse.setRadiusY(((DraggableEllipse) node).getRadiusY());
+                tempEllipse.setFill(((DraggableEllipse) node).getFill());
+                tempEllipse.setEffect(node.getEffect());
+                copiedNode = tempEllipse;
+            } else if(node instanceof DraggableText){
+                DraggableText tempText = new DraggableText();
+                tempText.setText(((DraggableText) node).getText());
+                tempText.setEffect(node.getEffect());
+                tempText.setFont(((DraggableText) node).getFont());
+                copiedNode = tempText;
+            }
+            logoEditController.processRemoveSelectedShape();
+        });
+        
+        undoButton.setOnAction(e -> {
+            
+        });
+        
+        redoButton.setOnAction(e -> {
+            
+        });
+        
         // MAKE THE CANVAS CONTROLLER	
         canvasController = new CanvasController(app);
         canvas.setOnMousePressed(e -> {
@@ -370,16 +598,18 @@ public class golWorkspace extends AppWorkspaceComponent {
     }
 
     // HELPER METHOD
-    public void loadSelectedShapeSettings(Shape shape) {
-	if (shape != null) {
-	    Color fillColor = (Color)shape.getFill();
-	    Color strokeColor = (Color)shape.getStroke();
-	    double lineThickness = shape.getStrokeWidth();
-	    fillColorPicker.setValue(fillColor);
-	    outlineColorPicker.setValue(strokeColor);
-	    outlineThicknessSlider.setValue(lineThickness);	    
-	}
+    public void loadSelectedShapeSettings(Node shape) {
+        if (shape != null) {
+           // Color fillColor = (Color) ((Shape) shape).getFill();
+            Color strokeColor = (Color) ((Shape) shape).getStroke();
+            double lineThickness = ((Shape) shape).getStrokeWidth();
+           // fillColorPicker.setValue(fillColor);
+            outlineColorPicker.setValue(strokeColor);
+            outlineThicknessSlider.setValue(lineThickness);
+
+        }
     }
+
 
     /**
      * This function specifies the CSS style classes for all the UI components
@@ -401,6 +631,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 	editToolbar.getStyleClass().add(CLASS_EDIT_TOOLBAR);
 	row1Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
         rowTempBox.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
+        editTextBox.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
 	row2Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
 	row3Box.getStyleClass().add(CLASS_EDIT_TOOLBAR_ROW);
 	backgroundColorLabel.getStyleClass().add(CLASS_COLOR_CHOOSER_CONTROL);
@@ -436,6 +667,12 @@ public class golWorkspace extends AppWorkspaceComponent {
 	    rectButton.setDisable(false);
 	    ellipseButton.setDisable(true);
 	}
+        else if(dataManager.isInState(golState.ADD_IMAGE))          {
+            selectionToolButton.setDisable(false);
+            removeButton.setDisable(false);
+            rectButton.setDisable(true);
+            ellipseButton.setDisable(true);
+        }
 	else if (dataManager.isInState(golState.SELECTING_SHAPE) 
 		|| dataManager.isInState(golState.DRAGGING_SHAPE)
 		|| dataManager.isInState(golState.DRAGGING_NOTHING)) {

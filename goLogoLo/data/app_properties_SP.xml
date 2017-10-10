@@ -9,13 +9,13 @@
 <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo"></property>
-	<property name="APP_LOGO"	    value="goLogoLo.png"></property>
+	<property name="APP_LOGO"	    value="goLogoLoLogo.png"></property>
 	<property name="APP_PATH_CSS"	    value="css/"></property>
 	<property name="APP_CSS"	    value="gol_style.css"></property>
 
         <!-- PREFERRED GEOMETRY -->
-        <property name="PREF_WIDTH"         value="800"></property>
-        <property name="PREF_HEIGHT"        value="600"></property>
+        <property name="PREF_WIDTH"         value="1920"></property>
+        <property name="PREF_HEIGHT"        value="1080"></property>
         <property name="START_MAXIMIZED"    value="true"></property>
         
         <!-- PROGRAM ICON FILES -->
@@ -114,6 +114,9 @@
     <property name="ADD_IMAGE_ICON"     value="add_image.png"></property>
     <property name="ADD_TEXT_ICON"     value="add_text.png"></property>
         
+     <property name="BOLD_ICON"     value="bold.png"></property>
+    <property name="ITALIC_ICON"     value="italic.png"></property>
+        
         <!-- TOOLTIPS FOR BUTTONS -->
 	<property name="SELECTION_TOOL_TOOLTIP"	    value="Utilizar la herramienta de selección de formas"></property>
         <property name="REMOVE_ELEMENT_TOOLTIP"	    value="Eliminar Elemento"></property>
@@ -128,6 +131,11 @@
         
     <property name="ADD_IMAGE_TOOLTIP"     value="Elegir y agregar una imagen al lienzo"></property>
     <property name="ADD_TEXT_TOOLTIP"     value="Agregar un cuadro de texto al lienzo"></property>
+        
+      <property name="FONT_TOOLTIP"     value="Elige una fuente diferente para el texto seleccionado"></property>
+    <property name="SIZE_TOOLTIP"     value="Elija un tamaño diferente para el texto"></property>
+    <property name="BOLD_TOOLTIP"     value="Negrita el texto"></property>
+    <property name="ITALIC_TOOLTIP"     value="En cursiva el texto"></property>
 	
 	<!-- MESSAGES -->
 	<property name="REMOVE_ELEMENT_MESSAGE"	    value="¿Seguro que desea eliminar ese elemento?"></property>

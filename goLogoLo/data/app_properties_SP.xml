@@ -9,7 +9,7 @@
 <properties>
     <property_list>
         <property name="APP_TITLE"	    value="goLogoLo"></property>
-	<property name="APP_LOGO"	    value="goLogoLoLogo.png"></property>
+	<property name="APP_LOGO"	    value="Logo.png"></property>
 	<property name="APP_PATH_CSS"	    value="css/"></property>
 	<property name="APP_CSS"	    value="gol_style.css"></property>
 

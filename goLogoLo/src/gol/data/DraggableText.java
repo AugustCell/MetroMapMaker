@@ -82,7 +82,7 @@ public class DraggableText extends Text implements Draggable{
     
     @Override
     public String getShapeType() {
-	return RECTANGLE;
+	return TEXT;
     }
 
     @Override

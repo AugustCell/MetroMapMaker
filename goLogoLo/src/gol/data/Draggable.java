@@ -11,6 +11,7 @@ public interface Draggable {
     public static final String RECTANGLE = "RECTANGLE";
     public static final String ELLIPSE = "ELLIPSE";
     public static final String IMAGE = "IMAGE";
+    public static final String TEXT = "TEXT";
     public golState getStartingState();
     public void start(int x, int y);
     public void drag(int x, int y);

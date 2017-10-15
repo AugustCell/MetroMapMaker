@@ -30,6 +30,15 @@ import gol.data.DraggableEllipse;
 import gol.data.DraggableRectangle;
 import gol.data.Draggable;
 import static gol.data.Draggable.RECTANGLE;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.math.BigDecimal;
+import java.net.URL;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javax.imageio.ImageIO;
+import javax.json.JsonString;
 
 /**
  * This class serves as the file management component for this application,
@@ -56,6 +65,7 @@ public class golFiles implements AppFileComponent {
     static final String JSON_FILL_COLOR = "fill_color";
     static final String JSON_OUTLINE_COLOR = "outline_color";
     static final String JSON_OUTLINE_THICKNESS = "outline_thickness";
+    static final String JSON_IMAGE_PATTERN = "Image pattern";
     
     static final String DEFAULT_DOCTYPE_DECLARATION = "<!doctype html>\n";
     static final String DEFAULT_ATTRIBUTE_VALUE = "";
@@ -85,6 +95,7 @@ public class golFiles implements AppFileComponent {
 	// NOW BUILD THE JSON OBJCTS TO SAVE
 	JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 	ObservableList<Node> shapes = dataManager.getShapes();
+        JsonObject fillColorJson = null;
 	for (Node node : shapes) {
 	    Node shape = (Node)node;
 	    Draggable draggableShape = ((Draggable)shape);
@@ -93,10 +104,14 @@ public class golFiles implements AppFileComponent {
 	    double y = draggableShape.getY();
 	    double width = draggableShape.getWidth();
 	    double height = draggableShape.getHeight();
-	    JsonObject fillColorJson = makeJsonColorObject((Color)((Shape)shape).getFill());
-	    JsonObject outlineColorJson = makeJsonColorObject((Color)((Shape)shape).getStroke());
-	    double outlineThickness = ((Shape)shape).getStrokeWidth();
-	    
+            if (((Shape) shape).getFill() instanceof ImagePattern) {
+                fillColorJson = makeJsonImageObject(((DraggableRectangle) shape).getPathString());
+            } else {
+                fillColorJson = makeJsonColorObject((Color) ((Shape) shape).getFill());
+            }
+            JsonObject outlineColorJson = makeJsonColorObject((Color) ((Shape) shape).getStroke());
+            double outlineThickness = ((Shape) shape).getStrokeWidth();
+
 	    JsonObject shapeJson = Json.createObjectBuilder()
 		    .add(JSON_TYPE, type)
 		    .add(JSON_X, x)
@@ -143,6 +158,12 @@ public class golFiles implements AppFileComponent {
 		.add(JSON_ALPHA, color.getOpacity()).build();
 	return colorJson;
     }
+    
+    private JsonObject makeJsonImageObject(String pattern){
+        JsonObject colorJson = Json.createObjectBuilder()
+                .add(JSON_IMAGE_PATTERN, pattern).build();
+        return colorJson;
+    }
       
     /**
      * This method loads data from a JSON formatted file into the data 
@@ -171,12 +192,19 @@ public class golFiles implements AppFileComponent {
 	dataManager.setBackgroundColor(bgColor);
 	
 	// AND NOW LOAD ALL THE SHAPES
-	JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
-	for (int i = 0; i < jsonShapeArray.size(); i++) {
-	    JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
-	    Node shape = loadShape(jsonShape);
-	    dataManager.addShape(shape);
-	}
+        JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
+        for (int i = 0; i < jsonShapeArray.size(); i++) {
+            JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
+            Node shape;
+         //   if (jsonShape.getString("fill_color").equals("Image pattern")) {
+           //     System.out.println("FUCK YES");
+               // shape = loadImage(jsonShape);
+            //} else {
+                System.out.println(jsonShape.get(JSON_FILL_COLOR));
+                shape = loadShape(jsonShape);
+            //}
+            dataManager.addShape(shape);
+        }
     }
     
     private double getDataAsDouble(JsonObject json, String dataName) {
@@ -185,7 +213,8 @@ public class golFiles implements AppFileComponent {
 	return number.bigDecimalValue().doubleValue();	
     }
     
-    private Node loadShape(JsonObject jsonShape) {
+  
+    private Node loadShape(JsonObject jsonShape) throws IOException {
 	// FIRST BUILD THE PROPER SHAPE TYPE
 	String type = jsonShape.getString(JSON_TYPE);
 	Node shape;
@@ -196,14 +225,26 @@ public class golFiles implements AppFileComponent {
 	    shape = new DraggableEllipse();
 	}
 	
-	// THEN LOAD ITS FILL AND OUTLINE PROPERTIES
-	Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
-	Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
-	double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
-	((Shape)shape).setFill(fillColor);
-	((Shape)shape).setStroke(outlineColor);
-	((Shape)shape).setStrokeWidth(outlineThickness);
-	
+	 // THEN LOAD ITS FILL AND OUTLINE PROPERTIES
+        if (jsonShape.get(JSON_FILL_COLOR).toString().contains("Image pattern")) {
+            String prefix = "Image pattern:     ";
+            String noPrefix = jsonShape.get(JSON_FILL_COLOR).toString().substring(jsonShape.get(JSON_FILL_COLOR).toString().indexOf(prefix) + prefix.length());
+            noPrefix = noPrefix.substring(0, noPrefix.length()-2);
+            String finalPath = "file:///" + noPrefix;
+            URL url = new URL(finalPath);
+            Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
+            double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
+            ((Shape) shape).setFill(new ImagePattern(new Image(finalPath)));
+            ((Shape) shape).setStroke(outlineColor);
+            ((Shape) shape).setStrokeWidth(outlineThickness);
+        } else {
+            Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
+            Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
+            double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
+            ((Shape) shape).setFill(fillColor);
+            ((Shape) shape).setStroke(outlineColor);
+            ((Shape) shape).setStrokeWidth(outlineThickness);
+        }
 	// AND THEN ITS DRAGGABLE PROPERTIES
 	double x = getDataAsDouble(jsonShape, JSON_X);
 	double y = getDataAsDouble(jsonShape, JSON_Y);
@@ -225,7 +266,7 @@ public class golFiles implements AppFileComponent {
 	Color loadedColor = new Color(red, green, blue, alpha);
 	return loadedColor;
     }
-
+    
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
 	InputStream is = new FileInputStream(jsonFilePath);

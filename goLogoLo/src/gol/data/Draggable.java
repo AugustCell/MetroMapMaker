@@ -14,6 +14,7 @@ public interface Draggable {
     public golState getStartingState();
     public void start(int x, int y);
     public void drag(int x, int y);
+    public void undoDrag(int x, int y);
     public void size(int x, int y);
     public double getX();
     public double getY();

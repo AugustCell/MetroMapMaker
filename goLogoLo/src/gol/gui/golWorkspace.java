@@ -1,5 +1,9 @@
 package gol.gui;
 
+import gol.transaction.ItalicizeFont_Transaction;
+import gol.transaction.EditFont_Transaction;
+import gol.transaction.EditFontSize_Transaction;
+import gol.transaction.BoldenFont_Transaction;
 import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
@@ -77,6 +81,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import jtps.jTPS;
+import jtps.jTPS_Transaction;
 
 /**
  * This class serves as the workspace component for this application, providing
@@ -170,9 +176,10 @@ public class golWorkspace extends AppWorkspaceComponent {
     Text debugText;
     
     Node copiedNode;
+  
     
+    jTPS_Transaction transaction;
     
-   
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -190,7 +197,7 @@ public class golWorkspace extends AppWorkspaceComponent {
 	// KEEP THE GUI FOR LATER
 	gui = app.getGUI();
 
-        
+      
         dataManager = (golData) app.getDataComponent();
         // LAYOUT THE APP
         initLayout();
@@ -472,23 +479,25 @@ public class golWorkspace extends AppWorkspaceComponent {
             logoEditController.handleAddTextRequets();
         });
         font.setOnAction(e -> {
-            
+
             Node node = dataManager.getSelectedShape();
             if (node != null) {
                 String s = font.getSelectionModel().getSelectedItem();
                 if (s != null) {
-                    ((DraggableText) node).setFont(Font.font(s, FontWeight.NORMAL, ((DraggableText)node).getFont().getSize()));
+                    transaction = new EditFont_Transaction(app, node, s, ((DraggableText) node).getFont().getFamily(), ((DraggableText) node).getFont().getSize());
+                    dataManager.getjTPS().addTransaction(transaction);
                 }
             }
         });
         size.setOnAction(e -> {
-            
+
             Node node = dataManager.getSelectedShape();
-            if(node != null){
+            if (node != null) {
                 String i = size.getSelectionModel().getSelectedItem();
                 double val = Double.parseDouble(i);
-                if(i != null){
-                  ((DraggableText) node).setFont(Font.font(((DraggableText)node).getFont().getFamily(), FontWeight.NORMAL, val));
+                if (i != null) {
+                    transaction = new EditFontSize_Transaction(app, node, val, ((DraggableText) node).getFont().getFamily(), ((DraggableText) node).getFont().getSize());
+                    dataManager.getjTPS().addTransaction(transaction);
                 }
             }
         });
@@ -498,7 +507,9 @@ public class golWorkspace extends AppWorkspaceComponent {
             if (node != null) {
                 String i = size.getSelectionModel().getSelectedItem();
                 if (i != null) {
-                    ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontWeight.BOLD, ((DraggableText) node).getFont().getSize()));
+                    transaction = new BoldenFont_Transaction(app, node, ((DraggableText) node).getFont().getFamily(), ((DraggableText) node).getFont().getSize(), FontWeight.NORMAL);
+                    dataManager.getjTPS().addTransaction(transaction);
+                   // ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontWeight.BOLD, ((DraggableText) node).getFont().getSize()));
                 }
             }
         });
@@ -508,7 +519,9 @@ public class golWorkspace extends AppWorkspaceComponent {
             if (node != null) {
                 String i = size.getSelectionModel().getSelectedItem();
                 if (i != null) {
-                    ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontPosture.ITALIC, ((DraggableText) node).getFont().getSize()));
+                    transaction = new ItalicizeFont_Transaction(app, node, ((DraggableText) node).getFont().getFamily(), ((DraggableText) node).getFont().getSize(), FontPosture.ITALIC);
+                    dataManager.getjTPS().addTransaction(transaction);
+                  //  ((DraggableText) node).setFont(Font.font(((DraggableText) node).getFont().getFamily(), FontPosture.ITALIC, ((DraggableText) node).getFont().getSize()));
                 }
             }
         });
@@ -577,17 +590,23 @@ public class golWorkspace extends AppWorkspaceComponent {
         });
         
         undoButton.setOnAction(e -> {
-            
+            dataManager.getjTPS().undoTransaction();
         });
         
         redoButton.setOnAction(e -> {
-            
+            dataManager.getjTPS().doTransaction();
         });
         
         // MAKE THE CANVAS CONTROLLER	
         canvasController = new CanvasController(app);
         canvas.setOnMousePressed(e -> {
             canvasController.processCanvasMousePress((int) e.getX(), (int) e.getY());
+            if (dataManager.getSelectedShape() instanceof DraggableText) {
+                if (e.getClickCount() == 2) {
+                    logoEditController = new LogoEditController(app);
+                    logoEditController.handleEditTextRequests();
+                }
+            }
         });
         canvas.setOnMouseReleased(e -> {
             canvasController.processCanvasMouseRelease((int) e.getX(), (int) e.getY());

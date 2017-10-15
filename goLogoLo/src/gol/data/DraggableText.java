@@ -52,6 +52,14 @@ public class DraggableText extends Text implements Draggable{
 	startY = y;
     }
     
+    @Override
+    public void undoDrag(int x, int y) {
+        xProperty().set(x);
+        yProperty().set(y);
+        startX = x;
+        startY = y;
+    }
+
     public String cT(double x, double y) {
 	return "(x,y): (" + x + "," + y + ")";
     }

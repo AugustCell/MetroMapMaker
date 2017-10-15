@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 public class DraggableRectangle extends Rectangle implements Draggable {
     double startX;
     double startY;
+    String pathString;
     
     public DraggableRectangle() {
 	setX(0.0);
@@ -26,6 +27,14 @@ public class DraggableRectangle extends Rectangle implements Draggable {
     @Override
     public golState getStartingState() {
 	return golState.STARTING_RECTANGLE;
+    }
+    
+    public void setPathString(String path){
+        pathString = path;
+    }
+    
+    public String getPathString(){
+        return pathString;
     }
     
     @Override
@@ -46,6 +55,14 @@ public class DraggableRectangle extends Rectangle implements Draggable {
 	yProperty().set(newY);
 	startX = x;
 	startY = y;
+    }
+    
+    @Override
+    public void undoDrag(int x, int y){
+        xProperty().set(x);
+        yProperty().set(y);
+        startX = x;
+        startY = y;
     }
     
     public String cT(double x, double y) {

@@ -47,6 +47,14 @@ public class DraggableEllipse extends Ellipse implements Draggable {
     }
     
     @Override
+    public void undoDrag(int x, int y){
+        setCenterX(x);
+        setCenterY(y);
+        startCenterX = x;
+        startCenterY = y;
+    }
+    
+    @Override
     public void size(int x, int y) {
 	double width = x - startCenterX;
 	double height = y - startCenterY;

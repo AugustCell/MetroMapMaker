@@ -17,10 +17,13 @@ import static gol.data.golState.SIZING_SHAPE;
 import gol.gui.golWorkspace;
 import djf.components.AppDataComponent;
 import djf.AppTemplate;
+import gol.transaction.AddShape_Transaction;
 import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import jtps.jTPS;
+import jtps.jTPS_Transaction;
 
 /**
  * This class serves as the data management component for this application.
@@ -36,6 +39,7 @@ public class golData implements AppDataComponent {
     ObservableList<Node> shapes;
     
     ObservableList<Node> images;
+    
     
     // THE BACKGROUND COLOR
     Color backgroundColor;
@@ -65,6 +69,14 @@ public class golData implements AppDataComponent {
     
     // USE THIS WHEN THE SHAPE IS SELECTED
     Effect highlightedEffect;
+    int rectOriginX;
+    int rectOriginY;
+    int ellipseOriginX;
+    int ellipseOriginY;
+    int textOriginX;
+    int textOriginY;
+    
+    
 
     public static final String WHITE_HEX = "#FFFFFF";
     public static final String BLACK_HEX = "#000000";
@@ -72,6 +84,9 @@ public class golData implements AppDataComponent {
     public static final Paint DEFAULT_BACKGROUND_COLOR = Paint.valueOf(WHITE_HEX);
     public static final Paint HIGHLIGHTED_COLOR = Paint.valueOf(YELLOW_HEX);
     public static final int HIGHLIGHTED_STROKE_THICKNESS = 3;
+    
+    static jTPS jTPS = new jTPS();
+    jTPS_Transaction transaction;
 
     /**
      * THis constructor creates the data manager and sets up the
@@ -137,6 +152,34 @@ public class golData implements AppDataComponent {
 	shapes = initShapes;
     }
     
+    public jTPS getjTPS(){
+        return jTPS;
+    }
+    
+    public int getRectOriginX(){
+        return rectOriginX;
+    }
+    
+    public int getRectOriginY(){
+        return rectOriginY;
+    }
+    
+    public int getEllipseOriginX(){
+        return ellipseOriginX;
+    }
+    
+    public int getEllipseOriginY(){
+        return ellipseOriginY;
+    }
+    
+    public int getTextOriginX(){
+        return textOriginX;
+    }
+    
+    public int getTextOriginY(){
+        return textOriginY;
+    }
+    
     public void setBackgroundColor(Color initBackgroundColor) {
 	backgroundColor = initBackgroundColor;
 	golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
@@ -172,6 +215,7 @@ public class golData implements AppDataComponent {
 	    selectedShape = null;
 	}
     }
+    
     
     public void removeSelectedImage(){
         if(selectedImage != null){
@@ -323,10 +367,12 @@ public class golData implements AppDataComponent {
 	((Shape)newShape).setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
 	
 	// ADD THE SHAPE TO THE CANVAS
-	shapes.add(newShape);
+	//shapes.add(newShape);
 	
 	// GO INTO SHAPE SIZING MODE
 	state = golState.SIZING_SHAPE;
+        transaction = new AddShape_Transaction(app ,newShape);
+        jTPS.addTransaction(transaction);
     }
 
     public Node getNewShape() {
@@ -352,27 +398,6 @@ public class golData implements AppDataComponent {
     public void setSelectedImage(ImageView initImage){
         selectedImage = initImage;
     }
-    
-    public Node selectTopText(int x, int y){
-        Node shape = getTopShape(x, y);
-	if (shape == selectedShape)
-	    return shape;
-	
-	if (selectedShape != null) {
-	    unhighlightShape(selectedShape);
-	}
-	if (shape != null) {
-	    highlightShape(shape);
-	    golWorkspace workspace = (golWorkspace)app.getWorkspaceComponent();
-	    workspace.loadSelectedShapeSettings(shape);
-	}
-	selectedShape = shape;
-	if (shape != null) {
-	    ((DraggableText)(Node)shape).start(x, y);
-	}
-	return shape;
-    }
-    
     
     public Node selectTopShape(int x, int y) {
 	Node shape = getTopShape(x, y);

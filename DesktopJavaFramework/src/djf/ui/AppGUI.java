@@ -65,9 +65,7 @@ public class AppGUI {
     protected Button saveButton;
     protected Button exitButton;
     
-    private Button copyButton;
-    private Button pasteButton;
-    private Button cutButton;
+   
     private Button changeLanguageButton;
     private Button aboutButton;
     
@@ -158,24 +156,20 @@ public class AppGUI {
     public Stage getWindow() { return primaryStage; }
     
     
-    public Button getCopyButton() {
-        return copyButton;
-    }
-
-    public Button getPasteButton() {
-        return pasteButton;
-    }
-    
-    public Button getCutButton(){
-        return cutButton;
-    }
-    
     public Button getChangeLanguageButton(){
         return changeLanguageButton;
     }
     
     public Button getAboutButton(){
         return aboutButton;
+    }
+    
+    public FlowPane getCenterToolbar(){
+        return centerToolbar;
+    }
+   
+    public FlowPane getRightToolbar(){
+        return rightToolbar;
     }
 
     /**
@@ -219,12 +213,7 @@ public class AppGUI {
         saveButton = initChildButton(fileToolbar,	SAVE_ICON.toString(),	    SAVE_TOOLTIP.toString(),	true);
         exitButton = initChildButton(fileToolbar,	EXIT_ICON.toString(),	    EXIT_TOOLTIP.toString(),	false);
         
-        //Add copy, cut, paste button into toolbar
-        
-        copyButton = initChildButton(centerToolbar, COPY_ICON.toString(), COPY_TOOLTIP.toString(), false);
-        pasteButton = initChildButton(centerToolbar, PASTE_ICON.toString(), PASTE_TOOLTIP.toString(), false);
-        cutButton = initChildButton(centerToolbar, CUT_ICON.toString(), CUT_TOOLTIP.toString(), false);
-        
+                 
         changeLanguageButton = initChildButton(rightToolbar, CHANGE_LANGUAGE_ICON.toString(), CHANGE_LANGUAGE_TOOLTIP.toString(), false);
         aboutButton = initChildButton(rightToolbar, ABOUT_ICON.toString(), ABOUT_TOOLTIP.toString(), false);
        
@@ -256,7 +245,6 @@ public class AppGUI {
             ButtonType spanishButton = new ButtonType("Espanol");
 
             alert.getButtonTypes().setAll(englishButton, spanishButton);
-
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == englishButton) {
                 app.englishButtonRequest();
@@ -265,7 +253,14 @@ public class AppGUI {
             };
 
             app.loadProperties(app.getPreferredLanguage());
-     
+            initWindow();
+            initStylesheet(app);
+            initTopToolbar(app);
+            app.buildAppComponentsHook();
+            initFileToolbarStyle();
+            app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
+            app.getWorkspaceComponent().activateWorkspace(appPane);
+            
         });
 
         aboutButton.setOnAction(e -> {
@@ -280,12 +275,12 @@ public class AppGUI {
         // ALSO STORE OTHER TOOLBARS
         topToolbarPane = new FlowPane();
         fileToolbar.setPrefWrapLength(150);
-        centerToolbar.setPrefWrapLength(125);
+        centerToolbar.setPrefWrapLength(210);       
         rightToolbar.setPrefWrapLength(85);
         topToolbarPane.getChildren().add(fileToolbar);
-        topToolbarPane.getChildren().add(centerToolbar);
+        topToolbarPane.getChildren().add(centerToolbar);        
         topToolbarPane.getChildren().add(rightToolbar);
-        topToolbarPane.setHgap(375);
+        topToolbarPane.setHgap(345);
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
@@ -394,7 +389,7 @@ public class AppGUI {
     private void initFileToolbarStyle() {
 	topToolbarPane.getStyleClass().add(CLASS_BORDERED_PANE);
         rightToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
-        centerToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
+        centerToolbar.getStyleClass().add(CLASS_BORDERED_PANE);     ////////
         fileToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
 	newButton.getStyleClass().add(CLASS_FILE_BUTTON);
 	loadButton.getStyleClass().add(CLASS_FILE_BUTTON);

@@ -122,7 +122,7 @@ public class AppFileController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information about goLogoLo");
         alert.setHeaderText(null);
-        String imagePath = FILE_PROTOCOL + PATH_IMAGES + "goLogoLoLogo.png";
+        String imagePath = FILE_PROTOCOL + PATH_IMAGES + "Logo.png";
         Image tempImage = new Image(imagePath);
         ImageView alertImage = new ImageView();
         alertImage.setImage(tempImage);

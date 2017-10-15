@@ -106,7 +106,7 @@ public abstract class AppTemplate extends Application {
         //This set of code will check if the file exists or not.
         //If the file exists, the reder will make preferredLanguage to the object found in the file.
         //If it is not found, the poopup window opens up, explaining to pick a preferred language.
-        File f = new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\goLogoLo\\language.ser");
+        File f = new File("language.ser");
         
         if (f.exists()) {
             System.out.println("File exists");

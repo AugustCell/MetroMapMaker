@@ -15,7 +15,6 @@ public class AppStartupConstants
     public static final String APP_PROPERTIES_FILE_NAME = "app_properties_EN.xml";
     
     
-    public static final String APP_PROPERTIES_FILE_NAME_SPANISH = "app_properties_SP.xml";
 
     // XML SCHEMA FOR VALIDATING THE XML PROPERTIES FILE
     public static final String PROPERTIES_SCHEMA_FILE_NAME = "properties_schema.xsd";    
@@ -36,12 +35,5 @@ public class AppStartupConstants
     // ERROR DIALOG CONTROL
     public static String CLOSE_BUTTON_LABEL = "Close";
     
-    public String getEnglish(){
-        
-        return APP_PROPERTIES_FILE_NAME;
-    }
-    
-    public String getSpanish(){
-        return APP_PROPERTIES_FILE_NAME_SPANISH;
-    }
+ 
 }

@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 public class DraggableText extends Text implements Draggable{
     double startX;
     double startY;
+    
     double width;
     double height;
     

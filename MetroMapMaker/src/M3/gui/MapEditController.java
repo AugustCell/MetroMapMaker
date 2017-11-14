@@ -33,6 +33,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import jtps.jTPS_Transaction;
 
+
 /**
  * This class responds to interactions with other UI logo editing controls.
  * 

@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 public class DraggableStation extends Circle implements Draggable {
 
     double startCenterX;
+    
     double startCenterY;
     
     public DraggableStation(){

@@ -18,6 +18,7 @@ public class DraggableImage extends Rectangle implements Draggable {
 	setX(0.0);
 	setY(0.0);
 	setWidth(0.0);
+        
 	setHeight(0.0);
 	setOpacity(1.0);
 	startX = 0.0;

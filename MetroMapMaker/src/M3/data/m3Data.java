@@ -37,6 +37,7 @@ public class m3Data implements AppDataComponent {
     // THESE ARE THE SHAPES TO DRAW
     ObservableList<Node> shapes;
     
+    
     ObservableList<Node> images;
     
     

@@ -461,6 +461,7 @@ public class m3Workspace extends AppWorkspaceComponent {
          mapEditController = new MapEditController(app);
               
          
+         
          lineCombo.setOnAction(e -> {
              
          });

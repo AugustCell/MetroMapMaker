@@ -16,6 +16,7 @@ public class DraggableLine extends Line implements Draggable{
     double startX;
     double startY;
     double endX;
+    
     double endY;
     
     public DraggableLine(){

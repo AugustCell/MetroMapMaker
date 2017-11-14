@@ -65,6 +65,7 @@ public class m3Files implements AppFileComponent {
     static final String JSON_TEXT_SIZE = "Size";
     static final String JSON_TEXT_FONT = "Font";
     
+    
     static final String DEFAULT_DOCTYPE_DECLARATION = "<!doctype html>\n";
     static final String DEFAULT_ATTRIBUTE_VALUE = "";
     

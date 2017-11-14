@@ -35,6 +35,7 @@ public class m3App extends AppTemplate {
         fileComponent = new m3Files();
         dataComponent = new m3Data(this);
         workspaceComponent = new m3Workspace(this);
+        
     }
     
     /**

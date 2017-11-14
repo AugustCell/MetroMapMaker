@@ -14,6 +14,7 @@ public enum m3State {
     DRAGGING_SHAPE,
     DRAGGING_NOTHING,
     SELECT_LINE_END,
+    
     DRAGGING_LINE_END,
     DRAGGING_TEXT
 

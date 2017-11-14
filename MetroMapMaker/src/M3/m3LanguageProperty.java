@@ -10,6 +10,7 @@ public enum m3LanguageProperty {
     ADD_LINE_TOOLTIP,
     ADD_STATION_TOOLTIP,
     
+    
     REMOVE_ELEMENT_ICON,
     REMOVE_ELEMENT_TOOLTIP,
     

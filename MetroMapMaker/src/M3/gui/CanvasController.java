@@ -35,6 +35,7 @@ public class CanvasController {
     int originX;
     int originY;
 
+    
     public CanvasController(AppTemplate initApp) {
         app = initApp;
     }

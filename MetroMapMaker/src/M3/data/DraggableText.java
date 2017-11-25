@@ -19,8 +19,8 @@ public class DraggableText extends Text implements Draggable{
     double height;
     
     public DraggableText() {
-	setX(0.0);
-	setY(0.0);
+	setX(200.0);
+	setY(200.0);
 	setWidth(0.0);
 	setHeight(0.0);
 	setOpacity(1.0);
@@ -88,7 +88,7 @@ public class DraggableText extends Text implements Draggable{
 
     @Override
     public double getWidth() {
-        return width;
+        return getLayoutBounds().getWidth();
     }
 
     @Override

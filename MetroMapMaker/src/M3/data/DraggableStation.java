@@ -5,6 +5,7 @@
  */
 package M3.data;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -18,12 +19,14 @@ public class DraggableStation extends Circle implements Draggable {
     double startCenterY;
     
     public DraggableStation(){
-        setCenterX(0.0);
-	setCenterY(0.0);
-	setRadius(0.0);
+        setCenterX(50.0);
+	setCenterY(50.0);
+	setRadius(10.0);
 	setOpacity(1.0);
-	startCenterX = 0.0;
-	startCenterY = 0.0;
+        setFill(Color.TRANSPARENT);
+        setStroke(Color.BLACK);
+	startCenterX = 50.0;
+	startCenterY = 50.0;
     }
     
     @Override

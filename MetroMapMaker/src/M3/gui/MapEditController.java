@@ -16,21 +16,38 @@ import M3.data.m3Data;
 import M3.data.m3State;
 import djf.AppTemplate;
 import M3.data.DraggableImage;
+import M3.data.DraggableLine;
+import M3.data.DraggableStation;
 import M3.data.DraggableText;
+import M3.transaction.AddLine_Transaction;
+import M3.transaction.AddStation_Transaction;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import jtps.jTPS_Transaction;
 
 
@@ -42,7 +59,7 @@ import jtps.jTPS_Transaction;
  * @version 1.0
  */
 public class MapEditController {
-     AppTemplate app;
+    AppTemplate app;
     m3Data dataManager;
     Color imageFill;
     jTPS_Transaction transaction;
@@ -50,21 +67,280 @@ public class MapEditController {
     DraggableText tempText = new DraggableText();
     String oldText = new String();
     
-
-    
-    public Color getImageFill(){
+    public Color getImageFill() {
         return imageFill;
     }
-    
-    
+
     public MapEditController(AppTemplate initApp) {
-	app = initApp;
-	dataManager = (m3Data)app.getDataComponent();
+        app = initApp;
+        dataManager = (m3Data) app.getDataComponent();
     }
-    
-    public DraggableText getText(){
+
+    public DraggableText getText() {
         return t;
     }
+
+    public void handleAddStationRequest() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        TextInputDialog dialog = new TextInputDialog();
+        DraggableStation newStation = new DraggableStation();
+        DraggableText t = new DraggableText();
+        dialog.setTitle("Station Namer");
+        dialog.setContentText("Please enter the name of this station: ");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            if (dataManager.getStations().size() != 0) {
+                if (dataManager.getStations().contains(result.get())) {
+                    Alert warningAlert = new Alert(AlertType.WARNING);
+                    warningAlert.setTitle("Similar name");
+                    warningAlert.setContentText("This station already exists");
+                    warningAlert.showAndWait();
+                }
+            } else {
+                t.setText(result.get());
+                dataManager.getStations().add(result.get());
+                workspace.getStationBox().getItems().add(result.get());
+                workspace.getStationBox().valueProperty().bind(t.textProperty());
+                transaction = new AddStation_Transaction(app, newStation, t);
+                dataManager.getjTPS().addTransaction(transaction);
+            }
+        } else {
+            Alert warningAlert = new Alert(AlertType.WARNING);
+            warningAlert.setTitle("Error");
+            warningAlert.setContentText("There is nothing typed into the field");
+            warningAlert.showAndWait();
+        }
+    }
+    
+    public void handleRemoveStationRequest(){
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String nodeToRemoveString = workspace.getStationBox().getSelectionModel().getSelectedItem();
+        Node nodeToRemove = grabMetroShape(nodeToRemoveString);
+        Alert alertBox = new Alert(AlertType.CONFIRMATION);
+        alertBox.setTitle("Confirmation");
+        alertBox.setContentText("Are you sure you want to remove this metro station?");
+        Optional<ButtonType> result = alertBox.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            dataManager.removeStationName(nodeToRemoveString);
+            workspace.getStationBox().getItems().remove(nodeToRemoveString);
+            dataManager.removeShape(nodeToRemove);
+            if (!workspace.getStationBox().getItems().isEmpty()) {
+                workspace.getStationBox().getSelectionModel().select(0);
+            }
+            else{
+                workspace.getStationBox().getSelectionModel().selectFirst();
+            }
+        }
+    }
+    
+    public void handleEditLineRequest() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String editedText = workspace.getLineBox().getSelectionModel().getSelectedItem();
+        System.out.println(editedText);
+        Node editedNode = grabMetroShape(editedText);
+        Stage tempStage = new Stage();
+        ColorPicker lineColor = new ColorPicker();
+        Group group = (Group) editedNode;
+        VBox sceneBox = new VBox();
+        HBox inputBox = new HBox();
+        HBox buttonBox = new HBox();
+        Scene tempScene = new Scene(sceneBox, 250, 150);
+        Label windowTitle = new Label("Name the metro line");
+        Label metroLineName = new Label("Metro Line Name: ");
+        TextField textField = new TextField();
+        Button okButton = new Button("OK");
+        Button cancelButton = new Button("Cancel");
+        for (Node lineChild : group.getChildren()) {
+            if (lineChild instanceof DraggableLine) {
+                lineColor.setValue((Color) ((DraggableLine) lineChild).getStroke());
+            }
+        }
+        
+        okButton.setOnAction(e -> {
+            if (dataManager.getLines().size() != 0) {
+                if (dataManager.getLines().contains(textField.getText())) {
+                    Alert warningAlert = new Alert(AlertType.WARNING);
+                    warningAlert.setTitle("Similar name");
+                    warningAlert.setContentText("This line already exists");
+                    warningAlert.showAndWait();
+                } else if (textField.getText() != null && !textField.getText().isEmpty()) {
+                    for (Node child : group.getChildren()) {
+                        if (child instanceof DraggableText) {
+                            ((DraggableText) child).setText(textField.getText());
+                        } else if (child instanceof DraggableLine) {
+                            ((DraggableLine) child).setStroke(lineColor.getValue());
+                        }
+                    }
+                    dataManager.removeLineName(editedText);
+                    dataManager.addLineName(textField.getText());
+                    workspace.getLineBox().getItems().add(textField.getText());
+                    workspace.getLineBox().getItems().remove(editedText);
+                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    tempStage.close();
+                }
+            } else {
+                if (textField.getText() != null && !textField.getText().isEmpty()) {
+                    for (Node child : group.getChildren()) {
+                        if (child instanceof DraggableText) {
+                            ((DraggableText) child).setText(textField.getText());
+                        } else if (child instanceof DraggableLine) {
+                            ((DraggableLine) child).setStroke(lineColor.getValue());
+                        }
+                    }
+                    dataManager.removeLineName(editedText);
+                    dataManager.addLineName(textField.getText());
+                    workspace.getLineBox().getItems().add(textField.getText());
+                    workspace.getLineBox().getItems().remove(editedText);
+                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    tempStage.close();
+                } else {
+                    Alert warningAlert = new Alert(AlertType.WARNING);
+                    warningAlert.setTitle("Error");
+                    warningAlert.setContentText("There is nothing typed into the field");
+                    warningAlert.showAndWait();
+                }
+            }
+        });
+        cancelButton.setOnAction(e -> {
+            tempStage.close();
+        });
+        
+        inputBox.getChildren().add(metroLineName);
+        inputBox.getChildren().add(textField);
+        buttonBox.getChildren().add(okButton);
+        buttonBox.getChildren().add(cancelButton);
+        sceneBox.getChildren().add(windowTitle);
+        sceneBox.getChildren().add(inputBox);
+        sceneBox.getChildren().add(lineColor);
+        sceneBox.getChildren().add(buttonBox);
+        sceneBox.setPadding(new Insets(0, 0, 30, 0));
+        tempStage.setScene(tempScene);
+
+        tempStage.showAndWait();
+
+    }
+
+    public Node grabMetroShape(String compareLine) {
+        for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+            Node shape = (Node) dataManager.getShapes().get(i);
+            if (shape instanceof Group) {
+                for (Node children : ((Group) shape).getChildren()) {
+                    if (((DraggableText) children).getText().equals(compareLine)) {
+                        return shape;
+                    }
+                    break;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void handleAddLineRequest() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        Group tempRoot = new Group();
+        Stage tempStage = new Stage();
+        DraggableLine newLine = new DraggableLine();
+        DraggableText originText = new DraggableText();
+        DraggableText endText = new DraggableText();
+        ColorPicker lineColor = new ColorPicker();
+        Scene tempScene = new Scene(tempRoot, 250, 100);
+        VBox sceneBox = new VBox();
+        HBox inputBox = new HBox();
+        HBox buttonBox = new HBox();
+        Label windowTitle = new Label("Name the metro line");
+        Label metroLineName = new Label("Metro Line Name: ");
+        TextField textField = new TextField();
+        Button okButton = new Button("OK");
+        Button cancelButton = new Button("Cancel");
+
+        lineColor.setOnAction(e -> {
+            newLine.setStroke(lineColor.getValue());
+        });
+
+        okButton.setOnAction(e -> {
+            if (dataManager.getLines().size() != 0) {
+                if (dataManager.getLines().contains(textField.getText())) {
+                    Alert warningAlert = new Alert(AlertType.WARNING);
+                    warningAlert.setTitle("Similar name");
+                    warningAlert.setContentText("This line already exists");
+                    
+                } else if (textField.getText() != null && !textField.getText().isEmpty()) {
+                    originText.setText(textField.getText());
+                    endText.setText(textField.getText());
+                    dataManager.addLineName(textField.getText());
+                    workspace.getLineBox().getItems().add(textField.getText());
+                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    transaction = new AddLine_Transaction(app, newLine, originText, endText);
+                    dataManager.getjTPS().addTransaction(transaction);
+                    tempStage.close();
+                }
+            } 
+            else {
+                if (textField.getText() != null && !textField.getText().isEmpty()) {
+                    originText.setText(textField.getText());
+                    endText.setText(textField.getText());
+                    dataManager.addLineName(textField.getText());
+                    workspace.getLineBox().getItems().add(textField.getText());
+                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    transaction = new AddLine_Transaction(app, newLine, originText, endText);
+                    dataManager.getjTPS().addTransaction(transaction);
+                    tempStage.close();
+                } else {
+                    Alert warningAlert = new Alert(AlertType.WARNING);
+                    warningAlert.setTitle("Error");
+                    warningAlert.setContentText("There is nothing typed into the field");
+                    warningAlert.showAndWait();
+                }
+            }
+        });
+        cancelButton.setOnAction(e -> {
+            tempStage.close();
+        });
+
+        inputBox.getChildren().add(metroLineName);
+        inputBox.getChildren().add(textField);
+        buttonBox.getChildren().add(okButton);
+        buttonBox.getChildren().add(cancelButton);
+        sceneBox.getChildren().add(windowTitle);
+        sceneBox.getChildren().add(inputBox);
+        sceneBox.getChildren().add(lineColor);
+        sceneBox.getChildren().add(buttonBox);
+        sceneBox.setPadding(new Insets(0, 0, 30, 0));
+        tempRoot.getChildren().add(sceneBox);
+        tempStage.setScene(tempScene);
+        
+        tempStage.showAndWait();
+        
+    }
+    
+    public void handleRemoveLineRequest(){
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String nodeToRemoveString = workspace.getLineBox().getSelectionModel().getSelectedItem();
+        Node nodeToRemove = grabMetroShape(nodeToRemoveString);
+        Alert alertBox = new Alert(AlertType.CONFIRMATION);
+        alertBox.setTitle("Confirmation");
+        alertBox.setContentText("Are you sure you want to remove this metro line?");
+        Optional<ButtonType> result = alertBox.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            dataManager.removeLineName(nodeToRemoveString);
+            workspace.getLineBox().getItems().remove(nodeToRemoveString);
+            dataManager.removeShape(nodeToRemove);
+            if (!workspace.getLineBox().getItems().isEmpty()) {
+                workspace.getLineBox().getSelectionModel().select(0);
+            }
+            else{
+                workspace.getLineBox().getSelectionModel().selectFirst();
+            }
+        }
+    }
+   
+    
+    public void handleAddStationLineRequest(){
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        workspace.getCanvas().getScene().setCursor(Cursor.CROSSHAIR);
+        dataManager.setState(m3State.ADDING_STATION_TO_LINE);
+    }
+    
    
     public void handleAddImageRequest(){
         Scene scene = app.getGUI().getPrimaryScene();

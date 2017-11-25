@@ -18,6 +18,7 @@ import djf.components.AppDataComponent;
 import djf.AppTemplate;
 import M3.transaction.AddShape_Transaction;
 import java.util.Optional;
+import javafx.scene.Group;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -38,7 +39,13 @@ public class m3Data implements AppDataComponent {
     ObservableList<Node> shapes;
     
     
-    ObservableList<Node> images;
+    ObservableList<Node> lines;
+    
+    ObservableList<Node> stations;
+    
+    ArrayList<String> lineNames = new ArrayList<String>();
+    
+    ArrayList<String> stationNames = new ArrayList<String>();
     
     
     // THE BACKGROUND COLOR
@@ -106,8 +113,6 @@ public class m3Data implements AppDataComponent {
 	// NO SHAPE STARTS OUT AS SELECTED
 	newShape = null;
 	selectedShape = null;
-        newImage = null;
-        selectedImage = null;
 
 	// INIT THE COLORS
 	currentFillColor = Color.web(WHITE_HEX);
@@ -123,14 +128,21 @@ public class m3Data implements AppDataComponent {
 	dropShadowEffect.setBlurType(BlurType.GAUSSIAN);
 	dropShadowEffect.setRadius(15);
 	highlightedEffect = dropShadowEffect;
+        
+        
     }
 
-    public ObservableList<Node> getImages(){
-        return images;
-    }
     
     public ObservableList<Node> getShapes() {
 	return shapes;
+    }
+    
+    public ArrayList<String> getLines(){
+        return lineNames;
+    }
+    
+    public ArrayList<String> getStations(){
+        return stationNames;
     }
 
     public Color getBackgroundColor() {
@@ -147,10 +159,6 @@ public class m3Data implements AppDataComponent {
 
     public double getCurrentBorderWidth() {
 	return currentBorderWidth;
-    }
-    
-    public void setImages(ObservableList<Node> initImage){
-        images = initImage;
     }
     
     public void setShapes(ObservableList<Node> initShapes) {
@@ -304,6 +312,8 @@ public class m3Data implements AppDataComponent {
 	selectedShape = initSelectedShape;
     }
     
+    
+    
     public Node selectTopShape(int x, int y) {
 	Node shape = getTopShape(x, y);
 	if (shape == selectedShape)
@@ -311,13 +321,35 @@ public class m3Data implements AppDataComponent {
 	
 	if (selectedShape != null) {
 	    unhighlightShape(selectedShape);
-	}
-	if (shape != null) {
-	    highlightShape(shape);
-	    m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
-	    workspace.loadSelectedShapeSettings(shape);
-	}
-	selectedShape = shape;
+	       }
+        if (shape != null) {
+            if(shape instanceof DraggableStation){
+                highlightShape(shape);
+            }
+            else if (shape instanceof Group) {
+                Group group = (Group) shape;
+                for (int i = 0; i < group.getChildren().size(); i++) {
+                    if (group.getChildren().get(i).contains(x, y)) {
+                        if(group.getChildren().get(i) instanceof DraggableStation){
+                            highlightShape(group.getChildren().get(i));
+                            shape = group.getChildren().get(i);
+                            break;
+                        }
+                        else if (group.getChildren().get(i) instanceof DraggableText) {
+                            highlightShape(group.getChildren().get(i));
+                            shape = group.getChildren().get(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                highlightShape(shape);
+            }
+            m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+            workspace.loadSelectedShapeSettings(shape);
+        }
+        selectedShape = shape;
 	if (shape != null) {
 	    ((Draggable)(Node)shape).start(x, y);
 	}
@@ -340,6 +372,22 @@ public class m3Data implements AppDataComponent {
 
     public void removeShape(Node shapeToRemove) {
 	shapes.remove(shapeToRemove);
+    }
+    
+    public void addLineName(String name){
+        lineNames.add(name);
+    }
+    
+    public void removeLineName(String name){
+        lineNames.remove(name);
+    }
+    
+    public void addStationNames(String name){
+        stationNames.add(name);
+    }
+    
+    public void removeStationName(String name){
+        stationNames.remove(name);
     }
     
     public m3State getState() {

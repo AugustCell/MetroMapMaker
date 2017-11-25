@@ -31,6 +31,7 @@ import M3.data.Draggable;
 import static M3.data.Draggable.RECTANGLE;
 import static M3.data.Draggable.TEXT;
 import M3.data.DraggableText;
+import java.io.File;
 import java.net.URL;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -201,23 +202,26 @@ public class m3Files implements AppFileComponent {
         m3Data dataManager = (m3Data) data;
         dataManager.resetData();
 
-        // LOAD THE JSON FILE WITH ALL THE DATA
-        JsonObject json = loadJSONFile(filePath);
+        if (new File(filePath).length() != 0) {
 
-        // LOAD THE BACKGROUND COLOR
-        Color bgColor = loadColor(json, JSON_BG_COLOR);
-        dataManager.setBackgroundColor(bgColor);
+            // LOAD THE JSON FILE WITH ALL THE DATA
+            JsonObject json = loadJSONFile(filePath);
 
-        // AND NOW LOAD ALL THE SHAPES
-        JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
-        for (int i = 0; i < jsonShapeArray.size(); i++) {
-            JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
-            Node shape;
+            // LOAD THE BACKGROUND COLOR
+            Color bgColor = loadColor(json, JSON_BG_COLOR);
+            dataManager.setBackgroundColor(bgColor);
 
-            System.out.println(jsonShape.get(JSON_FILL_COLOR));
-            shape = loadShape(jsonShape);
+            // AND NOW LOAD ALL THE SHAPES
+            JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
+            for (int i = 0; i < jsonShapeArray.size(); i++) {
+                JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
+                Node shape;
 
-            dataManager.addShape(shape);
+                System.out.println(jsonShape.get(JSON_FILL_COLOR));
+                shape = loadShape(jsonShape);
+
+                dataManager.addShape(shape);
+            }
         }
     }
 

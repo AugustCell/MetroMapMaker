@@ -12,6 +12,7 @@ import static M3.data.m3State.SELECTING_SHAPE;
 import djf.AppTemplate;
 import M3.data.DraggableImage;
 import M3.data.DraggableText;
+import static M3.data.m3State.ADDING_STATION_TO_LINE;
 import M3.transaction.DragShape_Transaction;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -61,6 +62,7 @@ public class CanvasController {
 
             // AND START DRAGGING IT
             if (shape != null) {
+                
                 scene.setCursor(Cursor.MOVE);
                 dataManager.setState(m3State.DRAGGING_SHAPE);
                 originX = x;
@@ -74,7 +76,19 @@ public class CanvasController {
             m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
             workspace.reloadWorkspace(dataManager);
         }
+        else if(dataManager.isInState(ADDING_STATION_TO_LINE)){
+            
+        }
     }
+    /*
+    Click the station that you want to add
+    Put the station is center properties at the end of the line
+    make a new line
+    at the end of that line you put the text the end of the new line
+    the start of the new line is the center property of the circle
+    you add the new line into the group MAYBE CHECK THIS SHIT
+    
+    */
     
         /**
          * Respond to mouse dragging on the rendering surface, which we call
@@ -87,7 +101,6 @@ public class CanvasController {
             selectedDraggableShape.drag(x, y);
             // transaction = new DragShape_Transaction(app, selectedDraggableShape, originX, originY, x, y);
             // dataManager.getjTPS().addTransaction(transaction);
-            selectedDraggableShape.drag(x, y);
             app.getGUI().updateToolbarControls(false);
         }
     }
@@ -106,7 +119,7 @@ public class CanvasController {
             app.getGUI().updateToolbarControls(false);
         //FIX THIS PROBLEM ASAP   
         // transaction = new DragShape_Transaction(app, DraggedShape, originX, originY, x, y);
-            dataManager.getjTPS().addTransaction(transaction);
+          //  dataManager.getjTPS().addTransaction(transaction);
         } else if (dataManager.isInState(m3State.DRAGGING_NOTHING)) {
             dataManager.setState(SELECTING_SHAPE);
         }

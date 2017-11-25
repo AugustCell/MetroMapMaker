@@ -226,13 +226,17 @@ public class m3Workspace extends AppWorkspaceComponent {
         // AND INIT THE STYLE FOR THE WORKSPACE
         initStyle();  
         
-
-
-        
         
     }
     
     
+    public ComboBox<String> getLineBox(){
+        return lineCombo;
+    }
+    
+    public ComboBox<String> getStationBox(){
+        return stationCombo;
+    }
     
     public ColorPicker getBackgroundColorPicker() {
 	return setBackgroundColorButton;
@@ -277,6 +281,7 @@ public class m3Workspace extends AppWorkspaceComponent {
         row1Box = new HBox();
         lineText = new Label("Metro Line");
         lineCombo = new ComboBox<>();
+        lineCombo.setEditable(true);
         lineCombo.setPromptText("Select a metro line");
         row1Box.getChildren().add(lineText);
         row1Box.getChildren().add(lineCombo);
@@ -306,6 +311,7 @@ public class m3Workspace extends AppWorkspaceComponent {
         row3Box = new HBox();
         stationText = new Label("Metro Stations");
         stationCombo = new ComboBox<>();
+        stationCombo.setEditable(true);
         stationCombo.setPromptText("Pick a station");
         row3Box.getChildren().add(stationText);
         row3Box.getChildren().add(stationCombo);
@@ -463,19 +469,20 @@ public class m3Workspace extends AppWorkspaceComponent {
          
          
          lineCombo.setOnAction(e -> {
-             
+            String lineName = lineCombo.getSelectionModel().getSelectedItem();
+            
          });
          editLineButton.setOnAction(e -> {
-             
+             mapEditController.handleEditLineRequest();
          });
          addLineButton.setOnAction(e -> {
-             
+             mapEditController.handleAddLineRequest();
          });
          removeLineButton.setOnAction(e -> {
-             
+             mapEditController.handleRemoveLineRequest();
          });
          addStationToLineButton.setOnAction(e -> {
-             
+             mapEditController.handleAddStationLineRequest();
          });
          removeStationFromLineButton.setOnAction(e -> {
              
@@ -493,10 +500,10 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          addStationButton.setOnAction(e -> {
-             
+             mapEditController.handleAddStationRequest();
          });
          removeStationButton.setOnAction(e -> {
-             
+             mapEditController.handleRemoveStationRequest();
          });
          snapToMapButton.setOnAction(e -> {
              

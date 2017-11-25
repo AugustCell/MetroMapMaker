@@ -16,7 +16,7 @@
 .edit_toolbar_row {
     -fx-padding: 0px;
     -fx-spacing: 10;
-    -fx-background-color: #7777dd;
+    -fx-background-color: #00008b;
     -fx-background-radius: 5.0;
     -fx-padding: 7;
     -fx-spacing: 10;
@@ -35,7 +35,7 @@
 }
 
 .bordered_pane {
-    -fx-background-color: #ffb6c1;
+    -fx-background-color: #6495ed ;
     -fx-background-radius: 5.0;
     -fx-padding: 15;
     -fx-spacing: 10;

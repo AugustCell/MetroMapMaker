@@ -16,15 +16,14 @@ public class DraggableLine extends Line implements Draggable{
     double startX;
     double startY;
     double endX;
-    
     double endY;
     
     public DraggableLine(){
-        setStartX(0.0);
-        setStartY(0.0);
-        setEndX(0.0);
-        setEndY(0.0);
-        setStrokeWidth(10);
+        setStartX(200.0);
+        setStartY(200.0);
+        setEndX(240.0);
+        setEndY(200.0);
+        setStrokeWidth(5);
         startX = 0.0;
         startY = 0.0;
         endX = 0.0;

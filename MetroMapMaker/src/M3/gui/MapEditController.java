@@ -43,6 +43,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -95,6 +96,13 @@ public class MapEditController {
                     warningAlert.setTitle("Similar name");
                     warningAlert.setContentText("This station already exists");
                     warningAlert.showAndWait();
+                } else {
+                    t.setText(result.get());
+                    dataManager.getStations().add(result.get());
+                    workspace.getStationBox().getItems().add(result.get());
+                    workspace.getStationBox().valueProperty().bind(t.textProperty());
+                    transaction = new AddStation_Transaction(app, newStation, t);
+                    dataManager.getjTPS().addTransaction(transaction);
                 }
             } else {
                 t.setText(result.get());
@@ -140,7 +148,6 @@ public class MapEditController {
         Node editedNode = grabMetroShape(editedText);
         Stage tempStage = new Stage();
         ColorPicker lineColor = new ColorPicker();
-        Group group = (Group) editedNode;
         VBox sceneBox = new VBox();
         HBox inputBox = new HBox();
         HBox buttonBox = new HBox();
@@ -150,9 +157,9 @@ public class MapEditController {
         TextField textField = new TextField();
         Button okButton = new Button("OK");
         Button cancelButton = new Button("Cancel");
-        for (Node lineChild : group.getChildren()) {
-            if (lineChild instanceof DraggableLine) {
-                lineColor.setValue((Color) ((DraggableLine) lineChild).getStroke());
+        for (Node lineChild : ((Group) editedNode).getChildren()) {
+            if (lineChild instanceof Line) {
+                lineColor.setValue((Color) ((Line) lineChild).getStroke());
             }
         }
         
@@ -163,12 +170,14 @@ public class MapEditController {
                     warningAlert.setTitle("Similar name");
                     warningAlert.setContentText("This line already exists");
                     warningAlert.showAndWait();
-                } else if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    for (Node child : group.getChildren()) {
+                } 
+                else if (textField.getText() != null && !textField.getText().isEmpty()) {
+                    for (Node child : ((Group) editedNode).getChildren()) {
                         if (child instanceof DraggableText) {
                             ((DraggableText) child).setText(textField.getText());
-                        } else if (child instanceof DraggableLine) {
-                            ((DraggableLine) child).setStroke(lineColor.getValue());
+                        } else if (child instanceof Line) {
+                            ((Line) child).setStroke(lineColor.getValue());
+                            workspace.getLineBox().valueProperty().bind(textField.textProperty());
                         }
                     }
                     dataManager.removeLineName(editedText);
@@ -180,11 +189,12 @@ public class MapEditController {
                 }
             } else {
                 if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    for (Node child : group.getChildren()) {
+                    for (Node child : ((Group) editedNode).getChildren()) {
                         if (child instanceof DraggableText) {
                             ((DraggableText) child).setText(textField.getText());
-                        } else if (child instanceof DraggableLine) {
-                            ((DraggableLine) child).setStroke(lineColor.getValue());
+                        } else if (child instanceof Line) {
+                            ((Line) child).setStroke(lineColor.getValue());
+                            workspace.getLineBox().valueProperty().bind(textField.textProperty());
                         }
                     }
                     dataManager.removeLineName(editedText);
@@ -239,7 +249,7 @@ public class MapEditController {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         Group tempRoot = new Group();
         Stage tempStage = new Stage();
-        DraggableLine newLine = new DraggableLine();
+        Line newLine = new Line();
         DraggableText originText = new DraggableText();
         DraggableText endText = new DraggableText();
         ColorPicker lineColor = new ColorPicker();

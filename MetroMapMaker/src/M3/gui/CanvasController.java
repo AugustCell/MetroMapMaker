@@ -11,11 +11,15 @@ import static M3.data.m3State.DRAGGING_SHAPE;
 import static M3.data.m3State.SELECTING_SHAPE;
 import djf.AppTemplate;
 import M3.data.DraggableImage;
+import M3.data.DraggableLine;
+import M3.data.DraggableStation;
 import M3.data.DraggableText;
 import static M3.data.m3State.ADDING_STATION_TO_LINE;
 import M3.transaction.DragShape_Transaction;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Line;
 import jtps.jTPS;
 import jtps.jTPS_Transaction;
 import jtps.test.AddToNum_Transaction;
@@ -55,6 +59,7 @@ public class CanvasController {
      */
     public void processCanvasMousePress(int x, int y) {
         m3Data dataManager = (m3Data) app.getDataComponent();
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         if (dataManager.isInState(SELECTING_SHAPE)) {
             // SELECT THE TOP SHAPE
             Node shape = dataManager.selectTopShape(x, y);
@@ -62,7 +67,7 @@ public class CanvasController {
 
             // AND START DRAGGING IT
             if (shape != null) {
-                
+
                 scene.setCursor(Cursor.MOVE);
                 dataManager.setState(m3State.DRAGGING_SHAPE);
                 originX = x;
@@ -73,11 +78,59 @@ public class CanvasController {
                 dataManager.setState(DRAGGING_NOTHING);
                 app.getWorkspaceComponent().reloadWorkspace(dataManager);
             }
-            m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
             workspace.reloadWorkspace(dataManager);
-        }
-        else if(dataManager.isInState(ADDING_STATION_TO_LINE)){
-            
+        } else if (dataManager.isInState(ADDING_STATION_TO_LINE)) {
+            Node shape = dataManager.selectTopShape(x, y);
+            DraggableStation stationShape = (DraggableStation) shape;
+            Scene scene = app.getGUI().getPrimaryScene();
+            String compareLine = "";
+            if (shape != null) {
+                String lineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
+
+                for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+                    Node temp = (Node) dataManager.getShapes().get(i);
+                    if (temp instanceof Group) {
+                        if (((Group) temp).getChildren().get(0) instanceof DraggableText) {
+                            DraggableText tempText = (DraggableText) ((Group) temp).getChildren().get(0);
+                            compareLine = tempText.getText();
+                        }
+                        if (workspace.getLineBox().getSelectionModel().getSelectedItem().equals(compareLine)) {
+                            Line newLine = new Line();
+                            Line originalLine = (Line) ((Group) temp).getChildren().get((((Group) temp).getChildren().size() - 2));
+                            DraggableText originalEndText = (DraggableText) ((Group) temp).getChildren().get(((Group) temp).getChildren().size() - 1);
+                            originalLine.endXProperty().unbindBidirectional(originalEndText.xProperty());
+                            originalLine.endYProperty().unbindBidirectional(originalEndText.yProperty());
+                            stationShape.setCenterX(originalLine.getEndX());
+                            stationShape.setCenterY(originalLine.getEndY());
+                            double offsetX = originalLine.getEndX() - originalLine.getStartX();
+                            double offsetY = originalLine.getEndY() - originalLine.getStartY();
+                            newLine.setStartX(originalLine.getEndX());
+                            newLine.setStartY(originalLine.getEndY());
+                            newLine.setEndX(newLine.getStartX() + offsetX);
+                            newLine.setEndY(newLine.getStartY() + offsetY);
+                            newLine.setStroke(originalLine.getStroke());
+                            newLine.setStrokeWidth(5);
+                            originalEndText.setX(newLine.getEndX());
+                            originalEndText.setY(newLine.getEndY());
+                            originalLine.endXProperty().bindBidirectional(stationShape.centerXProperty());
+                            originalLine.endYProperty().bindBidirectional(stationShape.centerYProperty());
+                            newLine.startXProperty().bindBidirectional(stationShape.centerXProperty());
+                            newLine.startYProperty().bindBidirectional(stationShape.centerYProperty());
+                            newLine.endXProperty().bindBidirectional(originalEndText.xProperty());
+                            newLine.endYProperty().bindBidirectional(originalEndText.yProperty());
+                            workspace.getCanvas().getChildren().remove(temp);
+                            ((Group) temp).getChildren().add(((Group) temp).getChildren().size() - 1, newLine);
+                            workspace.getCanvas().getChildren().add(temp);
+
+                        }
+                    }
+                }
+
+            } else {
+                scene.setCursor(Cursor.DEFAULT);
+                dataManager.setState(SELECTING_SHAPE);
+                app.getWorkspaceComponent().reloadWorkspace(dataManager);
+            }
         }
     }
     /*

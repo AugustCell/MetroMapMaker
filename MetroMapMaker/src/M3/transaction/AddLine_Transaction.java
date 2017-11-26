@@ -45,12 +45,18 @@ public class AddLine_Transaction implements jTPS_Transaction {
         ((DraggableLine) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
         ((DraggableLine) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
         ((DraggableLine) tempNode).endYProperty().bind(((DraggableText) endLabel).yProperty());
-         */
+         
 
         ((DraggableLine) tempNode).startXProperty().bind(((DraggableText) startLabel).xProperty().add(((DraggableText) startLabel).getWidth()));
         ((DraggableLine) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
         ((DraggableLine) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
         ((DraggableLine) tempNode).endYProperty().bind(((DraggableText) endLabel).yProperty());
+        */
+        ((Line) tempNode).startXProperty().bindBidirectional(((DraggableText) startLabel).xProperty());
+        ((Line) tempNode).startYProperty().bindBidirectional(((DraggableText) startLabel).yProperty());
+        ((Line) tempNode).endXProperty().bindBidirectional(((DraggableText) endLabel).xProperty());
+        ((Line) tempNode).endYProperty().bindBidirectional(((DraggableText) endLabel).yProperty());
+        ((Line) tempNode).setStrokeWidth(5);
 
         
         /*

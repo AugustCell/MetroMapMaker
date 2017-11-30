@@ -17,6 +17,8 @@ public class DraggableLine extends Line implements Draggable{
     double startY;
     double endX;
     double endY;
+    String lineEnd;
+    String lineStart;
     
     public DraggableLine(){
         setStartX(200.0);
@@ -28,6 +30,7 @@ public class DraggableLine extends Line implements Draggable{
         startY = 0.0;
         endX = 0.0;
         endY = 0.0;
+        lineEnd = "";
         
         
     }
@@ -96,5 +99,13 @@ public class DraggableLine extends Line implements Draggable{
     @Override
     public String getShapeType() {
         return LINE;
+    }
+    
+    public void setLineEnd(String stationName){
+        lineEnd = stationName;
+    }
+    
+    public void setLineStart(String stationName){
+        lineStart = stationName;
     }
 }

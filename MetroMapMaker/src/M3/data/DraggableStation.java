@@ -15,8 +15,10 @@ import javafx.scene.shape.Circle;
 public class DraggableStation extends Circle implements Draggable {
 
     double startCenterX;
-    
     double startCenterY;
+    boolean connectTwoLines;
+    boolean connectThreeLines;
+    String stationName;
     
     public DraggableStation(){
         setCenterX(50.0);
@@ -27,6 +29,9 @@ public class DraggableStation extends Circle implements Draggable {
         setStroke(Color.BLACK);
 	startCenterX = 50.0;
 	startCenterY = 50.0;
+        connectTwoLines = false;
+        connectThreeLines = false;
+        stationName = "";
     }
     
     @Override
@@ -99,4 +104,19 @@ public class DraggableStation extends Circle implements Draggable {
     public String getShapeType() {
         return STATION;
     }    
+    
+    public void setTwoLines(boolean choice){
+        connectTwoLines = choice;
+    }
+    public void setThreeLines(boolean choice){
+        connectThreeLines = choice;
+    }
+    
+    public String getStationName(){
+        return stationName;
+    }
+    
+    public void setStationName(String name){
+        stationName = name;
+    }
 }

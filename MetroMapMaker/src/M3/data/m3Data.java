@@ -47,6 +47,8 @@ public class m3Data implements AppDataComponent {
     
     ArrayList<String> stationNames = new ArrayList<String>();
     
+    ArrayList<LineGroups> lineStationGroups = new ArrayList<LineGroups>();
+    
     
     // THE BACKGROUND COLOR
     Color backgroundColor;
@@ -143,6 +145,9 @@ public class m3Data implements AppDataComponent {
     
     public ArrayList<String> getStations(){
         return stationNames;
+    }
+    public ArrayList<LineGroups> getLineStationGroups(){
+        return lineStationGroups;
     }
 
     public Color getBackgroundColor() {
@@ -312,8 +317,19 @@ public class m3Data implements AppDataComponent {
 	selectedShape = initSelectedShape;
     }
     
-    
-    
+    public Node getStationName(int x, int y) {
+        Node shape = getTopShape(x, y);
+        if (shape != null) {
+            if (shape instanceof Group) {
+                return shape;
+            }
+        }
+        if(shape == null){
+            return null;
+        }
+        return shape;
+    }
+
     public Node selectTopShape(int x, int y) {
 	Node shape = getTopShape(x, y);
 	if (shape == selectedShape)
@@ -388,6 +404,14 @@ public class m3Data implements AppDataComponent {
     
     public void removeStationName(String name){
         stationNames.remove(name);
+    }
+    
+    public void addLineGroupName(LineGroups group){
+        lineStationGroups.add(group);
+    }
+    
+    public void removeLineGroupName(LineGroups group){
+        lineStationGroups.remove(group);
     }
     
     public m3State getState() {

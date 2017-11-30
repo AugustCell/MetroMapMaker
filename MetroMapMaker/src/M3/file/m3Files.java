@@ -28,11 +28,18 @@ import djf.components.AppFileComponent;
 import M3.data.m3Data;
 import M3.data.DraggableImage;
 import M3.data.Draggable;
+import static M3.data.Draggable.LINE;
 import static M3.data.Draggable.RECTANGLE;
+import static M3.data.Draggable.STATION;
 import static M3.data.Draggable.TEXT;
+import M3.data.DraggableStation;
 import M3.data.DraggableText;
+import M3.data.LineGroups;
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -47,6 +54,12 @@ import javafx.scene.paint.ImagePattern;
 public class m3Files implements AppFileComponent {
      // FOR JSON LOADING
     static final String JSON_BG_COLOR = "background_color";
+    static final String JSON_NAME = "name";
+    static final String JSON_LINES_DECLARATION = "lines";
+    static final String JSON_CIRCULAR_STATION = "circular";
+    static final String JSON_STATION_NAME = "station_names";
+    public final String JSON_LINE_COLOR = "color";
+    public final String JSON_STATIONS_DECLARATION = "stations";
     static final String JSON_RED = "red";
     static final String JSON_GREEN = "green";
     static final String JSON_BLUE = "blue";
@@ -56,6 +69,11 @@ public class m3Files implements AppFileComponent {
     static final String JSON_TYPE = "type";
     static final String JSON_X = "x";
     static final String JSON_Y = "y";
+    static final String JSON_LINE_WIDTH = "line width";
+    static final String JSON_START_X = "start x";
+    public final String JSON_START_Y = "start y";
+    public final String JSON_END_X = "end x";
+    public final String JSON_END_Y = "end y";
     static final String JSON_WIDTH = "width";
     static final String JSON_HEIGHT = "height";
     static final String JSON_FILL_COLOR = "fill_color";
@@ -99,6 +117,77 @@ public class m3Files implements AppFileComponent {
         JsonObject fillColorJson = null;
         for (Node node : shapes) {
             Node shape = (Node) node;
+            if(shape instanceof Group){
+                for(int i = 0; i < ((Group) shape).getChildren().size(); i++){
+                    if (((Group) shape).getChildren().get(i) instanceof DraggableText) {
+                        DraggableText draggableShape = (DraggableText) ((Group)shape).getChildren().get(i);
+                        System.out.println(draggableShape.getClass().toString());
+                        String type = draggableShape.getShapeType();
+                        double x = draggableShape.getX();
+                        double y = draggableShape.getY();
+                        double width = draggableShape.getWidth();
+                        double height = draggableShape.getHeight();
+                        JsonObject shapeJson = Json.createObjectBuilder()
+                                .add(JSON_TYPE, type)
+                                .add(JSON_X, x)
+                                .add(JSON_Y, y)
+                                .add(JSON_TEXT_STRING, draggableShape.getText())
+                                .add(JSON_WIDTH, width)
+                                .add(JSON_HEIGHT, height).build();
+                        arrayBuilder.add(shapeJson);
+                    }
+                    else if(((Group) shape).getChildren().get(i) instanceof DraggableStation){
+                        DraggableStation draggableShape = (DraggableStation) ((Group) shape).getChildren().get(i);
+                        String type = draggableShape.getShapeType();
+                        double x = draggableShape.getX();
+                        double y = draggableShape.getY();
+                        double width = draggableShape.getWidth();
+                        double height = draggableShape.getHeight();
+                        JsonObject shapeJson = Json.createObjectBuilder()
+                                .add(JSON_TYPE, type)
+                                .add(JSON_X, x)
+                                .add(JSON_Y, y)
+                                .add(JSON_WIDTH, width)
+                                .add(JSON_HEIGHT, height)
+                                .add(JSON_NAME, ((DraggableStation) draggableShape).getStationName()).build();
+                        arrayBuilder.add(shapeJson);
+                    } else if (((Group) shape).getChildren().get(i) instanceof LineGroups) {
+                        LineGroups draggableShape = (LineGroups) ((Group) shape).getChildren().get(i);
+                        ArrayList<String> stationNames = new ArrayList<String>();
+                        for(int l = 0; l < ((Group) shape).getChildren().size(); l++){
+                            if (((Group) shape).getChildren().get(l) instanceof LineGroups) {
+                                Node tempLine = ((Group) shape).getChildren().get(l);
+                                if (!((LineGroups) tempLine).getMetroStations().isEmpty()) {
+                                    stationNames.add(((LineGroups) tempLine).getMetroStations().get(0));
+                                }
+                            }
+                        }
+                        String type = draggableShape.getShapeType();
+                        double startX = draggableShape.getStartX();
+                        double startY = draggableShape.getStartY();
+                        double endX = draggableShape.getEndX();
+                        double endY = draggableShape.getEndY();
+                        fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
+
+                        JsonArrayBuilder stationArray = Json.createArrayBuilder();
+                        for (int p = 0; p < stationNames.size(); p++) {
+                            stationArray.add(stationNames.get(p));
+                        }
+                        JsonObject shapeJson = Json.createObjectBuilder()
+                                .add(JSON_TYPE, type)
+                                .add(JSON_START_X, startX)
+                                .add(JSON_START_Y, startY)
+                                .add(JSON_END_X, endX)
+                                .add(JSON_END_Y, endY)
+                                .add(JSON_LINE_WIDTH, draggableShape.getStrokeWidth())
+                                .add(JSON_FILL_COLOR, fillColorJson)
+                                .add(JSON_NAME, ((LineGroups) draggableShape).getLineName())
+                                .add(JSON_STATION_NAME, stationArray)
+                                .build();
+                        arrayBuilder.add(shapeJson);
+                    }
+                }
+            }
             if (shape instanceof DraggableImage) {
                 Draggable draggableShape = ((Draggable) shape);
                 String type = draggableShape.getShapeType();
@@ -239,7 +328,11 @@ public class m3Files implements AppFileComponent {
             shape = new DraggableImage();
         } else if (type.equals(TEXT)) {
             shape = new DraggableText();
-        } 
+        } else if(type.equals(LINE)){
+            shape = new LineGroups();
+        } else if(type.equals(STATION)){
+            shape = new DraggableStation();
+        }
       // THEN LOAD ITS FILL AND OUTLINE PROPERTIES
         if (type.equals(RECTANGLE)) {
             if (jsonShape.get(JSON_FILL_COLOR).toString().contains("Image pattern")) {
@@ -253,6 +346,12 @@ public class m3Files implements AppFileComponent {
                 ((Shape) shape).setFill(new ImagePattern(new Image(finalPath)));
                 ((Shape) shape).setStroke(outlineColor);
                 ((Shape) shape).setStrokeWidth(outlineThickness);
+                double x = getDataAsDouble(jsonShape, JSON_X);
+                double y = getDataAsDouble(jsonShape, JSON_Y);
+                double width = getDataAsDouble(jsonShape, JSON_WIDTH);
+                double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
+                Draggable draggableShape = (Draggable) shape;
+                draggableShape.setLocationAndSize(x, y, width, height);
             } else {
                 Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
                 Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
@@ -260,26 +359,67 @@ public class m3Files implements AppFileComponent {
                 ((Shape) shape).setFill(fillColor);
                 ((Shape) shape).setStroke(outlineColor);
                 ((Shape) shape).setStrokeWidth(outlineThickness);
+                double x = getDataAsDouble(jsonShape, JSON_X);
+                double y = getDataAsDouble(jsonShape, JSON_Y);
+                double width = getDataAsDouble(jsonShape, JSON_WIDTH);
+                double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
+                Draggable draggableShape = (Draggable) shape;
+                draggableShape.setLocationAndSize(x, y, width, height);
             }
-        } else if (type.equals(TEXT)) {
+        } 
+        
+        else if (type.equals(TEXT)) {
             String text = jsonShape.get(JSON_TEXT_STRING).toString();
             text = text.substring(1, text.length() - 1);
             ((DraggableText) shape).setText(text);
-        } else {
+            double x = getDataAsDouble(jsonShape, JSON_X);
+            double y = getDataAsDouble(jsonShape, JSON_Y);
+            double width = getDataAsDouble(jsonShape, JSON_WIDTH);
+            double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
+            Draggable draggableShape = (Draggable) shape;
+            draggableShape.setLocationAndSize(x, y, width, height);
+        } 
+        
+        else if (type.equals(LINE)){
+            Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
+            double strokeWidth = getDataAsDouble(jsonShape, JSON_LINE_WIDTH);
+            ((Shape) shape).setFill(fillColor);
+            ((Shape) shape).setStrokeWidth(strokeWidth);
+            double startX = getDataAsDouble(jsonShape, JSON_START_X);
+            double startY = getDataAsDouble(jsonShape, JSON_START_Y);
+            double endX = getDataAsDouble(jsonShape, JSON_END_X);
+            double endY = getDataAsDouble(jsonShape, JSON_END_Y);
+            LineGroups draggableShape = (LineGroups) shape;
+            draggableShape.setStartX(startX);
+            draggableShape.setStartY(startY);
+            draggableShape.setEndX(endX);
+            draggableShape.setEndY(endY);
+
+        }
+        
+        else if(type.equals(STATION)){
+            double x = getDataAsDouble(jsonShape, JSON_X);
+            double y = getDataAsDouble(jsonShape, JSON_Y);
+            double width = getDataAsDouble(jsonShape, JSON_WIDTH);
+            double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
+            Draggable draggableShape = (Draggable) shape;
+            draggableShape.setLocationAndSize(x, y, width, height);
+        }
+        
+        else {
             Color fillColor = loadColor(jsonShape, JSON_FILL_COLOR);
             Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
             double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
             ((Shape) shape).setFill(fillColor);
             ((Shape) shape).setStroke(outlineColor);
             ((Shape) shape).setStrokeWidth(outlineThickness);
+            double x = getDataAsDouble(jsonShape, JSON_X);
+            double y = getDataAsDouble(jsonShape, JSON_Y);
+            double width = getDataAsDouble(jsonShape, JSON_WIDTH);
+            double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
+            Draggable draggableShape = (Draggable) shape;
+            draggableShape.setLocationAndSize(x, y, width, height);
         }
-	// AND THEN ITS DRAGGABLE PROPERTIES
-	double x = getDataAsDouble(jsonShape, JSON_X);
-	double y = getDataAsDouble(jsonShape, JSON_Y);
-	double width = getDataAsDouble(jsonShape, JSON_WIDTH);
-	double height = getDataAsDouble(jsonShape, JSON_HEIGHT);
-	Draggable draggableShape = (Draggable)shape;
-	draggableShape.setLocationAndSize(x, y, width, height);
 	
 	// ALL DONE, RETURN IT
 	return shape;
@@ -294,6 +434,7 @@ public class m3Files implements AppFileComponent {
 	Color loadedColor = new Color(red, green, blue, alpha);
 	return loadedColor;
     }
+    
     
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {

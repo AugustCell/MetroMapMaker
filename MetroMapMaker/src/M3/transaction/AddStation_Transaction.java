@@ -23,24 +23,20 @@ public class AddStation_Transaction implements jTPS_Transaction{
     
     public Node tempNode;
     public Node stationLabel;
-    Group stationGroup;
     AppTemplate appHelp;
     
     public AddStation_Transaction(AppTemplate app, Node node, Node stationText) {
         tempNode = node;
         appHelp = app;
         stationLabel = stationText;
-        stationGroup = new Group();
     }
     
     public void doTransaction() {
         ((DraggableText)stationLabel).xProperty().bind(((DraggableStation) tempNode).centerXProperty().add(((DraggableStation) tempNode).getRadius()));
         ((DraggableText)stationLabel).yProperty().bind(((DraggableStation) tempNode).centerYProperty().subtract(((DraggableStation) tempNode).getRadius()));
-        stationGroup.getChildren().add(stationLabel);
-        stationGroup.getChildren().add(tempNode);
-        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(stationGroup);
+        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(stationLabel);
+        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(tempNode);
 
-        
         /* ((DraggableText) startLabel).xProperty().bind(((DraggableLine) tempNode).startXProperty().subtract(((DraggableText) startLabel).getWidth()));
         ((DraggableText) startLabel).xProperty().subtract(5.0);
         ((DraggableText) startLabel).yProperty().bind(((DraggableLine) tempNode).startYProperty());
@@ -74,8 +70,9 @@ public class AddStation_Transaction implements jTPS_Transaction{
 
     @Override
     public void undoTransaction() {
-        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(stationGroup);
+        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(stationLabel);
+        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(tempNode);
 
     }
-    
+
 }

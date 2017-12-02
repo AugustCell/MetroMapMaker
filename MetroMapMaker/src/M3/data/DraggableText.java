@@ -14,9 +14,10 @@ import javafx.scene.text.Text;
 public class DraggableText extends Text implements Draggable{
     double startX;
     double startY;
-    
     double width;
     double height;
+    boolean startText;
+    boolean endText;
     
     public DraggableText() {
 	setX(200.0);
@@ -26,6 +27,8 @@ public class DraggableText extends Text implements Draggable{
 	setOpacity(1.0);
 	startX = 0.0;
 	startY = 0.0;
+        startText = false;
+        endText = false;
     }
     
     @Override
@@ -102,5 +105,17 @@ public class DraggableText extends Text implements Draggable{
 
     private void setHeight(double d) {
         height = d;
+    }
+    public void setStartText(boolean result){
+        startText = true;
+    }
+    public boolean getStartResult(){
+        return startText;
+    }
+    public void setEndText(boolean result){
+        endText = true;
+    }
+    public boolean getEndResult(){
+        return endText;
     }
 }

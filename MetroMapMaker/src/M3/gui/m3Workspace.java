@@ -488,7 +488,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleRemoveStationLineRequest();
          });
          listStationsButton.setOnAction(e -> {
-             
+             mapEditController.handleListStationRequest();
          });
          lineThickness.valueProperty().addListener(e -> {
              

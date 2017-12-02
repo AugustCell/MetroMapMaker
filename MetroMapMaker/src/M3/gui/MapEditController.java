@@ -23,6 +23,7 @@ import M3.data.LineGroups;
 import M3.transaction.AddLine_Transaction;
 import M3.transaction.AddStation_Transaction;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,7 +127,6 @@ public class MapEditController {
     public void handleRemoveStationRequest(){
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         String nodeToRemoveString = workspace.getStationBox().getSelectionModel().getSelectedItem();
-        Node nodeToRemove = grabMetroShape(nodeToRemoveString);
         Alert alertBox = new Alert(AlertType.CONFIRMATION);
         alertBox.setTitle("Confirmation");
         alertBox.setContentText("Are you sure you want to remove this metro station?");
@@ -135,22 +135,20 @@ public class MapEditController {
             dataManager.removeStationName(nodeToRemoveString);
             workspace.getStationBox().getItems().remove(nodeToRemoveString);
             for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                Node tempName = (Node) dataManager.getShapes().get(i);
-                if (tempName instanceof Group) {
-                    for (Node children : ((Group) tempName).getChildren()) {
-                        System.out.println(children.getClass().toString());
-                        if (children instanceof DraggableText) {
-                            System.out.println(((DraggableText) children).getText());
-                            if (((DraggableText) children).getText().equals(nodeToRemoveString)) {
-                                dataManager.removeShape(children);
-                                workspace.getCanvas().getChildren().remove(children);
-                            }
-                        }
+                if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                    if(tempStation.getStationName().equals(nodeToRemoveString)){
+                        dataManager.getShapes().remove(tempStation);
                     }
                 }
+                else if(dataManager.getShapes().get(i) instanceof DraggableText){
+                    DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                    if(tempText.getText().equals(nodeToRemoveString)){
+                        dataManager.getShapes().remove(tempText);
+                    }
+                }
+             
             }
-            dataManager.removeShape(nodeToRemove);
-            workspace.getCanvas().getChildren().remove(nodeToRemove);
             if (!workspace.getStationBox().getItems().isEmpty()) {
                 workspace.getStationBox().getSelectionModel().selectFirst();
             }
@@ -245,7 +243,6 @@ public class MapEditController {
     public void handleRemoveLineRequest(){
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         String nodeToRemoveString = workspace.getLineBox().getSelectionModel().getSelectedItem();
-        Node nodeToRemove = grabMetroShape(nodeToRemoveString);
         Alert alertBox = new Alert(AlertType.CONFIRMATION);
         alertBox.setTitle("Confirmation");
         alertBox.setContentText("Are you sure you want to remove this metro line?");
@@ -259,13 +256,20 @@ public class MapEditController {
                 }
             }
             workspace.getLineBox().getItems().remove(nodeToRemoveString);
-            for (int i = 0; i < ((Group) nodeToRemove).getChildren().size(); i++) {
-                if (((Group) nodeToRemove).getChildren().get(i) instanceof DraggableStation) {
-                    handleStationRemovalRequests(nodeToRemove);
-                    break;
-                }
-            }
-            dataManager.removeShape(nodeToRemove);
+           for(int i = dataManager.getShapes().size() - 1 ; i >= 0; i--){
+               if(dataManager.getShapes().get(i) instanceof LineGroups){
+                   LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
+                   if(tempGroup.getLineName().equals(nodeToRemoveString)){
+                       dataManager.getShapes().remove(tempGroup);
+                   }
+               }
+               else if(dataManager.getShapes().get(i) instanceof DraggableText){
+                   DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                   if(tempText.getText().equals(nodeToRemoveString)){
+                       dataManager.getShapes().remove(tempText);
+                   }
+               }
+           }
             if (!workspace.getLineBox().getItems().isEmpty()) {
                 workspace.getLineBox().getSelectionModel().selectFirst();
             } else {
@@ -273,39 +277,10 @@ public class MapEditController {
             }
         }
     }
-
-    public void handleStationRemovalRequests(Node group){
-        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
-        for (int i = 0; i < ((Group) group).getChildren().size(); i++) {
-            if (((Group) group).getChildren().get(i) instanceof DraggableStation) {
-                DraggableStation stationNode = (DraggableStation) ((Group) group).getChildren().get(i);
-                LineGroups previousLine = (LineGroups) ((Group) group).getChildren().get(i - 1);
-                LineGroups nextLine = (LineGroups) ((Group) group).getChildren().get(i + 1);
-                DraggableText text = new DraggableText();
-                text.setText(stationNode.getStationName());
-                System.out.println("GROUP NAME : " +  stationNode.getStationName());
-                Group newStationGroup = new Group();
-                ((Group) group).getChildren().remove(((Group) group).getChildren().get(i));
-                previousLine.endXProperty().unbindBidirectional(stationNode.centerXProperty());
-                previousLine.endYProperty().unbindBidirectional(stationNode.centerYProperty());
-                nextLine.startXProperty().unbindBidirectional(stationNode.centerXProperty());
-                nextLine.startYProperty().unbindBidirectional(stationNode.centerYProperty());
-                workspace.getCanvas().getChildren().remove(stationNode);
-                stationNode.setCenterX(stationNode.getCenterX() + 10);
-                stationNode.setCenterY(stationNode.getCenterY() + 10);
-                text.xProperty().bind(stationNode.centerXProperty().add(stationNode.getRadius()));
-                text.yProperty().bind(stationNode.centerYProperty().subtract(stationNode.getRadius()));
-                newStationGroup.getChildren().add(text);
-                newStationGroup.getChildren().add(stationNode);
-                workspace.getCanvas().getChildren().add(newStationGroup);
-            }
-        }
-    }
     
     public void handleEditLineRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         String editedText = workspace.getLineBox().getSelectionModel().getSelectedItem();
-        Node editedNode = grabMetroShape(editedText);
         Stage tempStage = new Stage();
         ColorPicker lineColor = new ColorPicker();
         VBox sceneBox = new VBox();
@@ -317,12 +292,16 @@ public class MapEditController {
         TextField textField = new TextField();
         Button okButton = new Button("OK");
         Button cancelButton = new Button("Cancel");
-        for (Node lineChild : ((Group) editedNode).getChildren()) {
-            if (lineChild instanceof Line) {
-                lineColor.setValue((Color) ((Line) lineChild).getStroke());
-            }
-        }
-        
+     
+      for(int i = dataManager.getShapes().size() - 1; i >= 0; i--){
+          if(dataManager.getShapes().get(i) instanceof LineGroups){
+              LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
+              if(tempGroup.getLineName().equals(editedText)){
+                  lineColor.setValue((Color) tempGroup.getStroke());
+              }
+          }
+      }
+      
         okButton.setOnAction(e -> {
             if (dataManager.getLines().size() != 0) {
                 if (dataManager.getLines().contains(textField.getText())) {
@@ -332,45 +311,69 @@ public class MapEditController {
                     warningAlert.showAndWait();
                 } 
                 else if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    workspace.getCanvas().getChildren().remove(editedNode);
-                    for (Node child : ((Group) editedNode).getChildren()) {
-                        if (child instanceof DraggableText) {
-                            String editedLineName = ((DraggableText) child).getText();
-                            editedlineGroupName(editedLineName);
-                            ((DraggableText) child).setText(textField.getText());
-                        } else if (child instanceof LineGroups) {
-                            ((LineGroups) child).setStroke(lineColor.getValue());
-                            workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+                        if (dataManager.getShapes().get(i) instanceof LineGroups) {
+                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
+                            if (tempGroup.getLineName().equals(editedText)) {
+                                tempGroup.setStroke(lineColor.getValue());
+                            }
+                        } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
+                            DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                            if (tempText.getText().equals(editedText)) {
+                                tempText.setText(textField.getText());
+                            }
                         }
                     }
-                    
-                    workspace.getCanvas().getChildren().add(editedNode);
+                    for(int i = dataManager.getShapes().size() - 1; i >= 0; i--){
+                        if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                            DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                            if(tempStation.getLeftEnd().equals(editedText)){
+                                tempStation.setLeftEnd(textField.getText());
+                            }
+                            if(tempStation.getRightEnd().equals(editedText)){
+                                tempStation.setRightend(textField.getText());
+                            }
+                        }
+                    }
                     dataManager.removeLineName(editedText);
                     dataManager.addLineName(textField.getText());
                     workspace.getLineBox().getItems().add(textField.getText());
                     workspace.getLineBox().getItems().remove(editedText);
-                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
-                    workspace.getLineBox().getSelectionModel().select(workspace.getLineBox().getValue());
+                    workspace.getLineBox().valueProperty().set(textField.getText());
                     System.out.println(workspace.getLineBox().getValue());
                     tempStage.close();
                 }
             } else {
                 if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    for (Node child : ((Group) editedNode).getChildren()) {
-                        if (child instanceof DraggableText) {
-                            String editedLineName = ((DraggableText) child).getText();
-                            editedlineGroupName(editedLineName);
-                            ((DraggableText) child).setText(textField.getText());
-                        } else if (child instanceof LineGroups) {
-                            ((LineGroups) child).setStroke(lineColor.getValue());
-                            workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                     for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+                        if (dataManager.getShapes().get(i) instanceof LineGroups) {
+                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
+                            if (tempGroup.getLineName().equals(editedText)) {
+                                tempGroup.setStroke(lineColor.getValue());
+                            }
+                        } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
+                            DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                            if (tempText.getText().equals(editedText)) {
+                                tempText.setText(textField.getText());
+                                workspace.getLineBox().valueProperty().set(textField.getText());
+                            }
+                        }
+                    }
+                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+                        if (dataManager.getShapes().get(i) instanceof DraggableStation) {
+                            DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                            if (tempStation.getLeftEnd().equals(editedText)) {
+                                tempStation.setLeftEnd(textField.getText());
+                            } else if (tempStation.getRightEnd().equals(editedText)) {
+                                tempStation.setRightend(textField.getText());
+                            }
                         }
                     }
                     dataManager.removeLineName(editedText);
                     dataManager.addLineName(textField.getText());
                     workspace.getLineBox().getItems().add(textField.getText());
                     workspace.getLineBox().getItems().remove(editedText);
-                    workspace.getLineBox().valueProperty().bind(textField.textProperty());
+                    workspace.getLineBox().valueProperty().set(textField.getText());
                     tempStage.close();
                 } else {
                     Alert warningAlert = new Alert(AlertType.WARNING);
@@ -398,26 +401,53 @@ public class MapEditController {
         tempStage.showAndWait();
 
     }
-    
-     public void handleAddStationLineRequest(){
+
+    public void handleListStationRequest() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String selectedLine = workspace.getLineBox().getSelectionModel().getSelectedItem();
+        ArrayList<String> stationElements = new ArrayList<String>();
+        VBox showBox = new VBox();
+        Alert alertBox = new Alert(AlertType.NONE);
+        alertBox.setTitle("Metro stops list");
+        alertBox.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if (dataManager.getShapes().get(i) instanceof Group) {
+                Group newGroup = (Group) dataManager.getShapes().get(i);
+                for (int l = 0; l < newGroup.getChildren().size(); l++) {
+                    if (newGroup.getChildren().get(l) instanceof LineGroups) {
+                        LineGroups newLineGroup = (LineGroups) newGroup.getChildren().get(l);
+                        if (newLineGroup.getLineName().equals(selectedLine)) {
+                            if (!newLineGroup.getMetroStations().isEmpty()) {
+                                stationElements.add(newLineGroup.getMetroStations().get(0));
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+        Text t = new Text(selectedLine + " metro stops: ");
+        showBox.getChildren().add(t);
+        for (int i = 0; i < stationElements.size(); i++){
+            Text text = new Text();
+            text.setText(stationElements.get(i));
+            showBox.getChildren().add(text);
+        }
+        alertBox.getDialogPane().setContent(showBox);
+        alertBox.showAndWait();
+       
+    }
+
+    public void handleAddStationLineRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         workspace.getCanvas().getScene().setCursor(Cursor.CROSSHAIR);
         dataManager.setState(m3State.ADDING_STATION_TO_LINE);
     }
 
-     public void handleRemoveStationLineRequest(){
+    public void handleRemoveStationLineRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         workspace.getCanvas().getScene().setCursor(Cursor.CROSSHAIR);
         dataManager.setState(m3State.REMOVING_STATION_FROM_LINE);
 
-    }
-
-    public void editedlineGroupName(String name){
-        for(int i = 0; i < dataManager.getLineStationGroups().size(); i++){
-            if(dataManager.getLineStationGroups().get(i).getLineName().equals(name)){
-                dataManager.getLineStationGroups().get(i).setLineName(name);
-            }
-        }
     }
     
     public Node grabMetroShape(String compareLine) {

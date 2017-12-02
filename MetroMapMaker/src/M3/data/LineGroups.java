@@ -23,12 +23,21 @@ public class LineGroups extends Line{
     public ArrayList<String> metroStations;
     public String startStation;
     public String endStation;
+    public String leftEnd;
+    public String rightEnd;
+    public String leftElementType;
+    public String rightElementType;
     
     public LineGroups(){
         lineName = "";
         metroStations = new ArrayList<String>();
         startStation = "";
         endStation = "";
+        leftEnd = "";
+        rightEnd = "";
+        leftElementType = "";
+        rightElementType = "";
+        
     }
     
     public void setLineName(String name){
@@ -55,7 +64,30 @@ public class LineGroups extends Line{
     public ArrayList<String> getMetroStations(){
         return metroStations;
     }
-    
+    public String getLeftEnd(){
+        return leftEnd;
+    }
+    public void setLeftEnd(String name){
+        leftEnd = name;
+    }
+    public String getRightEnd(){
+        return rightEnd;
+    }
+    public void setRightend(String name){
+        rightEnd = name;
+    }
+    public void setLeftElementType(String type){
+        leftElementType = type;
+    }
+    public String getLeftElementType(){
+        return leftElementType;
+    }
+    public void setRightElementType(String type){
+        rightElementType = type;
+    }
+    public String getRightElementType(){
+        return rightElementType;
+    }
     public String getShapeType(){
         return LINE;
     }

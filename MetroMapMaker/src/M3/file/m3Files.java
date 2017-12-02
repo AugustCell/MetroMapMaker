@@ -163,10 +163,10 @@ public class m3Files implements AppFileComponent {
                             }
                         }
                         String type = draggableShape.getShapeType();
-                        double startX = draggableShape.getStartX();
-                        double startY = draggableShape.getStartY();
-                        double endX = draggableShape.getEndX();
-                        double endY = draggableShape.getEndY();
+                      //  double startX = draggableShape.getStartX();
+                      //  double startY = draggableShape.getStartY();
+                      //  double endX = draggableShape.getEndX();
+                      //  double endY = draggableShape.getEndY();
                         fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
 
                         JsonArrayBuilder stationArray = Json.createArrayBuilder();
@@ -175,10 +175,10 @@ public class m3Files implements AppFileComponent {
                         }
                         JsonObject shapeJson = Json.createObjectBuilder()
                                 .add(JSON_TYPE, type)
-                                .add(JSON_START_X, startX)
-                                .add(JSON_START_Y, startY)
-                                .add(JSON_END_X, endX)
-                                .add(JSON_END_Y, endY)
+                          //      .add(JSON_START_X, startX)
+                           //     .add(JSON_START_Y, startY)
+                            //    .add(JSON_END_X, endX)
+                            //    .add(JSON_END_Y, endY)
                                 .add(JSON_LINE_WIDTH, draggableShape.getStrokeWidth())
                                 .add(JSON_FILL_COLOR, fillColorJson)
                                 .add(JSON_NAME, ((LineGroups) draggableShape).getLineName())
@@ -390,10 +390,10 @@ public class m3Files implements AppFileComponent {
             double endX = getDataAsDouble(jsonShape, JSON_END_X);
             double endY = getDataAsDouble(jsonShape, JSON_END_Y);
             LineGroups draggableShape = (LineGroups) shape;
-            draggableShape.setStartX(startX);
-            draggableShape.setStartY(startY);
-            draggableShape.setEndX(endX);
-            draggableShape.setEndY(endY);
+    //        draggableShape.setStartX(startX);
+    //        draggableShape.setStartY(startY);
+    //        draggableShape.setEndX(endX);
+    //        draggableShape.setEndY(endY);
 
         }
         

@@ -49,6 +49,8 @@ public class m3Data implements AppDataComponent {
     
     ArrayList<LineGroups> lineStationGroups = new ArrayList<LineGroups>();
     
+    ArrayList<StationTracker> stationTracker = new ArrayList<StationTracker>();
+    
     
     // THE BACKGROUND COLOR
     Color backgroundColor;
@@ -148,6 +150,9 @@ public class m3Data implements AppDataComponent {
     }
     public ArrayList<LineGroups> getLineStationGroups(){
         return lineStationGroups;
+    }
+    public ArrayList<StationTracker> getStationTracker(){
+        return stationTracker;
     }
 
     public Color getBackgroundColor() {

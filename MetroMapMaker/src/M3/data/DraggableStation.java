@@ -23,6 +23,10 @@ public class DraggableStation extends Circle implements Draggable {
     public String rightEnd;
     public String leftElementType;
     public String rightElementType;
+    boolean topRight;
+    boolean topLeft;
+    boolean bottomRight;
+    boolean bottomLeft;
     
     public DraggableStation(){
         setCenterX(50.0);
@@ -40,6 +44,10 @@ public class DraggableStation extends Circle implements Draggable {
         rightEnd = "";
         leftElementType = "";
         rightElementType = "";
+        topRight = true;
+        topLeft = false;
+        bottomRight = false;
+        bottomLeft = false;
     }
     
     @Override
@@ -150,5 +158,29 @@ public class DraggableStation extends Circle implements Draggable {
     }
     public String getRightElementType(){
         return rightElementType;
+    }
+    public boolean getTopRight(){
+        return topRight;
+    }
+    public void setTopRight(boolean result){
+        topRight = true;
+    }
+    public boolean getTopLeft(){
+        return topLeft;
+    }
+    public void setTopLeft(boolean result){
+        topLeft = result;
+    }
+    public boolean getBottomRight(){
+        return bottomRight;
+    }
+    public void setBottomRight(boolean result){
+        bottomRight = result;
+    }
+    public boolean getBottomLeft(){
+        return bottomLeft;
+    }
+    public void setBottomLeft(boolean result){
+        
     }
 }

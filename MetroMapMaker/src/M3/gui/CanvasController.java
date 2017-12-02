@@ -15,9 +15,11 @@ import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
 import M3.data.LineGroups;
+import M3.data.StationTracker;
 import static M3.data.m3State.ADDING_STATION_TO_LINE;
 import static M3.data.m3State.REMOVING_STATION_FROM_LINE;
 import M3.transaction.DragShape_Transaction;
+import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -85,6 +87,7 @@ public class CanvasController {
         
         else if (dataManager.isInState(ADDING_STATION_TO_LINE)) {
             Node shape = dataManager.selectTopShape(x, y);
+            ArrayList<StationTracker> tempTracker = dataManager.getStationTracker();
             String stationName = "";
             if (shape instanceof DraggableStation) {
                     stationName = ((DraggableStation) shape).getStationName();
@@ -159,6 +162,11 @@ public class CanvasController {
                                     newRightLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
                                     
                                     newLeftLine.getMetroStations().add(stationShape.getStationName());
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLeftLine.getLineName())){
+                                            tempTracker.get(l).addStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLeftLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                     newLeftLine.setRightend(stationShape.getStationName());
                                     newRightLine.setLeftEnd(stationShape.getStationName());
@@ -193,6 +201,11 @@ public class CanvasController {
                                     newRightLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
                                     
                                     newLeftLine.getMetroStations().add(stationShape.getStationName());
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLeftLine.getLineName())){
+                                            tempTracker.get(l).addStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLeftLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                     newLeftLine.setRightend(stationShape.getStationName());
                                     newRightLine.setLeftEnd(stationShape.getStationName());
@@ -234,6 +247,11 @@ public class CanvasController {
                                     newRightLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
                                     
                                     newLeftLine.getMetroStations().add(stationShape.getStationName());
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLeftLine.getLineName())){
+                                            tempTracker.get(l).addStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLeftLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                     newLeftLine.setRightend(stationShape.getStationName());
                                     newRightLine.setLeftEnd(stationShape.getStationName());
@@ -271,6 +289,11 @@ public class CanvasController {
                                     newRightLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
                                     
                                     newLeftLine.getMetroStations().add(stationShape.getStationName());
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLeftLine.getLineName())){
+                                            tempTracker.get(l).addStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLeftLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                     newLeftLine.setRightend(stationShape.getStationName());
                                     newRightLine.setLeftEnd(stationShape.getStationName());
@@ -389,6 +412,7 @@ public class CanvasController {
         
         else if (dataManager.isInState(REMOVING_STATION_FROM_LINE)) {
             Node shape = dataManager.selectTopShape(x, y);
+            ArrayList<StationTracker> tempTracker = dataManager.getStationTracker();
             String stationName = "";
             if (shape instanceof DraggableStation) {
                     stationName = ((DraggableStation) shape).getStationName();
@@ -469,13 +493,16 @@ public class CanvasController {
                                     oldRightLine.endYProperty().unbind();
                                     newLine.setLineName(oldLeftLine.getLineName());
 
-                                  
                                     newLine.startXProperty().bind(((DraggableText) leftEndElement).xProperty());
                                     newLine.startYProperty().bind(((DraggableText) leftEndElement).yProperty());
                                     newLine.endXProperty().bind(((DraggableText) rightEndElement).xProperty());
                                     newLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
                                     
-                                    
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLine.getLineName())){
+                                            tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                     newLine.setRightend(((DraggableText) rightEndElement).getText());
                                     newLine.setStrokeWidth(5);

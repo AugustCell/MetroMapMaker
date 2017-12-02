@@ -509,7 +509,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          moveLabelPosButton.setOnAction(e -> {
-             
+             mapEditController.handleMoveStationLabelRequest();
          });
          rotateLabelButton.setOnAction(e -> {
              

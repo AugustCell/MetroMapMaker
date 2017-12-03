@@ -44,7 +44,7 @@ public class DraggableStation extends Circle implements Draggable {
         rightEnd = "";
         leftElementType = "";
         rightElementType = "";
-        topRight = true;
+        topRight = false;
         topLeft = false;
         bottomRight = false;
         bottomLeft = false;
@@ -163,7 +163,7 @@ public class DraggableStation extends Circle implements Draggable {
         return topRight;
     }
     public void setTopRight(boolean result){
-        topRight = true;
+        topRight = result;
     }
     public boolean getTopLeft(){
         return topLeft;
@@ -181,6 +181,6 @@ public class DraggableStation extends Circle implements Draggable {
         return bottomLeft;
     }
     public void setBottomLeft(boolean result){
-        
+        bottomLeft = result;
     }
 }

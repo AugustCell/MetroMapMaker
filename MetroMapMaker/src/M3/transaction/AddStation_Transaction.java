@@ -34,6 +34,7 @@ public class AddStation_Transaction implements jTPS_Transaction{
     public void doTransaction() {
         ((DraggableText)stationLabel).xProperty().bind(((DraggableStation) tempNode).centerXProperty().add(((DraggableStation) tempNode).getRadius()));
         ((DraggableText)stationLabel).yProperty().bind(((DraggableStation) tempNode).centerYProperty().subtract(((DraggableStation) tempNode).getRadius()));
+        ((DraggableStation) tempNode).setTopRight(true);
         ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(stationLabel);
         ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(tempNode);
 

@@ -159,6 +159,34 @@ public class MapEditController {
         }
      }
     
+    public void handleEditStationRequest(){
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String selectedStation = workspace.getStationBox().getSelectionModel().getSelectedItem();
+        ColorPicker stationColor = new ColorPicker();
+        VBox showBox = new VBox();
+        Alert alertBox = new Alert(AlertType.CONFIRMATION);
+        alertBox.setTitle("Metro stops list");
+        DraggableStation tempStation = new DraggableStation();
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                DraggableStation helperStation = (DraggableStation) dataManager.getShapes().get(i);
+                if(helperStation.getStationName().equals(selectedStation)){
+                    tempStation = helperStation;
+                }
+            }
+        }
+        stationColor.setValue((Color)tempStation.getFill());
+        alertBox.setHeaderText("Choose a color for " + selectedStation);
+        showBox.setPadding(new Insets(0, 0, 0, 15));
+        showBox.getChildren().add(stationColor);
+        alertBox.getDialogPane().setContent(showBox);
+        
+        Optional<ButtonType> result = alertBox.showAndWait();
+        if(result.get() == ButtonType.OK){
+            tempStation.setFill(stationColor.getValue());
+        }
+    }
+    
     public void handleAddLineRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         Group tempRoot = new Group();
@@ -482,9 +510,114 @@ public class MapEditController {
     public void handleMoveStationLabelRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         String stationText = workspace.getStationBox().getSelectionModel().getSelectedItem();
+        DraggableStation tempStation = new DraggableStation();
+        DraggableText tempText = new DraggableText();
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if(dataManager.getShapes().get(i) instanceof DraggableText){
+                DraggableText helperText = (DraggableText) dataManager.getShapes().get(i);
+                if(helperText.getText().equals(stationText)){
+                    tempText = helperText;
+                }
+            }
+            else if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                DraggableStation helperStation = (DraggableStation) dataManager.getShapes().get(i);
+                if(helperStation.getStationName().equals(stationText)){
+                    tempStation = helperStation;
+                }
+            }
+        }
         
+        if(tempStation.getTopRight()){
+            tempText.xProperty().unbind();
+            tempText.yProperty().unbind();
+            
+            tempText.setX(tempStation.getCenterX());
+            tempText.setY(tempStation.getCenterY());
+            
+            tempText.xProperty().bind(tempStation.centerXProperty().add(tempStation.getRadius()));
+            tempText.yProperty().bind(tempStation.centerYProperty().add(tempStation.getRadius()));
+            
+            tempStation.setTopRight(false);
+            tempStation.setBottomRight(true);
+            System.out.println("This was top right originally");
+        }
+        else if(tempStation.getBottomRight()){
+            tempText.xProperty().unbind();
+            tempText.yProperty().unbind();
+            
+            tempText.setX(tempStation.getCenterX());
+            tempText.setY(tempStation.getCenterY());
+            
+            tempText.xProperty().bind(tempStation.centerXProperty().subtract(tempStation.getRadius()).subtract(tempText.getWidth()));
+            tempText.yProperty().bind(tempStation.centerYProperty().add(tempStation.getRadius()));
+            
+            tempStation.setBottomRight(false);
+            tempStation.setBottomLeft(true);
+            System.out.println("Thsi was bottom right originally");
+        }
+        else if(tempStation.getBottomLeft()){
+            tempText.xProperty().unbind();
+            tempText.yProperty().unbind();
+            
+            tempText.setX(tempStation.getCenterX());
+            tempText.setY(tempStation.getCenterY());
+            
+            tempText.xProperty().bind(tempStation.centerXProperty().subtract(tempStation.getRadius()).subtract(tempText.getWidth()));
+            tempText.yProperty().bind(tempStation.centerYProperty().subtract(tempStation.getRadius()));
+            
+            tempStation.setBottomLeft(false);
+            tempStation.setTopLeft(true);
+            System.out.println("This was bottom left originally");
+        }
+        else if(tempStation.getTopLeft()){
+            tempText.xProperty().unbind();
+            tempText.yProperty().unbind();
+            
+            tempText.setX(tempStation.getCenterX());
+            tempText.setY(tempStation.getCenterY());
+
+            tempText.xProperty().bind(tempStation.centerXProperty().add(tempStation.getRadius()));
+            tempText.yProperty().bind(tempStation.centerYProperty().subtract(tempStation.getRadius()));
+
+            tempStation.setTopLeft(false);
+            tempStation.setTopRight(true);
+            System.out.println("This was top left originally");
+        }
     }
 
+    public void handleRotateLabelRequest() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String labelText = workspace.getStationBox().getSelectionModel().getSelectedItem();
+        DraggableText tempText = new DraggableText();
+        DraggableStation tempStation = new DraggableStation();
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if(dataManager.getShapes().get(i) instanceof DraggableText){
+                DraggableText helperText = (DraggableText) dataManager.getShapes().get(i);
+                if(helperText.getText().equals(labelText)){
+                    tempText = helperText;
+                }
+            }
+            else if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                DraggableStation helperStation = (DraggableStation) dataManager.getShapes().get(i);
+                if(helperStation.getStationName().equals(labelText)){
+                    tempStation = helperStation;
+                }
+            }
+        }
+        
+        if (tempText.getRotate() == 0) {
+            if(tempStation.getBottomLeft() || tempStation.getTopLeft()){
+                tempText.setRotate(-90);
+            }
+            else {
+                tempText.setRotate(90);
+            }
+        }
+        else {
+            tempText.setRotate(0);
+        }
+    }
+    
     public void handleAddStationLineRequest() {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         workspace.getCanvas().getScene().setCursor(Cursor.CROSSHAIR);
@@ -498,21 +631,7 @@ public class MapEditController {
 
     }
     
-    public Node grabMetroShape(String compareLine) {
-        for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-            Node shape = (Node) dataManager.getShapes().get(i);
-            if (shape instanceof Group) {
-                for (Node children : ((Group) shape).getChildren()) {
-                    if (((DraggableText) children).getText().equals(compareLine)) {
-                        return shape;
-                    }
-                    break;
-                }
-            }
-        }
-        return null;
-    }
-  
+    
     
  //PAST THIS LINE IS FUNCTIONALITY MEANT FOR FINAL PROJECT HOMEWORK
  //ABOVE THIS POINT IS CODE MEANT FOR ADDING/REMOVING STATIONS/LINES

@@ -105,6 +105,7 @@ public class CanvasController {
                         LineGroups tempGroup = (LineGroups) temp;
                         if(tempGroup.getLineName().equals(lineString)){ //THIS MEANS WE HAVE THE CORRECT LINE IN TEMPGROUP
                             String leftEnd = tempGroup.getLeftEnd();
+                            
                             String rightEnd = tempGroup.getRightEnd();
                             LineGroups newLeftLine = new LineGroups();
                             LineGroups newRightLine = new LineGroups();

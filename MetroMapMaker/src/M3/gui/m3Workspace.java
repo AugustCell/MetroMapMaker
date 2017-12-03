@@ -470,7 +470,6 @@ public class m3Workspace extends AppWorkspaceComponent {
          
          lineCombo.setOnAction(e -> {
             String lineName = lineCombo.getSelectionModel().getSelectedItem();
-            
          });
          editLineButton.setOnAction(e -> {
              mapEditController.handleEditLineRequest();
@@ -497,7 +496,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          editStationButton.setOnAction(e -> {
-             
+             mapEditController.handleEditStationRequest();
          });
          addStationButton.setOnAction(e -> {
              mapEditController.handleAddStationRequest();
@@ -512,7 +511,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleMoveStationLabelRequest();
          });
          rotateLabelButton.setOnAction(e -> {
-             
+             mapEditController.handleRotateLabelRequest();
          });
          stationRadius.valueProperty().addListener(e -> {
              

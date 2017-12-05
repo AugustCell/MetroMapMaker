@@ -391,11 +391,48 @@ public class AppFileController {
     }
 
     public void handleExportRequest(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Export Info");
-        alert.setHeaderText(null);
-        alert.setContentText("Export is complete");
-        alert.showAndWait();
+        // WE'LL NEED THIS TO GET CUSTOM STUFF
+	PropertiesManager props = PropertiesManager.getPropertiesManager();
+        File file = new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export\\new york");
+        try {
+	    // MAYBE WE ALREADY KNOW THE FILE
+	    
+            saveWork(file);
+            // OTHERWISE WE NEED TO PROMPT THE USER
+            // PROMPT THE USER FOR A FILE NAME
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(PATH_WORK));
+            fc.setTitle(props.getProperty(SAVE_WORK_TITLE));
+            fc.getExtensionFilters().addAll(
+                    new ExtensionFilter(props.getProperty(WORK_FILE_EXT_DESC), props.getProperty(WORK_FILE_EXT)));
+
+            File selectedFile = app.getWorkingfile();
+            if (selectedFile != null) {
+                saveWork(selectedFile);
+		}
+	    
+        } catch (IOException ioe) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
+        }
+    }
+    
+    private void saveExportWork(File selectedFile) throws IOException {
+        // SAVE IT TO A FILE
+	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getPath());
+	
+	// MARK IT AS SAVED
+	currentWorkFile = selectedFile;
+	saved = true;
+	
+	// TELL THE USER THE FILE HAS BEEN SAVED
+	AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	PropertiesManager props = PropertiesManager.getPropertiesManager();
+        dialog.show(props.getProperty(SAVE_COMPLETED_TITLE),props.getProperty(SAVE_COMPLETED_MESSAGE));
+		    
+	// AND REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
+	// THE APPROPRIATE CONTROLS
+	app.getGUI().updateToolbarControls(saved);
     }
     
     // HELPER METHOD FOR SAVING WORK

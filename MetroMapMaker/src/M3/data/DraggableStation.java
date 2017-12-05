@@ -5,6 +5,7 @@
  */
 package M3.data;
 
+import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -19,14 +20,14 @@ public class DraggableStation extends Circle implements Draggable {
     boolean connectTwoLines;
     boolean connectThreeLines;
     String stationName;
-    public String leftEnd;
-    public String rightEnd;
+    public ArrayList<StationEnds> stationEnds = new ArrayList<StationEnds>();
     public String leftElementType;
     public String rightElementType;
     boolean topRight;
     boolean topLeft;
     boolean bottomRight;
     boolean bottomLeft;
+    boolean visited;
     
     public DraggableStation(){
         setCenterX(50.0);
@@ -40,14 +41,13 @@ public class DraggableStation extends Circle implements Draggable {
         connectTwoLines = false;
         connectThreeLines = false;
         stationName = "";
-        leftEnd = "";
-        rightEnd = "";
         leftElementType = "";
         rightElementType = "";
         topRight = false;
         topLeft = false;
         bottomRight = false;
         bottomLeft = false;
+        visited = false;
     }
     
     @Override
@@ -135,18 +135,10 @@ public class DraggableStation extends Circle implements Draggable {
     public void setStationName(String name){
         stationName = name;
     }
-    public String getLeftEnd(){
-        return leftEnd;
+    public ArrayList<StationEnds> getStationEnds(){
+        return stationEnds;
     }
-    public void setLeftEnd(String name){
-        leftEnd = name;
-    }
-    public String getRightEnd(){
-        return rightEnd;
-    }
-    public void setRightend(String name){
-        rightEnd = name;
-    }
+   
     public void setLeftElementType(String type){
         leftElementType = type;
     }
@@ -182,5 +174,11 @@ public class DraggableStation extends Circle implements Draggable {
     }
     public void setBottomLeft(boolean result){
         bottomLeft = result;
+    }
+    public boolean getVisited(){
+        return visited;
+    }
+    public void setVisited(boolean result){
+        visited = result;
     }
 }

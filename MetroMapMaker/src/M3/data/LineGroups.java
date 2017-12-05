@@ -27,6 +27,9 @@ public class LineGroups extends Line{
     public String rightEnd;
     public String leftElementType;
     public String rightElementType;
+    boolean firstLine;
+    boolean lastLine;
+    boolean straightened;
     
     public LineGroups(){
         lineName = "";
@@ -37,7 +40,9 @@ public class LineGroups extends Line{
         rightEnd = "";
         leftElementType = "";
         rightElementType = "";
-        
+        firstLine = false;
+        lastLine = false;
+        straightened = false;
     }
     
     public void setLineName(String name){
@@ -90,5 +95,23 @@ public class LineGroups extends Line{
     }
     public String getShapeType(){
         return LINE;
+    }
+    public void setFirstLine(boolean result){
+        firstLine = result;
+    }
+    public boolean getFirstLine(){
+        return firstLine;
+    }
+    public void setLastLine(boolean result){
+        lastLine = result;
+    }
+    public boolean getLastLine(){
+        return lastLine;
+    }
+    public void setStraightened(boolean result){
+        straightened = result;
+    }
+    public boolean getStraightened(){
+        return straightened;
     }
 }

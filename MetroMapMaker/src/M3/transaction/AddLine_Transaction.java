@@ -35,23 +35,6 @@ public class AddLine_Transaction implements jTPS_Transaction {
 
     @Override
     public void doTransaction() {
-        /* ((DraggableText) startLabel).xProperty().bind(((DraggableLine) tempNode).startXProperty().subtract(((DraggableText) startLabel).getWidth()));
-        ((DraggableText) startLabel).xProperty().subtract(5.0);
-        ((DraggableText) startLabel).yProperty().bind(((DraggableLine) tempNode).startYProperty());
-        ((DraggableText) endLabel).xProperty().bind(((DraggableLine) tempNode).endXProperty());
-        ((DraggableText) endLabel).yProperty().bind(((DraggableLine) tempNode).endYProperty());
-        ((DraggableLine) tempNode).startXProperty().bind(((DraggableText) startLabel).xProperty());
-        ((DraggableLine) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
-        ((DraggableLine) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
-        ((DraggableLine) tempNode).endYProperty().bind(((DraggableText) endLabel).yProperty());
-         
-
-        ((DraggableLine) tempNode).startXProperty().bind(((DraggableText) startLabel).xProperty().add(((DraggableText) startLabel).getWidth()));
-        ((DraggableLine) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
-        ((DraggableLine) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
-        ((DraggableLine) tempNode).endYProperty().bind(((DraggableText) endLabel).yProperty());
-        */
-        
         ((LineGroups) tempNode).startXProperty().bind(((DraggableText) startLabel).xProperty());
         ((LineGroups) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
         ((LineGroups) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
@@ -72,18 +55,6 @@ public class AddLine_Transaction implements jTPS_Transaction {
         System.out.println("The line name : " + ((LineGroups) tempNode).getLineName());
         System.out.println("The start name : " + ((LineGroups) tempNode).getLeftEnd());
         System.out.println("The end name : " + ((LineGroups) tempNode).getRightEnd());
-
-
-        /*
-        ((DraggableText) startLabel).xProperty().bindBidirectional(((DraggableLine) tempNode).startXProperty());
-        ((DraggableText) startLabel).yProperty().bindBidirectional(((DraggableLine) tempNode).startYProperty());
-
-
-
-        ((DraggableText) endLabel).xProperty().bindBidirectional(((DraggableLine) tempNode).endXProperty());
-        ((DraggableText) endLabel).xProperty().add(((DraggableText) startLabel).getWidth());
-        ((DraggableText) endLabel).yProperty().bindBidirectional(((DraggableLine) tempNode).endYProperty());
-        */
 
         
         ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(startLabel);

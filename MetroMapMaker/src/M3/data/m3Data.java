@@ -21,6 +21,7 @@ import java.util.Optional;
 import javafx.scene.Group;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import jtps.jTPS;
 import jtps.jTPS_Transaction;
@@ -51,7 +52,10 @@ public class m3Data implements AppDataComponent {
     
     ArrayList<StationTracker> stationTracker = new ArrayList<StationTracker>();
     
-    
+    Rectangle clip = new Rectangle(1200, 1200);
+   
+
+
     // THE BACKGROUND COLOR
     Color backgroundColor;
     
@@ -219,6 +223,17 @@ public class m3Data implements AppDataComponent {
         return lineEndOriginY;
     }
     
+    public Rectangle getClip(){
+        return clip;
+    }
+    public void setClipWidth(double value){
+        clip.setWidth(value);
+    }
+    public void setClipHeight(double value){
+        clip.setHeight(value);
+    }
+    
+    
     public void setBackgroundColor(Color initBackgroundColor) {
 	backgroundColor = initBackgroundColor;
 	m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
@@ -363,18 +378,20 @@ public class m3Data implements AppDataComponent {
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 highlightShape(shape);
             }
-            m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
-            workspace.loadSelectedShapeSettings(shape);
+
+            if (!(shape instanceof DraggableImage)) {
+                m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+                workspace.loadSelectedShapeSettings(shape);
+            }
         }
         selectedShape = shape;
-	if (shape != null) {
-	    ((Draggable)(Node)shape).start(x, y);
-	}
-	return shape;
+        if (shape != null) {
+            ((Draggable) (Node) shape).start(x, y);
+        }
+        return shape;
     }
 
     public Node getTopShape(int x, int y) {

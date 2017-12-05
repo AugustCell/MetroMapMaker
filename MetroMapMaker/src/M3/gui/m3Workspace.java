@@ -28,6 +28,7 @@ import static M3.css.m3Style.CLASS_COLOR_CHOOSER_CONTROL;
 import static M3.css.m3Style.CLASS_EDIT_TOOLBAR;
 import static M3.css.m3Style.CLASS_EDIT_TOOLBAR_ROW;
 import static M3.css.m3Style.CLASS_RENDER_CANVAS;
+import static M3.css.m3Style.CLASS_SCROLL_PANE;
 import M3.data.m3Data;
 import static M3.m3LanguageProperty.ADD_ELEMENT_ICON;
 import static M3.m3LanguageProperty.ADD_IMAGE_TOOLTIP;
@@ -65,7 +66,12 @@ import static M3.m3LanguageProperty.ZOOM_IN_ICON;
 import static M3.m3LanguageProperty.ZOOM_IN_TOOLTIP;
 import static M3.m3LanguageProperty.ZOOM_OUT_ICON;
 import static M3.m3LanguageProperty.ZOOM_OUT_TOOLTIP;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
 
 /**
  * This class serves as the workspace component for this application, providing
@@ -191,6 +197,8 @@ public class m3Workspace extends AppWorkspaceComponent {
     // THIS IS WHERE WE'LL RENDER OUR DRAWING, NOTE THAT WE
     // CALL THIS A CANVAS, BUT IT'S REALLY JUST A Pane
     Pane canvas;
+    Group canvasGroup;
+    ScrollPane canvasScroll;
     
     // HERE ARE THE CONTROLLERS
     CanvasController canvasController;
@@ -238,9 +246,18 @@ public class m3Workspace extends AppWorkspaceComponent {
         return stationCombo;
     }
     
+    public ComboBox<String> getOriginBox(){
+        return originCombo;
+    }
+    
+    public ComboBox<String> getDestinationBox(){
+        return destCombo;
+    }
+    
     public ColorPicker getBackgroundColorPicker() {
 	return setBackgroundColorButton;
     }
+    
     /**
      * Note that this is for displaying text during development.
      */
@@ -264,6 +281,14 @@ public class m3Workspace extends AppWorkspaceComponent {
     
     public Pane getCanvas() {
 	return canvas;
+    }
+    
+    public ScrollPane getCanvasPane(){
+        return canvasScroll;
+    }
+    
+    public Group getCanvasGroup(){
+        return canvasGroup;
     }
     
     private void initLayout(){
@@ -440,6 +465,8 @@ public class m3Workspace extends AppWorkspaceComponent {
         
         // WE'LL RENDER OUR STUFF HERE IN THE CANVAS
         canvas = new Pane();
+        canvasGroup = new Group();
+        canvasScroll = new ScrollPane();
         debugText = new Text();
         canvas.getChildren().add(debugText);
         debugText.setX(100);
@@ -450,10 +477,17 @@ public class m3Workspace extends AppWorkspaceComponent {
         data.setShapes(canvas.getChildren());
        
 
+        //SCROLL PANE OUTSIDE, OUTSIDE IS GROUP. THEN ADD CANVAS TO GROUP
         // AND NOW SETUP THE WORKSPACE
         workspace = new BorderPane();
+        canvas.setPrefWidth(1200);
+        canvas.setPrefHeight(1200);
+        canvasGroup.getChildren().add(canvas);
+        canvasScroll.setContent(canvasGroup);
+        canvasScroll.setPrefViewportWidth(700);
+        canvasScroll.setPrefViewportHeight(700);
         ((BorderPane) workspace).setLeft(editToolbar);
-        ((BorderPane) workspace).setCenter(canvas);
+        ((BorderPane) workspace).setCenter(canvasScroll);
         editToolbar.setMaxHeight(100);
         editToolbar.setMinHeight(100);
         editToolbar.setPrefHeight(100); 
@@ -466,8 +500,6 @@ public class m3Workspace extends AppWorkspaceComponent {
      private void initControllers() {
          mapEditController = new MapEditController(app);
               
-         
-         
          lineCombo.setOnAction(e -> {
             String lineName = lineCombo.getSelectionModel().getSelectedItem();
          });
@@ -490,7 +522,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleListStationRequest();
          });
          lineThickness.valueProperty().addListener(e -> {
-             
+             mapEditController.processLineThicknessSlider();
          });
          stationCombo.setOnAction(e -> {
              
@@ -514,7 +546,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleRotateLabelRequest();
          });
          stationRadius.valueProperty().addListener(e -> {
-             
+             mapEditController.processStationThicknessSlider();
          });
          originCombo.setOnAction(e -> {
              
@@ -528,11 +560,18 @@ public class m3Workspace extends AppWorkspaceComponent {
          setBackgroundColorButton.setOnAction(e -> {
              mapEditController.processSelectBackgroundColor();
          });
+         setImageBackgroundButton.setOnAction(e -> {
+             try {
+                 mapEditController.processImageAsBackground();
+             } catch (IOException ex) {
+                 Logger.getLogger(m3Workspace.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         });
          addImageButton.setOnAction(e -> {
-             
+             mapEditController.handleAddImageRequest();
          });
          addLabelButton.setOnAction(e -> {
-             
+             mapEditController.handleAddTextRequets();
          });
          removeElementButton.setOnAction(e -> {
              
@@ -556,22 +595,22 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          zoomInButton.setOnAction(e -> {
-             
+             mapEditController.processZoomIn();
          });
          zoomOutButton.setOnAction(e -> {
-             
+             mapEditController.processZoomOut();
          });
          shrinkMapButton.setOnAction(e -> {
-             
+             mapEditController.processShrinkMap();
          });
          expandMapButton.setOnAction(e -> {
-             
+             mapEditController.processExpandMap();
          });
          undoButton.setOnAction(e -> {
-             
+             dataManager.getjTPS().undoTransaction();
          });
          redoButton.setOnAction(e -> {
-             
+             dataManager.getjTPS().doTransaction();
          });
       
          // MAKE THE CANVAS CONTROLLER	
@@ -584,6 +623,15 @@ public class m3Workspace extends AppWorkspaceComponent {
          });
          canvas.setOnMouseDragged(e -> {
              canvasController.processCanvasMouseDragged((int) e.getX(), (int) e.getY());
+         });
+         canvas.setOnKeyPressed(e->{
+             canvasController.processKeyPressed(e.getCode());
+         });
+         canvasScroll.setOnKeyPressed(e -> {
+             canvasController.processKeyPressed(e.getCode());
+         });
+         canvasGroup.setOnKeyPressed(e -> {
+             canvasController.processKeyPressed(e.getCode());
          });
      }
     

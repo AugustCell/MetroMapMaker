@@ -21,10 +21,10 @@ public class DraggableLine extends Line implements Draggable{
     String lineStart;
     
     public DraggableLine(){
-        setStartX(200.0);
-        setStartY(200.0);
-        setEndX(240.0);
-        setEndY(200.0);
+        setStartX(100.0);
+        setStartY(100.0);
+        setEndX(140.0);
+        setEndY(100.0);
         setStrokeWidth(5);
         startX = 0.0;
         startY = 0.0;

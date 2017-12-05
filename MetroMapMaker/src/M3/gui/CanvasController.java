@@ -15,6 +15,7 @@ import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
 import M3.data.LineGroups;
+import M3.data.StationEnds;
 import M3.data.StationTracker;
 import static M3.data.m3State.ADDING_STATION_TO_LINE;
 import static M3.data.m3State.REMOVING_STATION_FROM_LINE;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Line;
 import jtps.jTPS;
 import jtps.jTPS_Transaction;
@@ -57,6 +60,24 @@ public class CanvasController {
         return destLocationY;
     }
 
+    public void processKeyPressed(KeyCode key){
+        m3Data dataManager = (m3Data) app.getDataComponent();
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        if(key == KeyCode.W){
+            workspace.getCanvasPane().setVvalue(workspace.getCanvasPane().getVvalue() - .05);
+            //workspace.getCanvasPane().setVvalue(workspace.getCanvasPane().getVvalue() + 1);
+        }
+        else if(key == KeyCode.A){
+            workspace.getCanvasPane().setHvalue(workspace.getCanvasPane().getHvalue() - .05);
+        }
+        else if(key == KeyCode.S){
+            workspace.getCanvasPane().setVvalue(workspace.getCanvasPane().getVvalue() + .05);
+        }
+        else if(key == KeyCode.D){
+            workspace.getCanvasPane().setHvalue(workspace.getCanvasPane().getHvalue() + .05);
+        }
+    }
+    
     /**
      * Respond to mouse presses on the rendering surface, which we call canvas,
      * but is actually a Pane.
@@ -91,21 +112,30 @@ public class CanvasController {
             String stationName = "";
             if (shape instanceof DraggableStation) {
                     stationName = ((DraggableStation) shape).getStationName();
-                
             }
             System.out.println("This is the station name : " + stationName);
             DraggableStation stationShape = (DraggableStation) shape;
+            StationEnds newStationEnd = new StationEnds();
             Scene scene = app.getGUI().getPrimaryScene();
             String compareLine = "";
             if (shape != null) {
+                ArrayList<StationEnds> stationEnds = stationShape.getStationEnds();
                 String lineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
-                for(int i = 0 ; i < dataManager.getShapes().size(); i++){
+                for (int i = 0; i < dataManager.getShapes().size(); i++) {
                     Node temp = (Node) dataManager.getShapes().get(i);
-                    if(temp instanceof LineGroups){
+                    if (temp instanceof LineGroups) {
                         LineGroups tempGroup = (LineGroups) temp;
                         if(tempGroup.getLineName().equals(lineString)){ //THIS MEANS WE HAVE THE CORRECT LINE IN TEMPGROUP
-                            String leftEnd = tempGroup.getLeftEnd();
+                            for(int l = 0; l < dataManager.getShapes().size(); l++){
+                                if(dataManager.getShapes().get(l) instanceof LineGroups){
+                                    LineGroups tempLine = (LineGroups) dataManager.getShapes().get(l);
+                                    if(tempLine.getLastLine() && tempLine.getLineName().equals(lineString)){
+                                        tempGroup = tempLine;
+                                    }
+                                }
+                            }
                             
+                            String leftEnd = tempGroup.getLeftEnd();
                             String rightEnd = tempGroup.getRightEnd();
                             LineGroups newLeftLine = new LineGroups();
                             LineGroups newRightLine = new LineGroups();
@@ -139,6 +169,7 @@ public class CanvasController {
                                     }
                                 }
                             }
+                            newStationEnd.setLineName(tempGroup.getLineName());
                             System.out.println(leftText);
                             System.out.println(rightText);
                             System.out.println(leftStation);
@@ -176,14 +207,32 @@ public class CanvasController {
                                     newRightLine.setStrokeWidth(5);
                                     newLeftLine.setStroke(tempGroup.getStroke());
                                     newRightLine.setStroke(tempGroup.getStroke());
-                                    stationShape.setLeftEnd(((DraggableText) leftEndElement).getText());
-                                    stationShape.setRightend(((DraggableText) rightEndElement).getText());
+                                    
+                                    newStationEnd.setLeftEnd(((DraggableText) leftEndElement).getText());
+                                    newStationEnd.setRightEnd(((DraggableText) rightEndElement).getText());
+                                    if (!stationEnds.isEmpty()) {
+                                        for (int l = 0; l < stationEnds.size(); l++) {
+                                            if (stationEnds.get(l).getLineName().equals(tempGroup.getLineName())) {
+                                                stationEnds.get(l).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                                stationEnds.get(l).setRightEnd(((DraggableText) rightEndElement).getText());
+                                            }
+                                            else{
+                                                stationEnds.add(newStationEnd);
+                                            }
+                                        }
+                                    } 
+                                    else{
+                                        stationEnds.add(newStationEnd);
+                                    }
+
                                     workspace.getCanvas().getChildren().remove(tempGroup);
                                     workspace.getCanvas().getChildren().add(newLeftLine);
                                     workspace.getCanvas().getChildren().add(newRightLine);
-                                  
-                                }
-                                else if(rightStation){ //LEFT NODE IS TEXT RIGHT NODE IS STATION
+                                    
+                                    newLeftLine.setFirstLine(true);
+                                    newRightLine.setLastLine(true);
+
+                                } else if (rightStation) { //LEFT NODE IS TEXT RIGHT NODE IS STATION
                                     tempGroup.startXProperty().unbind();
                                     tempGroup.startYProperty().unbind();
                                     tempGroup.endXProperty().unbind();
@@ -215,15 +264,37 @@ public class CanvasController {
                                     newRightLine.setStrokeWidth(5);
                                     newLeftLine.setStroke(tempGroup.getStroke());
                                     newRightLine.setStroke(tempGroup.getStroke());
-                                    stationShape.setLeftEnd(((DraggableText) leftEndElement).getText());
-                                    stationShape.setRightend(((DraggableStation) rightEndElement).getStationName());
-                                    ((DraggableStation) rightEndElement).setLeftEnd(stationShape.getStationName());
+                                    
+                                    newStationEnd.setLeftEnd(((DraggableText) leftEndElement).getText());
+                                    newStationEnd.setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                    if(!stationEnds.isEmpty()){
+                                        for(int l = 0; l < stationEnds.size(); l++){
+                                            if(stationEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                stationEnds.get(l).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                                stationEnds.get(l).setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                            }
+                                            else{
+                                                stationEnds.add(newStationEnd);
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        stationEnds.add(newStationEnd);
+                                    }
+                                    ArrayList<StationEnds> tempEnds = ((DraggableStation)rightEndElement).getStationEnds();
+                                    if(!tempEnds.isEmpty()){
+                                        for(int l = 0; l < tempEnds.size(); l++){
+                                            if(tempEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                tempEnds.get(l).setLeftEnd(stationShape.getStationName());
+                                            }
+                                        }
+                                    } 
+                                    
                                     workspace.getCanvas().getChildren().remove(tempGroup);
                                     workspace.getCanvas().getChildren().add(newLeftLine);
                                     workspace.getCanvas().getChildren().add(newRightLine);
-                             
                                     
-                                    
+                                    newRightLine.setLastLine(true);
                                 }
                             }
                             else if(leftStation){ //LEFT NODE IS STATION RIGHT NODE IS TEXT
@@ -261,12 +332,37 @@ public class CanvasController {
                                     newRightLine.setStrokeWidth(5);
                                     newLeftLine.setStroke(tempGroup.getStroke());
                                     newRightLine.setStroke(tempGroup.getStroke());
-                                    stationShape.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
-                                    stationShape.setRightend(((DraggableText) rightEndElement).getText());
-                                    ((DraggableStation) leftEndElement).setRightend(stationShape.getStationName());
+                                    
+                                    newStationEnd.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                    newStationEnd.setRightEnd(((DraggableText) rightEndElement).getText());
+                                    if(!stationEnds.isEmpty()){
+                                        for(int l = 0; l < stationEnds.size(); l++){
+                                            if(stationEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                stationEnds.get(l).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                                stationEnds.get(l).setRightEnd(((DraggableText) rightEndElement).getText());
+                                            }
+                                            else{
+                                                stationEnds.add(newStationEnd);
+                                            }
+                                        }
+                                    } else {
+                                        stationEnds.add(newStationEnd);
+                                    }
+                                    ArrayList<StationEnds> tempEnds = ((DraggableStation)leftEndElement).getStationEnds();
+                                    if(!tempEnds.isEmpty()){
+                                        for(int l = 0; l < tempEnds.size(); l++){
+                                            if(tempEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                tempEnds.get(l).setRightEnd(stationShape.getStationName());
+                                            }
+                                        }
+                                    } 
+                                    
+                                    
                                     workspace.getCanvas().getChildren().remove(tempGroup);
                                     workspace.getCanvas().getChildren().add(newLeftLine);
                                     workspace.getCanvas().getChildren().add(newRightLine);
+                                    
+                                    newRightLine.setLastLine(true);
                                   
                                 }
                                 else if(rightStation){ //LEFT NODE IS STATION RIGHT NODE IS STATION
@@ -303,14 +399,50 @@ public class CanvasController {
                                     newRightLine.setStrokeWidth(5);
                                     newLeftLine.setStroke(tempGroup.getStroke());
                                     newRightLine.setStroke(tempGroup.getStroke());
-                                    stationShape.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
-                                    stationShape.setRightend(((DraggableStation) rightEndElement).getStationName());
-                                    ((DraggableStation) leftEndElement).setRightend(stationShape.getStationName());
-                                    ((DraggableStation) rightEndElement).setLeftEnd(stationShape.getStationName());
+                                    
+                                    newStationEnd.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                    newStationEnd.setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                    if(!stationEnds.isEmpty()){
+                                        for(int l = 0; l < stationEnds.size(); l++){
+                                            if(stationEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                stationEnds.get(l).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                                stationEnds.get(l).setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                            }
+                                            else{
+                                                stationEnds.add(newStationEnd);
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        stationEnds.add(newStationEnd);
+                                    }
+                                   // stationShape.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                   // stationShape.setRightend(((DraggableStation) rightEndElement).getStationName());
+                                    
+                                   ArrayList<StationEnds> tempLeftEnds = ((DraggableStation)leftEndElement).getStationEnds();
+                                    if(!tempLeftEnds.isEmpty()){
+                                        for(int l = 0; l < tempLeftEnds.size(); l++){
+                                            if(tempLeftEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                tempLeftEnds.get(l).setRightEnd(stationShape.getStationName());
+                                            }
+                                        }
+                                    } 
+                                    ArrayList<StationEnds> tempRightEnds = ((DraggableStation)rightEndElement).getStationEnds();
+                                    if(!tempRightEnds.isEmpty()){
+                                        for(int l = 0; l < tempRightEnds.size(); l++){
+                                            if(tempRightEnds.get(l).getLineName().equals(tempGroup.getLineName())){
+                                                tempRightEnds.get(l).setLeftEnd(stationShape.getStationName());
+                                            }
+                                        }
+                                    }
+                                  //  ((DraggableStation) leftEndElement).setRightend(stationShape.getStationName());
+                                  //  ((DraggableStation) rightEndElement).setLeftEnd(stationShape.getStationName());
+                                    
                                     workspace.getCanvas().getChildren().remove(tempGroup);
                                     workspace.getCanvas().getChildren().add(newLeftLine);
                                     workspace.getCanvas().getChildren().add(newRightLine);
-                                  
+                                    
+                                    newRightLine.setLastLine(true);
                                 }
                             }
                             System.out.println("Start result : " + leftEndElement.getClass().toString());
@@ -319,91 +451,6 @@ public class CanvasController {
                         }
                     }
                 }
-               /* String lineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
-
-                for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                    Node temp = (Node) dataManager.getShapes().get(i);
-                    DraggableText tempText = new DraggableText();
-                    Group originalStationGroup = new Group();
-                    for(int l = 0; l < dataManager.getShapes().size(); l++){
-                        if(dataManager.getShapes().get(l) instanceof Group){
-                            if(((DraggableText) ((Group) dataManager.getShapes().get(l)).getChildren().get(0)).getText().equals(stationName)){
-                                workspace.getCanvas().getChildren().remove(dataManager.getShapes().get(l));
-                            }
-                        }
-                    }
-                    if (temp instanceof Group) {
-                        if (((Group) temp).getChildren().get(0) instanceof DraggableText) {
-                            tempText = (DraggableText) ((Group) temp).getChildren().get(0);
-                            compareLine = tempText.getText();
-                        }
-                        if (workspace.getLineBox().getSelectionModel().getSelectedItem().equals(compareLine)) {
-                            LineGroups newLine = new LineGroups();
-                            LineGroups originalLine = (LineGroups) ((Group) temp).getChildren().get((((Group) temp).getChildren().size() - 2));
-                            DraggableText originalEndText = (DraggableText) ((Group) temp).getChildren().get(((Group) temp).getChildren().size() - 1);
-                            for(int l = 0; l < ((Group) temp).getChildren().size(); l++){
-                                System.out.println(((Group) temp).getChildren().get(l).getClass().toString());
-                                if(((Group) temp).getChildren().get(l) instanceof DraggableStation){
-                                    System.out.println(((DraggableStation) ((Group) temp).getChildren().get(l)).getStationName());
-                                }
-                            }
-                            System.out.println("end of class types");
-                            originalLine.endXProperty().unbindBidirectional(originalEndText.xProperty());
-                            originalLine.endYProperty().unbindBidirectional(originalEndText.yProperty());
-                            stationShape.setCenterX(originalLine.getEndX());
-                            stationShape.setCenterY(originalLine.getEndY());
-                            tempText.xProperty().unbind();
-                            tempText.yProperty().unbind();
-                            DraggableText stationText = new DraggableText();
-                            stationText.setText(stationShape.getStationName());
-                            stationText.xProperty().bind(stationShape.centerXProperty().add(stationShape.getRadius()));
-                            stationText.yProperty().bind(stationShape.centerYProperty().subtract(stationShape.getRadius()));
-                            Group newStationGroup = new Group();
-                            double offsetX = originalLine.getEndX() - originalLine.getStartX();
-                            double offsetY = originalLine.getEndY() - originalLine.getStartY();
-                            newLine.setStartX(originalLine.getEndX());
-                            newLine.setStartY(originalLine.getEndY());
-                            newLine.setEndX(newLine.getStartX() + offsetX);
-                            newLine.setEndY(newLine.getStartY() + offsetY);
-                            newLine.setStroke(originalLine.getStroke());
-                            newLine.setStrokeWidth(5);
-                            originalEndText.setX(newLine.getEndX());
-                            originalEndText.setY(newLine.getEndY());
-                            originalLine.endXProperty().bindBidirectional(stationShape.centerXProperty());
-                            originalLine.endYProperty().bindBidirectional(stationShape.centerYProperty());
-                            originalLine.addToMetroStationsList(stationText.getText());
-                            newLine.startXProperty().bindBidirectional(stationShape.centerXProperty());
-                            newLine.startYProperty().bindBidirectional(stationShape.centerYProperty());
-                            newLine.endXProperty().bindBidirectional(originalEndText.xProperty());
-                            newLine.endYProperty().bindBidirectional(originalEndText.yProperty());
-                            newLine.setLineName(originalLine.getLineName());
-                            workspace.getCanvas().getChildren().remove(temp);
-                            workspace.getCanvas().getChildren().remove(tempText);
-                            workspace.getCanvas().getChildren().remove(stationShape);
-                            newStationGroup.getChildren().add(stationText);
-                            newStationGroup.getChildren().add(stationShape);
-                            ((Group) temp).getChildren().add(((Group) temp).getChildren().size() - 1, stationShape);
-                            ((Group) temp).getChildren().add(((Group) temp).getChildren().size() - 1, newLine);
-                            for (int k = 0; k < dataManager.getLineStationGroups().size(); k++) {
-                                if (dataManager.getLineStationGroups().get(k).getLineName().equals(originalEndText.getText())) {
-                                    LineGroups modifyGroup = dataManager.getLineStationGroups().get(k);
-                                    if (modifyGroup.getStartStation().isEmpty()) {
-                                        modifyGroup.setStartStation(stationName);
-                                        modifyGroup.setEndStation(stationName);
-
-                                    } else {
-                                        modifyGroup.setEndStation(stationName);
-                                    }
-                                    System.out.println("Start station : " + modifyGroup.getStartStation().toString());
-                                    System.out.println("End station : " + modifyGroup.getEndStation().toString());
-                                }
-                            }
-                            workspace.getCanvas().getChildren().add(temp);
-                            workspace.getCanvas().getChildren().add(newStationGroup);
-                        }
-                    }
-                }
-*/
             } else {
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(SELECTING_SHAPE);
@@ -422,14 +469,23 @@ public class CanvasController {
             Scene scene = app.getGUI().getPrimaryScene();
             String compareLine = "";
             if (shape != null) {
+                ArrayList<StationEnds> stationEnds = stationShape.getStationEnds();
                 String lineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
-                for(int i = 0 ; i < dataManager.getShapes().size(); i++){
+                for (int i = 0; i < dataManager.getShapes().size(); i++) {
                     Node temp = (Node) dataManager.getShapes().get(i);
-                    if(temp instanceof LineGroups){
+                    if (temp instanceof LineGroups) {
                         LineGroups tempGroup = (LineGroups) temp;
                         if(tempGroup.getLineName().equals(lineString)){ //THIS MEANS WE HAVE THE CORRECT LINE IN TEMPGROUP
-                            String leftStationEnd = stationShape.getLeftEnd(); //THIS IS THE LEFT END OF THE STATION
-                            String rightStationEnd = stationShape.getRightEnd(); //THIS IS THE RIGHT END OF THE STATION
+                            String leftStationEnd = "";
+                            String rightStationEnd = "";
+                            for(int l = 0; l < stationEnds.size(); l++){
+                                if(stationEnds.get(l).getLineName().equals(lineString)){
+                                    leftStationEnd = stationEnds.get(l).getLeftEnd(); //LEFT END OF THE STATION
+                                    rightStationEnd = stationEnds.get(l).getRightEnd(); //RIGHT END OF THE STATION
+                                }
+                            }
+                        //    String leftStationEnd = stationShape.getLeftEnd(); //THIS IS THE LEFT END OF THE STATION
+                         //   String rightStationEnd = stationShape.getRightEnd(); //THIS IS THE RIGHT END OF THE STATION
                             String leftEnd = tempGroup.getLeftEnd();
                             String rightEnd = tempGroup.getRightEnd();
                             LineGroups oldLeftLine = new LineGroups();
@@ -446,10 +502,10 @@ public class CanvasController {
                             for (int l = dataManager.getShapes().size() - 1; l >= 0; l--) {
                                 if (dataManager.getShapes().get(l) instanceof LineGroups) {
                                     LineGroups tempGroups = (LineGroups) dataManager.getShapes().get(l);
-                                    if (tempGroups.getRightEnd().equals(stationShape.getStationName())) {
+                                    if (tempGroups.getRightEnd().equals(stationShape.getStationName()) && tempGroups.getLineName().equals(lineString)) {
                                         oldLeftLine = (LineGroups) tempGroups;
                                     }
-                                    if (tempGroups.getLeftEnd().equals(stationShape.getStationName())) {
+                                    if (tempGroups.getLeftEnd().equals(stationShape.getStationName()) && tempGroups.getLineName().equals(lineString)) {
                                         oldRightLine = (LineGroups) tempGroups;
                                     }
                                 }
@@ -478,6 +534,7 @@ public class CanvasController {
                                     }
                                 }
                             }
+                            
                             System.out.println(leftText);
                             System.out.println(rightText);
                             System.out.println(leftStation);
@@ -511,8 +568,17 @@ public class CanvasController {
                                     workspace.getCanvas().getChildren().remove(oldLeftLine);
                                     workspace.getCanvas().getChildren().remove(oldRightLine);
                                     workspace.getCanvas().getChildren().add(newLine);
-                                  
-
+                                    if(oldLeftLine.getFirstLine() && oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(false);
+                                        newLine.setLastLine(false);
+                                    }
+                                    else if(oldLeftLine.getFirstLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                    else if(oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                   
                                 }
                                 else if(rightStation){ //LEFT NODE IS TEXT RIGHT NODE IS STATION
                                     oldLeftLine.startXProperty().unbind();
@@ -530,15 +596,37 @@ public class CanvasController {
                                     newLine.endXProperty().bind(((DraggableStation) rightEndElement).centerXProperty());
                                     newLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
                                     
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLine.getLineName())){
+                                            tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                     newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
-                                    ((DraggableStation) rightEndElement).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                    
+                                    ArrayList<StationEnds> tempEnds = ((DraggableStation) rightEndElement).getStationEnds();
+                                    for(int l = 0; l < tempEnds.size(); l++){
+                                        if(tempEnds.get(l).getLineName().equals(lineString)){
+                                            tempEnds.get(l).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                        }
+                                    }
+                                  //  ((DraggableStation) rightEndElement).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                  
                                     newLine.setStrokeWidth(5);
                                     newLine.setStroke(oldLeftLine.getStroke());
                                     workspace.getCanvas().getChildren().remove(oldLeftLine);
                                     workspace.getCanvas().getChildren().remove(oldRightLine);
                                     workspace.getCanvas().getChildren().add(newLine);
-                             
+                                    if(oldLeftLine.getFirstLine() && oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(false);
+                                        newLine.setLastLine(false);
+                                    }
+                                    else if(oldLeftLine.getFirstLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                    else if(oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(true);
+                                    }
                                 }
                             }
                             else if(leftStation){ //LEFT NODE IS STATION RIGHT NODE IS TEXT
@@ -558,15 +646,38 @@ public class CanvasController {
                                     newLine.endXProperty().bind(((DraggableText) rightEndElement).xProperty());
                                     newLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
                                     
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLine.getLineName())){
+                                            tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                     newLine.setRightend(((DraggableText) rightEndElement).getText());
-                                    ((DraggableStation) leftEndElement).setRightend(((DraggableText) rightEndElement).getText());
+                                    
+                                    ArrayList<StationEnds> tempEnds = ((DraggableStation) leftEndElement).getStationEnds();
+                                    for(int l = 0; l < tempEnds.size(); l++){
+                                        if(tempEnds.get(l).getLineName().equals(lineString)){
+                                            tempEnds.get(l).setRightEnd(((DraggableText) rightEndElement).getText());
+                                        }
+                                    }
+                                    //((DraggableStation) leftEndElement).setRightend(((DraggableText) rightEndElement).getText());
+                                    
                                     newLine.setStrokeWidth(5);
                                     newLine.setStroke(oldLeftLine.getStroke());
                                     workspace.getCanvas().getChildren().remove(oldLeftLine);
                                     workspace.getCanvas().getChildren().remove(oldRightLine);
                                     workspace.getCanvas().getChildren().add(newLine);
                                   
+                                    if(oldLeftLine.getFirstLine() && oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(false);
+                                        newLine.setLastLine(false);
+                                    }
+                                    else if(oldLeftLine.getFirstLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                    else if(oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(true);
+                                    }
                                 }
                                 else if(rightStation){ //LEFT NODE IS STATION RIGHT NODE IS STATION
                                     oldLeftLine.startXProperty().unbind();
@@ -584,16 +695,51 @@ public class CanvasController {
                                     newLine.endXProperty().bind(((DraggableStation) rightEndElement).centerXProperty());
                                     newLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
                                     
+                                    for(int l = 0; l < tempTracker.size(); l++){
+                                        if(tempTracker.get(l).getName().equals(newLine.getLineName())){
+                                            tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                        }
+                                    }
                                     newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                     newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
-                                    ((DraggableStation) leftEndElement).setRightend(((DraggableStation) rightEndElement).getStationName());
-                                    ((DraggableStation) rightEndElement).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                    
+                                    ArrayList<StationEnds> tempLeftEnds = ((DraggableStation) leftEndElement).getStationEnds();
+                                    for(int l = 0; l < tempLeftEnds.size(); l++){
+                                        if(tempLeftEnds.get(l).getLineName().equals(lineString)){
+                                            tempLeftEnds.get(l).setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                        }
+                                    }
+                                    ArrayList<StationEnds> tempRightEnds = ((DraggableStation) rightEndElement).getStationEnds();
+                                    for(int l = 0; l < tempRightEnds.size(); l++){
+                                        if(tempRightEnds.get(l).getLineName().equals(lineString)){
+                                            tempRightEnds.get(l).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                        }
+                                    }
+                                 //   ((DraggableStation) leftEndElement).setRightend(((DraggableStation) rightEndElement).getStationName());
+                                   // ((DraggableStation) rightEndElement).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                    
                                     newLine.setStrokeWidth(5);
                                     newLine.setStroke(oldLeftLine.getStroke());
                                     workspace.getCanvas().getChildren().remove(oldLeftLine);
                                     workspace.getCanvas().getChildren().remove(oldRightLine);
                                     workspace.getCanvas().getChildren().add(newLine);
                                   
+                                    if(oldLeftLine.getFirstLine() && oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(false);
+                                        newLine.setLastLine(false);
+                                    }
+                                    else if(oldLeftLine.getFirstLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                    else if(oldRightLine.getLastLine()){
+                                        newLine.setFirstLine(true);
+                                    }
+                                }
+                            }
+                            
+                            for(int l = 0; l < stationEnds.size(); l++){
+                                if(stationEnds.get(l).getLineName().equals(lineString)){
+                                    stationEnds.remove(l);
                                 }
                             }
                             System.out.println("Start result : " + leftEndElement.getClass().toString());
@@ -603,128 +749,14 @@ public class CanvasController {
                     }
                 }
             }
-            /* if (shape != null) {
-                String lineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
-
-                for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                    Node temp = (Node) dataManager.getShapes().get(i);
-                    DraggableText tempText = new DraggableText();
-                    if (temp instanceof Group) {
-                        if (((Group) temp).getChildren().get(0) instanceof DraggableText) {
-                            tempText = (DraggableText) ((Group) temp).getChildren().get(0);
-                            compareLine = tempText.getText();
-                        }
-                        if (workspace.getLineBox().getSelectionModel().getSelectedItem().equals(compareLine)) {//IF LINE IS EQUAL THEN TEMP IS METRO LINE
-                            DraggableStation stationToRemove = new DraggableStation();
-                            LineGroups previousLine = new LineGroups();
-                            LineGroups nextLine = new LineGroups();
-
-                            for (int l = 0; l < ((Group) temp).getChildren().size(); l++) {
-                                if (((Group) temp).getChildren().get(l) instanceof DraggableStation) { //CHECK THROUGH CHILDREN OF LINE GROUP
-                                    System.out.println(((DraggableStation) ((Group) temp).getChildren().get(l)).getStationName());
-                                    if (((DraggableStation) ((Group) temp).getChildren().get(l)).getStationName().equals(((DraggableStation) shape).getStationName())) {//CHECK IF EQUAL TO NAME
-                                        for(int k = 0; k < ((Group) temp).getChildren().size(); k++){
-                                            System.out.println("Originally before start the group is : " + ((Group) temp).getChildren().get(k).getClass());
-                                        }
-                                        stationToRemove = (DraggableStation) ((Group) temp).getChildren().get(l); //STATION IS HERE
-                                        previousLine = (LineGroups) ((Group) temp).getChildren().get(l - 1);
-                                        nextLine = (LineGroups) ((Group) temp).getChildren().get(l + 1);
-                                        boolean textBeforeTextAfter = false;
-                                        boolean textBeforeStationAfter = false;
-                                        boolean stationBeforeTextAfter = false;
-                                        boolean stationBeforeStationAfter = false;
-                                        LineGroups newLine = new LineGroups();
-                                        newLine.setStrokeWidth(5);
-                                        newLine.setStroke(nextLine.getStroke());
-                                        newLine.setLineName(previousLine.getLineName());
-                                        workspace.getCanvas().getChildren().remove(tempText);
-                                        DraggableText text = new DraggableText();
-                                        text.setText(stationToRemove.getStationName());
-                                        Group newStationGroup = new Group();
-                                        previousLine.endXProperty().unbindBidirectional(stationToRemove.centerXProperty());
-                                        previousLine.endYProperty().unbindBidirectional(stationToRemove.centerYProperty());
-                                        nextLine.startXProperty().unbindBidirectional(stationToRemove.centerXProperty());
-                                        nextLine.startYProperty().unbindBidirectional(stationToRemove.centerYProperty());
-                                        
-                                        if (((Group) temp).getChildren().get(l - 2) instanceof DraggableText) {
-                                            Node startText = ((Group) temp).getChildren().get(l - 2);
-                                            newLine.startXProperty().bindBidirectional(((DraggableText) startText).xProperty());
-                                            newLine.startYProperty().bindBidirectional(((DraggableText) startText).yProperty());
-                                            if (((Group) temp).getChildren().get(l + 2) instanceof DraggableText) { //IF BEGGINING AND END ARE TEXT
-                                                Node endText = ((Group) temp).getChildren().get(l + 2);
-                                                newLine.endXProperty().bindBidirectional(((DraggableText) endText).xProperty());
-                                                newLine.endYProperty().bindBidirectional(((DraggableText) endText).yProperty());
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l - 1));
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l));
-                                                textBeforeTextAfter = true; 
-                                            } else { //IF BEGGINING IS TEXT AND END IS STATION
-                                                Node stationBinder = ((Group) temp).getChildren().get(l + 2);
-                                                newLine.endXProperty().bindBidirectional(((DraggableStation) stationBinder).centerXProperty());
-                                                newLine.endYProperty().bindBidirectional(((DraggableStation) stationBinder).centerYProperty());
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l - 1));
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l));
-                                                textBeforeStationAfter = true;
-                                            }
-                                        } else if (((Group) temp).getChildren().get(l - 2) instanceof DraggableStation) {
-                                            Node stationBinder = ((Group) temp).getChildren().get(l - 2);
-                                            newLine.startXProperty().bindBidirectional(((DraggableStation) stationBinder).centerXProperty());
-                                            newLine.startYProperty().bindBidirectional(((DraggableStation) stationBinder).centerYProperty());
-                                            if (((Group) temp).getChildren().get(l + 2) instanceof DraggableText) { //IF BEGGINING IS STATION, END IS TEXT
-                                                Node endText = ((Group) temp).getChildren().get(l + 2);
-                                                newLine.endXProperty().bindBidirectional(((DraggableText) endText).xProperty());
-                                                newLine.endYProperty().bindBidirectional(((DraggableText) endText).yProperty());
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l - 1));
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l));
-                                                stationBeforeTextAfter = true;
-                                            } else {    //IF BEGGINING AND END IS STATION
-                                                Node endStation = ((Group) temp).getChildren().get(l + 2);
-                                                newLine.endXProperty().bindBidirectional(((DraggableStation) endStation).centerXProperty());
-                                                newLine.endYProperty().bindBidirectional(((DraggableStation) endStation).centerYProperty());
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l - 1));
-                                                ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l));
-                                                stationBeforeStationAfter = true;
-                                            }
-                                        }
-                                        ((Group) temp).getChildren().remove(((Group) temp).getChildren().get(l - 1));
-                                        ((Group) temp).getChildren().add(l - 1, newLine);
-                                        for (int p = 0; p < ((Group) temp).getChildren().size(); p++) {
-                                            System.out.println("This is after adding new line " + ((Group) temp).getChildren().get(p).getClass());
-                                        }
-                                        workspace.getCanvas().getChildren().remove(temp);
-                                        dataManager.getShapes().remove(temp);
-                                        dataManager.getShapes().remove(stationToRemove);
-                                        stationToRemove.setCenterX(stationToRemove.getCenterX() + 10);
-                                        stationToRemove.setCenterY(stationToRemove.getCenterY() + 10);
-                                        text.xProperty().bind(stationToRemove.centerXProperty().add(stationToRemove.getRadius()));
-                                        text.yProperty().bind(stationToRemove.centerYProperty().subtract(stationToRemove.getRadius()));
-                                        newStationGroup.getChildren().add(text);
-                                        newStationGroup.getChildren().add(stationToRemove);
-                                        workspace.getCanvas().getChildren().add(newStationGroup);
-                                        workspace.getCanvas().getChildren().add(temp);
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-
-            }*/ else {
+           else {
                 scene.setCursor(Cursor.DEFAULT);
                 dataManager.setState(SELECTING_SHAPE);
                 app.getWorkspaceComponent().reloadWorkspace(dataManager);
             }
         }
     }
-    /*
-    Click the station that you want to add
-    Put the station is center properties at the end of the line
-    make a new line
-    at the end of that line you put the text the end of the new line
-    the start of the new line is the center property of the circle
-    you add the new line into the group MAYBE CHECK THIS SHIT
-    
-    */
+   
     
         /**
          * Respond to mouse dragging on the rendering surface, which we call

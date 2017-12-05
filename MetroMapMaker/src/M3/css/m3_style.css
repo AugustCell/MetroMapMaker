@@ -54,3 +54,7 @@
      text-decoration:underline;
      cursor:pointer;
 }
+
+.color_scroll_pane{
+    -fx-background-color : #000000;
+}

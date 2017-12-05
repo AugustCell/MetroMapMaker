@@ -20,7 +20,9 @@ import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
 import M3.data.LineGroups;
+import M3.data.StationEnds;
 import M3.data.StationTracker;
+import static M3.data.m3State.SELECTING_SHAPE;
 import M3.transaction.AddLine_Transaction;
 import M3.transaction.AddStation_Transaction;
 import java.awt.image.BufferedImage;
@@ -47,8 +49,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -104,6 +108,8 @@ public class MapEditController {
                     dataManager.getStations().add(result.get());
                     workspace.getStationBox().getItems().add(result.get());
                     workspace.getStationBox().valueProperty().set(t.getText());
+                    workspace.getOriginBox().getItems().add(t.getText());
+                    workspace.getDestinationBox().getItems().add(t.getText());
                     newStation.setStationName(t.getText());
                     transaction = new AddStation_Transaction(app, newStation, t);
                     dataManager.getjTPS().addTransaction(transaction);
@@ -113,6 +119,8 @@ public class MapEditController {
                 dataManager.getStations().add(result.get());
                 workspace.getStationBox().getItems().add(result.get());
                 workspace.getStationBox().valueProperty().set(t.getText());
+                workspace.getOriginBox().getItems().add(t.getText());
+                workspace.getDestinationBox().getItems().add(t.getText());
                 newStation.setStationName(t.getText());
                 transaction = new AddStation_Transaction(app, newStation, t);
                 dataManager.getjTPS().addTransaction(transaction);
@@ -134,7 +142,20 @@ public class MapEditController {
         Optional<ButtonType> result = alertBox.showAndWait();
         if (result.get() == ButtonType.OK) {
             dataManager.removeStationName(nodeToRemoveString);
+            workspace.getOriginBox().getItems().remove(nodeToRemoveString);
+            workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
             workspace.getStationBox().getItems().remove(nodeToRemoveString);
+            for(int i = 0; i < dataManager.getShapes().size(); i++){
+                if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                    if(tempStation.getStationName().equals(nodeToRemoveString)){
+                        ArrayList<StationEnds> tempEnds = tempStation.getStationEnds();
+                        if(!tempEnds.isEmpty()){
+                            removeSpecificStation(nodeToRemoveString);
+                        }
+                    }
+                }
+            }
             for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
                 if(dataManager.getShapes().get(i) instanceof DraggableStation){
                     DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
@@ -150,6 +171,7 @@ public class MapEditController {
                 }
              
             }
+          
             if (!workspace.getStationBox().getItems().isEmpty()) {
                 workspace.getStationBox().getSelectionModel().selectFirst();
             }
@@ -312,6 +334,8 @@ public class MapEditController {
             }
 
             workspace.getLineBox().getItems().remove(nodeToRemoveString);
+            workspace.getOriginBox().getItems().remove(nodeToRemoveString);
+            workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
 
             if (!workspace.getLineBox().getItems().isEmpty()) {
                 workspace.getLineBox().getSelectionModel().selectFirst();
@@ -370,12 +394,21 @@ public class MapEditController {
                     for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
                         if (dataManager.getShapes().get(i) instanceof DraggableStation) {
                             DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                            if (tempStation.getLeftEnd().equals(editedText)) {
+                            ArrayList<StationEnds> stationEnds = tempStation.getStationEnds();
+                            for(int l = 0; l < stationEnds.size(); l++){
+                                if(stationEnds.get(l).getLeftEnd().equals(editedText)){
+                                    stationEnds.get(l).setLeftEnd(textField.getText());
+                                }
+                                if(stationEnds.get(l).getRightEnd().equals(editedText)){
+                                    stationEnds.get(l).setRightEnd(textField.getText());
+                                }
+                            }
+                          /*  if (tempStation.getLeftEnd().equals(editedText)) {
                                 tempStation.setLeftEnd(textField.getText());
                             }
                             if (tempStation.getRightEnd().equals(editedText)) {
                                 tempStation.setRightend(textField.getText());
-                            }
+                            }*/
                         } else if (dataManager.getShapes().get(i) instanceof LineGroups) {
                             LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
                             if (tempGroup.getLineName().equals(editedText)) {
@@ -420,12 +453,21 @@ public class MapEditController {
                     for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
                         if (dataManager.getShapes().get(i) instanceof DraggableStation) {
                             DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                            if (tempStation.getLeftEnd().equals(editedText)) {
+                            ArrayList<StationEnds> stationEnds = tempStation.getStationEnds();
+                            for(int l = 0; l < stationEnds.size(); l++){
+                                if(stationEnds.get(l).getLeftEnd().equals(editedText)){
+                                    stationEnds.get(l).setLeftEnd(textField.getText());
+                                }
+                                if(stationEnds.get(l).getRightEnd().equals(editedText)){
+                                    stationEnds.get(l).setRightEnd(textField.getText());
+                                }
+                            }
+                         /*   if (tempStation.getLeftEnd().equals(editedText)) {
                                 tempStation.setLeftEnd(textField.getText());
                             }
                             if (tempStation.getRightEnd().equals(editedText)) {
                                 tempStation.setRightend(textField.getText());
-                            }
+                            }*/
                         } else if (dataManager.getShapes().get(i) instanceof LineGroups) {
                             LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
                             if (tempGroup.getLineName().equals(editedText)) {
@@ -608,14 +650,48 @@ public class MapEditController {
         if (tempText.getRotate() == 0) {
             if(tempStation.getBottomLeft() || tempStation.getTopLeft()){
                 tempText.setRotate(-90);
+                tempText.xProperty().add(tempStation.getRadius());
             }
             else {
                 tempText.setRotate(90);
+                tempText.xProperty().subtract(tempStation.getRadius());
             }
         }
         else {
             tempText.setRotate(0);
         }
+    }
+
+    public void processLineThicknessSlider() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        int outLineThickness =(int) workspace.getLineThickness().getValue();
+        String editedLineString = workspace.getLineBox().getSelectionModel().getSelectedItem();
+        LineGroups editedLine = new LineGroups();
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if(dataManager.getShapes().get(i) instanceof LineGroups){
+                LineGroups helperLine = (LineGroups) dataManager.getShapes().get(i);
+                if(helperLine.getLineName().equals(editedLineString)){
+                    editedLine = helperLine;
+                }
+            }
+        }
+        editedLine.setStrokeWidth(outLineThickness);
+    }
+    
+    public void processStationThicknessSlider(){
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        int outLineThickness = (int) workspace.getStationRadius().getValue();
+        String editedStationString = workspace.getStationBox().getSelectionModel().getSelectedItem();
+        DraggableStation editedStation = new DraggableStation();
+        for(int i = 0; i < dataManager.getShapes().size(); i++){
+            if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                DraggableStation helperStation = (DraggableStation) dataManager.getShapes().get(i);
+                if(helperStation.getStationName().equals(editedStationString)){
+                    editedStation = helperStation;
+                }
+            }
+        }
+        editedStation.setRadius(outLineThickness);
     }
     
     public void handleAddStationLineRequest() {
@@ -630,13 +706,6 @@ public class MapEditController {
         dataManager.setState(m3State.REMOVING_STATION_FROM_LINE);
 
     }
-    
-    
-    
- //PAST THIS LINE IS FUNCTIONALITY MEANT FOR FINAL PROJECT HOMEWORK
- //ABOVE THIS POINT IS CODE MEANT FOR ADDING/REMOVING STATIONS/LINES
- //AND ADDING/REMOVING STATIONS FROM LINES. tHIS ALSO INCLUDES EDITING
- //LINES BUT NOT STATIONS YET. 
     
     
     public void handleAddImageRequest(){
@@ -663,11 +732,10 @@ public class MapEditController {
             temp.setPathString(imagePath);
             temp.setHeight(heightImg);
             temp.setWidth(widthImg);
-          //  ((Shape)temp).setStroke(workspace.getOutlineColorPicker().getValue());
-          //  ((Shape)temp).setStrokeWidth(workspace.getOutlineThicknessSlider().getValue());
+            ((Shape) temp).setStroke(Color.BLACK);
+            ((Shape) temp).setStrokeWidth(2);
             m3Workspace workspaceManager = (m3Workspace) app.getWorkspaceComponent();
-            //FIX THIS ASAP
-            //transaction = new AddShape_Transaction(app, temp);
+            transaction = new AddShape_Transaction(app, temp);
             dataManager.getjTPS().addTransaction(transaction);
             
         } catch (IOException ex) {
@@ -687,8 +755,7 @@ public class MapEditController {
            System.out.println(oldText);
         }
         dataManager.setState(m3State.SELECTING_SHAPE);
-        //FIX THIS ASAP
-        //transaction = new AddShape_Transaction(app, t);
+        transaction = new AddShape_Transaction(app, t);
         dataManager.getjTPS().addTransaction(transaction);
          
     }
@@ -766,23 +833,379 @@ public class MapEditController {
 	}
     }
     
-    public void processDefaultBackgroundColor(Color color){
+    public void processImageAsBackground() throws IOException{
+        Scene scene = app.getGUI().getPrimaryScene();
+        m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Resource File");
+        ArrayList<String> stringHelper = new ArrayList<String>();
+        fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+
+        File selectedFile = fc.showOpenDialog(null);
+        System.out.println(selectedFile.getPath());
+        
+        
+        stringHelper.add(selectedFile.getPath());
+
+        for(int i = 0; i < stringHelper.size(); i++){
+            if(stringHelper.get(i).equals("\\")){
+                System.out.println("Detected at " + i);
+                stringHelper.add(i , "\\");
+            }
+            
+        }
+        
+        System.out.println(stringHelper);
+        
+        BufferedImage bufferImg = ImageIO.read(selectedFile);
+        Image img = SwingFXUtils.toFXImage(bufferImg, null);
+        String imagePath = selectedFile.getPath();
+        scene.setCursor(Cursor.DEFAULT);
+
+        dataManager.setState(m3State.SELECTING_SHAPE);
+        DraggableImage temp = new DraggableImage();
+        //ImagePattern tempPattern = new ImagePattern(img);
+
+        //  m3Workspace workspaceManager = (m3Workspace) app.getWorkspaceComponent();
+        //  transaction = new AddShape_Transaction(app, temp);
+        //   dataManager.getjTPS().addTransaction(transaction);
+    }
+
+    public void processExpandMap() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        Rectangle r = dataManager.getClip();
+        double xVal = workspace.getCanvas().getWidth() * .10;
+        double yVal = workspace.getCanvas().getWidth() * .10;
+        r.setLayoutX(-xVal);
+        r.setLayoutY(-yVal);
+        workspace.getCanvas().setClip(r);
+        r.setWidth(r.getWidth() + (workspace.getCanvas().getWidth() * .10));
+        r.setHeight(r.getHeight() + (workspace.getCanvas().getHeight() * .10));
+
+    }
+
+    public void processShrinkMap() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        Rectangle r = dataManager.getClip();
+        double xVal = workspace.getCanvas().getWidth() * .10;
+        double yVal = workspace.getCanvas().getWidth() * .10;
+        r.setLayoutX(xVal);
+        r.setLayoutY(yVal);
+        workspace.getCanvas().setClip(r);
+        r.setWidth(r.getWidth() - (workspace.getCanvas().getWidth() * .10));
+        r.setHeight(r.getHeight() - (workspace.getCanvas().getHeight() * .10));
+
+    }
+
+    public void processZoomIn() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        Scale scale = new Scale();
+        scale.setX(workspace.getCanvasGroup().getScaleX() * 1.1);
+        scale.setY(workspace.getCanvasGroup().getScaleY() * 1.1);
+        workspace.getCanvasGroup().getTransforms().add(scale);
+
+    }
+
+    public void processZoomOut() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        Scale scale = new Scale();
+        scale.setX(workspace.getCanvasGroup().getScaleX() / 1.1);
+        scale.setY(workspace.getCanvasGroup().getScaleY() / 1.1);
+        workspace.getCanvasGroup().getTransforms().add(scale);
+
+    }
+
+    public void processDefaultBackgroundColor(Color color) {
         dataManager.setBackgroundColor(color);
         app.getGUI().updateToolbarControls(false);
     }
-    
-    
-    /**
-     * This method processes a user request to select the outline
-     * thickness for shape drawing.
-     */
-   /* public void processSelectOutlineThickness() {
-	m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
-	int outlineThickness = (int)workspace.getOutlineThicknessSlider().getValue();
-	dataManager.setCurrentOutlineThickness(outlineThickness);
-	app.getGUI().updateToolbarControls(false);
-    }*/
-    
+
+    public void removeSpecificStation(String name) {
+        DraggableStation stationShape = new DraggableStation();
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        for (int i = 0; i < dataManager.getShapes().size(); i++) {
+            if (dataManager.getShapes().get(i) instanceof DraggableStation) {
+                DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                if (tempStation.getStationName().equals(name)) {
+                    stationShape = tempStation;
+                }
+            }
+        }
+        ArrayList<StationTracker> tempTracker = dataManager.getStationTracker();
+        String stationName = "";
+        Scene scene = app.getGUI().getPrimaryScene();
+        String compareLine = "";
+        
+        ArrayList<StationEnds> stationEnds = stationShape.getStationEnds();
+        while (!stationEnds.isEmpty()) {
+            String lineString = stationEnds.get(0).getLineName();
+            for (int i = 0; i < dataManager.getShapes().size(); i++) {
+                Node temp = (Node) dataManager.getShapes().get(i);
+                if (temp instanceof LineGroups) {
+                    LineGroups tempGroup = (LineGroups) temp;
+                    if (tempGroup.getLineName().equals(lineString)) { //THIS MEANS WE HAVE THE CORRECT LINE IN TEMPGROUP
+                        String leftStationEnd = "";
+                        String rightStationEnd = "";
+                        for (int l = 0; l < stationEnds.size(); l++) {
+                            if (stationEnds.get(l).getLineName().equals(lineString)) {
+                                leftStationEnd = stationEnds.get(l).getLeftEnd(); //LEFT END OF THE STATION
+                                rightStationEnd = stationEnds.get(l).getRightEnd(); //RIGHT END OF THE STATION
+                            }
+                        }
+                        //    String leftStationEnd = stationShape.getLeftEnd(); //THIS IS THE LEFT END OF THE STATION
+                        //   String rightStationEnd = stationShape.getRightEnd(); //THIS IS THE RIGHT END OF THE STATION
+                        String leftEnd = tempGroup.getLeftEnd();
+                        String rightEnd = tempGroup.getRightEnd();
+                        LineGroups oldLeftLine = new LineGroups();
+                        LineGroups oldRightLine = new LineGroups();
+                        LineGroups newLine = new LineGroups();
+                        //CHECK IF LINE START AND END ARE THE STATION AND TEXT, THAT WILL BE YOUR ANSWER
+
+                        Node leftEndElement = null;
+                        Node rightEndElement = null;
+                        boolean leftText = false;
+                        boolean leftStation = false;
+                        boolean rightText = false;
+                        boolean rightStation = false;
+                        for (int l = dataManager.getShapes().size() - 1; l >= 0; l--) {
+                            if (dataManager.getShapes().get(l) instanceof LineGroups) {
+                                LineGroups tempGroups = (LineGroups) dataManager.getShapes().get(l);
+                                if (tempGroups.getRightEnd().equals(stationShape.getStationName()) && tempGroups.getLineName().equals(lineString)) {
+                                    oldLeftLine = (LineGroups) tempGroups;
+                                }
+                                if (tempGroups.getLeftEnd().equals(stationShape.getStationName()) && tempGroups.getLineName().equals(lineString)) {
+                                    oldRightLine = (LineGroups) tempGroups;
+                                }
+                            }
+                        }
+                        for (int l = dataManager.getShapes().size() - 1; l >= 0; l--) {
+                            if (dataManager.getShapes().get(l) instanceof DraggableText) {
+                                DraggableText helpText = (DraggableText) dataManager.getShapes().get(l);
+                                if (helpText.getText().equals(leftStationEnd) && helpText.getStartResult()) {
+                                    leftEndElement = helpText;
+                                    leftText = true;
+                                } else if (helpText.getText().equals(rightStationEnd) && helpText.getEndResult()) {
+                                    rightEndElement = helpText;
+                                    rightText = true;
+                                }
+                            } else if (dataManager.getShapes().get(l) instanceof DraggableStation) {
+                                DraggableStation helpStation = (DraggableStation) dataManager.getShapes().get(l);
+                                if (helpStation.getStationName().equals(leftStationEnd)) {
+                                    leftEndElement = helpStation;
+                                    leftStation = true;
+                                } else if (helpStation.getStationName().equals(rightStationEnd)) {
+                                    rightEndElement = helpStation;
+                                    rightStation = true;
+                                }
+                            }
+                        }
+
+                        System.out.println(leftText);
+                        System.out.println(rightText);
+                        System.out.println(leftStation);
+                        System.out.println(rightStation);
+                        if (leftText) {
+                            if (rightText) { //LEFT NODE IS TEXT RIGHT NODE IS TEXT
+                                oldLeftLine.startXProperty().unbind();
+                                oldLeftLine.startYProperty().unbind();
+                                oldLeftLine.endXProperty().unbind();
+                                oldLeftLine.endYProperty().unbind();
+                                oldRightLine.startXProperty().unbind();
+                                oldRightLine.startYProperty().unbind();
+                                oldRightLine.endXProperty().unbind();
+                                oldRightLine.endYProperty().unbind();
+                                newLine.setLineName(oldLeftLine.getLineName());
+
+                                newLine.startXProperty().bind(((DraggableText) leftEndElement).xProperty());
+                                newLine.startYProperty().bind(((DraggableText) leftEndElement).yProperty());
+                                newLine.endXProperty().bind(((DraggableText) rightEndElement).xProperty());
+                                newLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
+
+                                for (int l = 0; l < tempTracker.size(); l++) {
+                                    if (tempTracker.get(l).getName().equals(newLine.getLineName())) {
+                                        tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                    }
+                                }
+                                newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
+                                newLine.setRightend(((DraggableText) rightEndElement).getText());
+                                newLine.setStrokeWidth(5);
+                                newLine.setStroke(oldLeftLine.getStroke());
+                                workspace.getCanvas().getChildren().remove(oldLeftLine);
+                                workspace.getCanvas().getChildren().remove(oldRightLine);
+                                workspace.getCanvas().getChildren().add(newLine);
+                                if (oldLeftLine.getFirstLine() && oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(false);
+                                    newLine.setLastLine(false);
+                                } else if (oldLeftLine.getFirstLine()) {
+                                    newLine.setFirstLine(true);
+                                } else if (oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(true);
+                                }
+
+                            } else if (rightStation) { //LEFT NODE IS TEXT RIGHT NODE IS STATION
+                                oldLeftLine.startXProperty().unbind();
+                                oldLeftLine.startYProperty().unbind();
+                                oldLeftLine.endXProperty().unbind();
+                                oldLeftLine.endYProperty().unbind();
+                                oldRightLine.startXProperty().unbind();
+                                oldRightLine.startYProperty().unbind();
+                                oldRightLine.endXProperty().unbind();
+                                oldRightLine.endYProperty().unbind();
+                                newLine.setLineName(oldLeftLine.getLineName());
+
+                                newLine.startXProperty().bind(((DraggableText) leftEndElement).xProperty());
+                                newLine.startYProperty().bind(((DraggableText) leftEndElement).yProperty());
+                                newLine.endXProperty().bind(((DraggableStation) rightEndElement).centerXProperty());
+                                newLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
+
+                                for (int l = 0; l < tempTracker.size(); l++) {
+                                    if (tempTracker.get(l).getName().equals(newLine.getLineName())) {
+                                        tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                    }
+                                }
+                                newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
+                                newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+
+                                ArrayList<StationEnds> tempEnds = ((DraggableStation) rightEndElement).getStationEnds();
+                                for (int l = 0; l < tempEnds.size(); l++) {
+                                    if (tempEnds.get(l).getLineName().equals(lineString)) {
+                                        tempEnds.get(l).setLeftEnd(((DraggableText) leftEndElement).getText());
+                                    }
+                                }
+                                //  ((DraggableStation) rightEndElement).setLeftEnd(((DraggableText) leftEndElement).getText());
+
+                                newLine.setStrokeWidth(5);
+                                newLine.setStroke(oldLeftLine.getStroke());
+                                workspace.getCanvas().getChildren().remove(oldLeftLine);
+                                workspace.getCanvas().getChildren().remove(oldRightLine);
+                                workspace.getCanvas().getChildren().add(newLine);
+                                if (oldLeftLine.getFirstLine() && oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(false);
+                                    newLine.setLastLine(false);
+                                } else if (oldLeftLine.getFirstLine()) {
+                                    newLine.setFirstLine(true);
+                                } else if (oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(true);
+                                }
+                            }
+                        } else if (leftStation) { //LEFT NODE IS STATION RIGHT NODE IS TEXT
+                            if (rightText) {
+                                oldLeftLine.startXProperty().unbind();
+                                oldLeftLine.startYProperty().unbind();
+                                oldLeftLine.endXProperty().unbind();
+                                oldLeftLine.endYProperty().unbind();
+                                oldRightLine.startXProperty().unbind();
+                                oldRightLine.startYProperty().unbind();
+                                oldRightLine.endXProperty().unbind();
+                                oldRightLine.endYProperty().unbind();
+                                newLine.setLineName(oldLeftLine.getLineName());
+
+                                newLine.startXProperty().bind(((DraggableStation) leftEndElement).centerXProperty());
+                                newLine.startYProperty().bind(((DraggableStation) leftEndElement).centerYProperty());
+                                newLine.endXProperty().bind(((DraggableText) rightEndElement).xProperty());
+                                newLine.endYProperty().bind(((DraggableText) rightEndElement).yProperty());
+
+                                for (int l = 0; l < tempTracker.size(); l++) {
+                                    if (tempTracker.get(l).getName().equals(newLine.getLineName())) {
+                                        tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                    }
+                                }
+                                newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                newLine.setRightend(((DraggableText) rightEndElement).getText());
+
+                                ArrayList<StationEnds> tempEnds = ((DraggableStation) leftEndElement).getStationEnds();
+                                for (int l = 0; l < tempEnds.size(); l++) {
+                                    if (tempEnds.get(l).getLineName().equals(lineString)) {
+                                        tempEnds.get(l).setRightEnd(((DraggableText) rightEndElement).getText());
+                                    }
+                                }
+                                //((DraggableStation) leftEndElement).setRightend(((DraggableText) rightEndElement).getText());
+
+                                newLine.setStrokeWidth(5);
+                                newLine.setStroke(oldLeftLine.getStroke());
+                                workspace.getCanvas().getChildren().remove(oldLeftLine);
+                                workspace.getCanvas().getChildren().remove(oldRightLine);
+                                workspace.getCanvas().getChildren().add(newLine);
+
+                                if (oldLeftLine.getFirstLine() && oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(false);
+                                    newLine.setLastLine(false);
+                                } else if (oldLeftLine.getFirstLine()) {
+                                    newLine.setFirstLine(true);
+                                } else if (oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(true);
+                                }
+                            } else if (rightStation) { //LEFT NODE IS STATION RIGHT NODE IS STATION
+                                oldLeftLine.startXProperty().unbind();
+                                oldLeftLine.startYProperty().unbind();
+                                oldLeftLine.endXProperty().unbind();
+                                oldLeftLine.endYProperty().unbind();
+                                oldRightLine.startXProperty().unbind();
+                                oldRightLine.startYProperty().unbind();
+                                oldRightLine.endXProperty().unbind();
+                                oldRightLine.endYProperty().unbind();
+                                newLine.setLineName(oldLeftLine.getLineName());
+
+                                newLine.startXProperty().bind(((DraggableStation) leftEndElement).centerXProperty());
+                                newLine.startYProperty().bind(((DraggableStation) leftEndElement).centerYProperty());
+                                newLine.endXProperty().bind(((DraggableStation) rightEndElement).centerXProperty());
+                                newLine.endYProperty().bind(((DraggableStation) rightEndElement).centerYProperty());
+
+                                for (int l = 0; l < tempTracker.size(); l++) {
+                                    if (tempTracker.get(l).getName().equals(newLine.getLineName())) {
+                                        tempTracker.get(l).removeStationName(stationShape.getStationName());
+                                    }
+                                }
+                                newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+
+                                ArrayList<StationEnds> tempLeftEnds = ((DraggableStation) leftEndElement).getStationEnds();
+                                for (int l = 0; l < tempLeftEnds.size(); l++) {
+                                    if (tempLeftEnds.get(l).getLineName().equals(lineString)) {
+                                        tempLeftEnds.get(l).setRightEnd(((DraggableStation) rightEndElement).getStationName());
+                                    }
+                                }
+                                ArrayList<StationEnds> tempRightEnds = ((DraggableStation) rightEndElement).getStationEnds();
+                                for (int l = 0; l < tempRightEnds.size(); l++) {
+                                    if (tempRightEnds.get(l).getLineName().equals(lineString)) {
+                                        tempRightEnds.get(l).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+                                    }
+                                }
+                                //   ((DraggableStation) leftEndElement).setRightend(((DraggableStation) rightEndElement).getStationName());
+                                // ((DraggableStation) rightEndElement).setLeftEnd(((DraggableStation) leftEndElement).getStationName());
+
+                                newLine.setStrokeWidth(5);
+                                newLine.setStroke(oldLeftLine.getStroke());
+                                workspace.getCanvas().getChildren().remove(oldLeftLine);
+                                workspace.getCanvas().getChildren().remove(oldRightLine);
+                                workspace.getCanvas().getChildren().add(newLine);
+
+                                if (oldLeftLine.getFirstLine() && oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(false);
+                                    newLine.setLastLine(false);
+                                } else if (oldLeftLine.getFirstLine()) {
+                                    newLine.setFirstLine(true);
+                                } else if (oldRightLine.getLastLine()) {
+                                    newLine.setFirstLine(true);
+                                }
+                            }
+                        }
+
+                        for (int l = 0; l < stationEnds.size(); l++) {
+                            if (stationEnds.get(l).getLineName().equals(lineString)) {
+                                stationEnds.remove(l);
+                            }
+                        }
+                        System.out.println("Start result : " + leftEndElement.getClass().toString());
+                        System.out.println("End result : " + rightEndElement.getClass().toString());
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
     /**
      * This method processes a user request to take a snapshot of the
      * current scene.

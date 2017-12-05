@@ -15,8 +15,8 @@ public class DraggableImage extends Rectangle implements Draggable {
     String pathString;
     
     public DraggableImage() {
-	setX(0.0);
-	setY(0.0);
+	setX(50.0);
+	setY(50.0);
 	setWidth(0.0);
         
 	setHeight(0.0);

@@ -5,6 +5,7 @@
  */
 package M3.data;
 
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -18,6 +19,7 @@ public class DraggableText extends Text implements Draggable{
     double height;
     boolean startText;
     boolean endText;
+    boolean straightened;
     
     public DraggableText() {
 	setX(200.0);
@@ -29,6 +31,10 @@ public class DraggableText extends Text implements Draggable{
 	startY = 0.0;
         startText = false;
         endText = false;
+        straightened = false;
+        Font font = new Font("Times New Roman", 12);
+        setFont(font);
+        
     }
     
     @Override
@@ -117,5 +123,11 @@ public class DraggableText extends Text implements Draggable{
     }
     public boolean getEndResult(){
         return endText;
+    }
+    public void setStraightened(boolean result){
+        straightened = result;
+    }
+    public boolean getStraightened(){
+        return straightened;
     }
 }

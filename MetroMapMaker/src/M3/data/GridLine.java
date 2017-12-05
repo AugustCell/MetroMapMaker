@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package M3.transaction;
+package M3.data;
+
+import javafx.scene.shape.Line;
 
 /**
  *
  * @author Augusto
  */
-public class EditFillColor_Transaction {
+public class GridLine extends Line{
     
 }

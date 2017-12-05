@@ -8,6 +8,7 @@ package M3.transaction;
 import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
+import M3.data.m3Data;
 import M3.gui.m3Workspace;
 import djf.AppTemplate;
 import javafx.scene.Group;
@@ -23,50 +24,35 @@ public class AddStation_Transaction implements jTPS_Transaction{
     
     public Node tempNode;
     public Node stationLabel;
+    public String stationName;
     AppTemplate appHelp;
-    
-    public AddStation_Transaction(AppTemplate app, Node node, Node stationText) {
+    m3Data dataManager;
+    m3Workspace workspace;
+
+
+    public AddStation_Transaction(AppTemplate app, m3Workspace work, Node node, Node stationText, String name) {
         tempNode = node;
         appHelp = app;
         stationLabel = stationText;
+        stationName = name;
+        dataManager = (m3Data) app.getDataComponent();
+        workspace = work;
     }
     
     public void doTransaction() {
+        ((DraggableText) stationLabel).setText(stationName);
+        dataManager.getStations().add(stationName);
+        workspace.getStationBox().getItems().add(stationName);
+        workspace.getStationBox().valueProperty().set(stationName);
+        workspace.getOriginBox().getItems().add(stationName);
+        workspace.getDestinationBox().getItems().add(stationName);
+        ((DraggableStation) tempNode).setStationName(stationName);
+        
         ((DraggableText)stationLabel).xProperty().bind(((DraggableStation) tempNode).centerXProperty().add(((DraggableStation) tempNode).getRadius()));
         ((DraggableText)stationLabel).yProperty().bind(((DraggableStation) tempNode).centerYProperty().subtract(((DraggableStation) tempNode).getRadius()));
         ((DraggableStation) tempNode).setTopRight(true);
         ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(stationLabel);
         ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(tempNode);
-
-        /* ((DraggableText) startLabel).xProperty().bind(((DraggableLine) tempNode).startXProperty().subtract(((DraggableText) startLabel).getWidth()));
-        ((DraggableText) startLabel).xProperty().subtract(5.0);
-        ((DraggableText) startLabel).yProperty().bind(((DraggableLine) tempNode).startYProperty());
-        ((DraggableText) endLabel).xProperty().bind(((DraggableLine) tempNode).endXProperty());
-        ((DraggableText) endLabel).yProperty().bind(((DraggableLine) tempNode).endYProperty());
-        ((DraggableLine) tempNode).startXProperty().bind(((DraggableText) startLabel).xProperty());
-        ((DraggableLine) tempNode).startYProperty().bind(((DraggableText) startLabel).yProperty());
-        ((DraggableLine) tempNode).endXProperty().bind(((DraggableText) endLabel).xProperty());
-        ((DraggableLine) tempNode).endYProperty().bind(((DraggableText) endLabel).yProperty());
-         */
-
-        
-        /*
-        ((DraggableText) startLabel).xProperty().bindBidirectional(((DraggableLine) tempNode).startXProperty());
-        ((DraggableText) startLabel).yProperty().bindBidirectional(((DraggableLine) tempNode).startYProperty());
-
-
-
-        ((DraggableText) endLabel).xProperty().bindBidirectional(((DraggableLine) tempNode).endXProperty());
-        ((DraggableText) endLabel).xProperty().add(((DraggableText) startLabel).getWidth());
-        ((DraggableText) endLabel).yProperty().bindBidirectional(((DraggableLine) tempNode).endYProperty());
-        */
-
-/*
-        lineGroup.getChildren().add(startLabel);
-        lineGroup.getChildren().add(tempNode);
-        lineGroup.getChildren().add(endLabel);
-        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(lineGroup);
-*/
     }
 
     @Override

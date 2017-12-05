@@ -25,12 +25,14 @@ public class AddLine_Transaction implements jTPS_Transaction {
     public Node startLabel;
     public Node endLabel;
     AppTemplate appHelp;
+    m3Workspace workspace;
 
     public AddLine_Transaction(AppTemplate app, Node node, Node originText, Node endText) {
         tempNode = node;
         appHelp = app;
         startLabel = originText;
         endLabel = endText;
+        workspace = new m3Workspace(app);
     }
 
     @Override

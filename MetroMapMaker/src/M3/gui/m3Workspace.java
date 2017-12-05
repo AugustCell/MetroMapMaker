@@ -69,9 +69,15 @@ import static M3.m3LanguageProperty.ZOOM_OUT_TOOLTIP;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * This class serves as the workspace component for this application, providing
@@ -173,8 +179,8 @@ public class m3Workspace extends AppWorkspaceComponent {
     
     //SECOND ROW FIFTH BOX
     HBox row8Box;
-    Button boldButton;
-    Button italicizeButton;
+    ToggleButton boldButton;
+    ToggleButton italicizeButton;
     ComboBox<String> sizeCombo;
     ComboBox<String> fontCombo;
     
@@ -212,9 +218,12 @@ public class m3Workspace extends AppWorkspaceComponent {
     Text debugText;
     
     Node copiedNode;
-  
-    
+ 
     jTPS_Transaction transaction;
+ 
+    boolean boldPressed = false;
+    
+    boolean italicPressed = false;
     
     public m3Workspace(AppTemplate initApp) {
 	// KEEP THIS FOR LATER
@@ -256,6 +265,22 @@ public class m3Workspace extends AppWorkspaceComponent {
     
     public ColorPicker getBackgroundColorPicker() {
 	return setBackgroundColorButton;
+    }
+    
+    public ComboBox<String> getFontCombo(){
+        return fontCombo;
+    }
+    
+    public ComboBox<String> getSizeCombo(){
+        return sizeCombo;
+    }
+    
+    public ToggleButton getBoldButton(){
+        return boldButton;
+    }
+    
+    public ToggleButton getItalicButton(){
+        return italicizeButton;
     }
     
     /**
@@ -415,13 +440,30 @@ public class m3Workspace extends AppWorkspaceComponent {
         
         //SECOND ROW FIFTH BOX
         row8Box = new HBox();
-        boldButton = gui.initChildButton(row8Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
-        italicizeButton = gui.initChildButton(row8Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
+        boldButton = gui.initToggleButton(row8Box, BOLD_ICON.toString(), BOLD_TOOLTIP.toString(), false);
+        italicizeButton = gui.initToggleButton(row8Box, ITALIC_ICON.toString(), ITALIC_TOOLTIP.toString(), false);
         Label sizeComboLabel = new Label("Text size");
         Label fontComboLabel = new Label("Text font");
         sizeCombo = new ComboBox<>();
+        ObservableList<String> sizeOptions
+                = FXCollections.observableArrayList(
+                        "10", "12", "14", "16", "18", "20", "24", "28", "32", "36", "40", "44", "48", "50", "52", "54", "56", "58", "60", "70"
+                );
+        sizeCombo.setItems(sizeOptions);
+        sizeCombo.getSelectionModel().select("12");
         sizeCombo.setPromptText("Text size");
         fontCombo = new ComboBox<>();
+        ObservableList<String> fontOptions
+                = FXCollections.observableArrayList(
+                        "Times New Roman",
+                        "Forte",
+                        "Elephant",
+                        "Verdana",
+                        "Helvetica",
+                        "Comic Sans MS"
+                );
+        fontCombo.setItems(fontOptions);
+        fontCombo.getSelectionModel().select("Times New Roman");
         fontCombo.setPromptText("Text font");
         row8Box.getChildren().add(sizeCombo);
         row8Box.getChildren().add(fontCombo);
@@ -537,7 +579,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleRemoveStationRequest();
          });
          snapToMapButton.setOnAction(e -> {
-             
+             mapEditController.processSnapped();
          });
          moveLabelPosButton.setOnAction(e -> {
              mapEditController.handleMoveStationLabelRequest();
@@ -577,22 +619,24 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          textColorButton.setOnAction(e -> {
-             
+             mapEditController.changeTextColor();
          });
          boldButton.setOnAction(e -> {
-             
+             boldPressed = !boldPressed;
+             mapEditController.changeTextFont();
          });
          italicizeButton.setOnAction(e -> {
-             
+             italicPressed = !italicPressed;
+             mapEditController.changeTextFont();
          });
          sizeCombo.setOnAction(e -> {
-             
+             mapEditController.changeTextFont();
          });
          fontCombo.setOnAction(e -> {
-             
+             mapEditController.changeTextFont();
          });
          showGridCheckBox.setOnAction(e -> {
-             
+             mapEditController.processShowGridLines();
          });
          zoomInButton.setOnAction(e -> {
              mapEditController.processZoomIn();
@@ -692,5 +736,20 @@ public class m3Workspace extends AppWorkspaceComponent {
     @Override
     public void resetWorkspace() {
         System.out.println("This is an old functionality");
+    }
+    
+    public Font getCurrentFontSettings(){
+        String fontFamily = fontCombo.getSelectionModel().getSelectedItem();
+        int size = Integer.valueOf(sizeCombo.getSelectionModel().getSelectedItem());
+        FontWeight weight = FontWeight.NORMAL;
+        if(boldPressed){
+            weight = FontWeight.BOLD;
+        }
+        FontPosture posture = FontPosture.REGULAR;
+        if(italicPressed){
+            posture = FontPosture.ITALIC;
+        }
+        Font font = Font.font(fontFamily, weight, posture, size);
+        return font;
     }
 }

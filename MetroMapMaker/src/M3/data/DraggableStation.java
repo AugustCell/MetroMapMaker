@@ -28,6 +28,7 @@ public class DraggableStation extends Circle implements Draggable {
     boolean bottomRight;
     boolean bottomLeft;
     boolean visited;
+    boolean straightened;
     
     public DraggableStation(){
         setCenterX(50.0);
@@ -48,6 +49,7 @@ public class DraggableStation extends Circle implements Draggable {
         bottomRight = false;
         bottomLeft = false;
         visited = false;
+        straightened = false;
     }
     
     @Override
@@ -180,5 +182,11 @@ public class DraggableStation extends Circle implements Draggable {
     }
     public void setVisited(boolean result){
         visited = result;
+    }
+    public boolean getStraightened(){
+        return straightened;
+    }
+    public void setStraightened(boolean result){
+        straightened = result;
     }
 }

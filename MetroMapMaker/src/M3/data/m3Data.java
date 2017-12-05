@@ -54,6 +54,7 @@ public class m3Data implements AppDataComponent {
     
     Rectangle clip = new Rectangle(1200, 1200);
    
+    boolean boxChecked;
 
 
     // THE BACKGROUND COLOR
@@ -136,6 +137,8 @@ public class m3Data implements AppDataComponent {
 	dropShadowEffect.setBlurType(BlurType.GAUSSIAN);
 	dropShadowEffect.setRadius(15);
 	highlightedEffect = dropShadowEffect;
+        
+        boxChecked = false;
         
         
     }
@@ -232,6 +235,12 @@ public class m3Data implements AppDataComponent {
     public void setClipHeight(double value){
         clip.setHeight(value);
     }
+    public boolean getChecked(){
+        return boxChecked;
+    }
+    public void setChecked(boolean result){
+        boxChecked = result;
+    }
     
     
     public void setBackgroundColor(Color initBackgroundColor) {
@@ -268,6 +277,25 @@ public class m3Data implements AppDataComponent {
 	    shapes.remove(selectedShape);
 	    selectedShape = null;
 	}
+    }
+    
+    public void moveSelectedShapeToBack() {
+        if (selectedShape != null) {
+            shapes.remove(selectedShape);
+            if (shapes.isEmpty()) {
+                shapes.add(selectedShape);
+            } else {
+                ArrayList<Node> temp = new ArrayList<>();
+                temp.add(selectedShape);
+                for (Node node : shapes) {
+                    temp.add(node);
+                }
+                shapes.clear();
+                for (Node node : temp) {
+                    shapes.add(node);
+                }
+            }
+        }
     }
     
     

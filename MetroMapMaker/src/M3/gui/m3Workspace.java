@@ -597,7 +597,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              
          });
          routerButton.setOnAction(e -> {
-             
+             mapEditController.processRoute();
          });
          setBackgroundColorButton.setOnAction(e -> {
              mapEditController.processSelectBackgroundColor();

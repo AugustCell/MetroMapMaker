@@ -8,6 +8,7 @@ package M3.transaction;
 import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
+import M3.data.LineGroups;
 import M3.data.m3Data;
 import M3.gui.m3Workspace;
 import djf.AppTemplate;
@@ -46,8 +47,8 @@ public class AddStation_Transaction implements jTPS_Transaction{
         workspace.getStationBox().valueProperty().set(stationName);
         workspace.getOriginBox().getItems().add(stationName);
         workspace.getDestinationBox().getItems().add(stationName);
-        ((DraggableStation) tempNode).setStationName(stationName);
         
+        ((DraggableStation) tempNode).setStationName(stationName);
         ((DraggableText)stationLabel).xProperty().bind(((DraggableStation) tempNode).centerXProperty().add(((DraggableStation) tempNode).getRadius()));
         ((DraggableText)stationLabel).yProperty().bind(((DraggableStation) tempNode).centerYProperty().subtract(((DraggableStation) tempNode).getRadius()));
         ((DraggableStation) tempNode).setTopRight(true);
@@ -57,8 +58,29 @@ public class AddStation_Transaction implements jTPS_Transaction{
 
     @Override
     public void undoTransaction() {
-        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(stationLabel);
-        ((m3Workspace) appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(tempNode);
+        dataManager.getStations().remove(stationName);
+        workspace.getStationBox().getItems().remove(stationName);
+        workspace.getOriginBox().getItems().remove(stationName);
+        workspace.getDestinationBox().getItems().remove(stationName);
+        workspace.getStationBox().getSelectionModel().selectFirst();
+        
+        workspace.getCanvas().getChildren().remove(stationLabel);
+        workspace.getCanvas().getChildren().remove(tempNode);
+        
+        for(int i = dataManager.getShapes().size() - 1; i>= 0; i--){
+                if(dataManager.getShapes().get(i) instanceof DraggableStation){
+                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                    if(tempStation.getStationName().equals(stationName)){
+                        workspace.getCanvas().getChildren().remove(tempStation);
+                    }
+                }
+                else if(dataManager.getShapes().get(i) instanceof DraggableText){
+                    DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                    if(tempText.getText().equals(stationName)){
+                        workspace.getCanvas().getChildren().remove(tempText);
+                    }
+                }
+            }
 
     }
 

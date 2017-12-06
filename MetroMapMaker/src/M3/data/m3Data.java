@@ -53,6 +53,7 @@ public class m3Data implements AppDataComponent {
     ArrayList<StationTracker> stationTracker = new ArrayList<StationTracker>();
     
     Rectangle clip = new Rectangle(1200, 1200);
+    
    
     boolean boxChecked;
 
@@ -137,6 +138,7 @@ public class m3Data implements AppDataComponent {
 	dropShadowEffect.setBlurType(BlurType.GAUSSIAN);
 	dropShadowEffect.setRadius(15);
 	highlightedEffect = dropShadowEffect;
+        
         
         boxChecked = false;
         

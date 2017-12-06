@@ -1,6 +1,5 @@
 package M3.gui;
 
-import M3.transaction.EditText_Transaction;
 import M3.transaction.AddShape_Transaction;
 import java.io.File;
 import java.io.IOException;
@@ -24,13 +23,21 @@ import M3.data.LineGroups;
 import M3.data.StationEnds;
 import M3.data.StationTracker;
 import static M3.data.m3State.SELECTING_SHAPE;
+import M3.graph.Station;
+import M3.graph.StationGraph;
 import M3.transaction.AddLine_Transaction;
 import M3.transaction.AddStation_Transaction;
+import M3.transaction.EditLine_Transaction;
+import M3.transaction.EditStationFillColor_Transaction;
 import M3.transaction.EditTextFillColor_Transaction;
 import M3.transaction.EditTextFont_Transaction;
+import M3.transaction.RemoveLine_Transaction;
 import M3.transaction.RemoveShape_Transaction;
+import M3.transaction.RemoveStation_Transaction;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -109,25 +116,11 @@ public class MapEditController {
                     warningAlert.setContentText("This station already exists");
                     warningAlert.showAndWait();
                 } else {
-                    /*t.setText(result.get());
-                    dataManager.getStations().add(result.get());
-                    workspace.getStationBox().getItems().add(result.get());
-                    workspace.getStationBox().valueProperty().set(t.getText());
-                    workspace.getOriginBox().getItems().add(t.getText());
-                    workspace.getDestinationBox().getItems().add(t.getText());
-                    newStation.setStationName(t.getText());
-                    */transaction = new AddStation_Transaction(app, workspace, newStation, t, result.get());
+                    transaction = new AddStation_Transaction(app, workspace, newStation, t, result.get());
                     dataManager.getjTPS().addTransaction(transaction);
                 }
             } else {
-                t.setText(result.get());
-                dataManager.getStations().add(result.get());
-                workspace.getStationBox().getItems().add(result.get());
-                workspace.getStationBox().valueProperty().set(t.getText());
-                workspace.getOriginBox().getItems().add(t.getText());
-                workspace.getDestinationBox().getItems().add(t.getText());
-                newStation.setStationName(t.getText());
-              //  transaction = new AddStation_Transaction(app, newStation, t);
+                transaction = new AddStation_Transaction(app, workspace, newStation, t, result.get());
                 dataManager.getjTPS().addTransaction(transaction);
             }
         } else {
@@ -147,43 +140,8 @@ public class MapEditController {
         alertBox.setContentText("Are you sure you want to remove this metro station?");
         Optional<ButtonType> result = alertBox.showAndWait();
         if (result.get() == ButtonType.OK) {
-            dataManager.removeStationName(nodeToRemoveString);
-            workspace.getOriginBox().getItems().remove(nodeToRemoveString);
-            workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
-            workspace.getStationBox().getItems().remove(nodeToRemoveString);
-            for(int i = 0; i < dataManager.getShapes().size(); i++){
-                if(dataManager.getShapes().get(i) instanceof DraggableStation){
-                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                    if(tempStation.getStationName().equals(nodeToRemoveString)){
-                        ArrayList<StationEnds> tempEnds = tempStation.getStationEnds();
-                        if(!tempEnds.isEmpty()){
-                            stationController.removeSpecificStation(nodeToRemoveString);
-                        }
-                    }
-                }
-            }
-            for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                if(dataManager.getShapes().get(i) instanceof DraggableStation){
-                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                    if(tempStation.getStationName().equals(nodeToRemoveString)){
-                        dataManager.getShapes().remove(tempStation);
-                    }
-                }
-                else if(dataManager.getShapes().get(i) instanceof DraggableText){
-                    DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
-                    if(tempText.getText().equals(nodeToRemoveString)){
-                        dataManager.getShapes().remove(tempText);
-                    }
-                }
-             
-            }
-          
-            if (!workspace.getStationBox().getItems().isEmpty()) {
-                workspace.getStationBox().getSelectionModel().selectFirst();
-            }
-            else{
-                workspace.getStationBox().getSelectionModel().selectFirst();
-            }
+            transaction = new RemoveStation_Transaction(app, workspace, nodeToRemoveString, stationController);
+            dataManager.getjTPS().addTransaction(transaction);
         }
      }
     
@@ -211,7 +169,8 @@ public class MapEditController {
         
         Optional<ButtonType> result = alertBox.showAndWait();
         if(result.get() == ButtonType.OK){
-            tempStation.setFill(stationColor.getValue());
+            transaction = new EditStationFillColor_Transaction(app, tempStation, stationColor.getValue());
+            dataManager.getjTPS().addTransaction(transaction);
         }
     }
     
@@ -246,32 +205,14 @@ public class MapEditController {
                     warningAlert.setContentText("This line already exists");
                     
                 } else if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    originText.setText(textField.getText());
-                    endText.setText(textField.getText());
-                    dataManager.addLineName(textField.getText());
-                    newLineGroup.setLineName(textField.getText());
-                    dataManager.addLineGroupName(newLineGroup);
-                    workspace.getLineBox().getItems().add(textField.getText());
-                    workspace.getLineBox().valueProperty().set(textField.getText());
-                    newStationTracker.setName(textField.getText());
-                    dataManager.getStationTracker().add(newStationTracker);
-                    transaction = new AddLine_Transaction(app, newLineGroup, originText, endText);
+                    transaction = new AddLine_Transaction(app, workspace, newLineGroup, originText, endText, textField.getText(), newStationTracker);
                     dataManager.getjTPS().addTransaction(transaction);
                     tempStage.close();
                 }
             } 
             else {
                 if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    originText.setText(textField.getText());
-                    endText.setText(textField.getText());
-                    dataManager.addLineName(textField.getText());
-                    newLineGroup.setLineName(textField.getText());
-                    dataManager.addLineGroupName(newLineGroup);
-                    workspace.getLineBox().getItems().add(textField.getText());
-                    workspace.getLineBox().valueProperty().set(textField.getText());
-                    newStationTracker.setName(textField.getText());
-                    dataManager.getStationTracker().add(newStationTracker);
-                    transaction = new AddLine_Transaction(app, newLineGroup, originText, endText);
+                    transaction = new AddLine_Transaction(app, workspace, newLineGroup, originText, endText, textField.getText(), newStationTracker);
                     dataManager.getjTPS().addTransaction(transaction);
                     tempStage.close();
                 } else {
@@ -311,43 +252,8 @@ public class MapEditController {
         Optional<ButtonType> result = alertBox.showAndWait();
         System.out.println(nodeToRemoveString);
         if (result.get() == ButtonType.OK) {
-            dataManager.removeLineName(nodeToRemoveString);
-            for (int i = 0; i < dataManager.getLineStationGroups().size(); i++) {
-                if (dataManager.getLineStationGroups().get(i).getLineName().equals(nodeToRemoveString)) {
-                    dataManager.removeLineGroupName(dataManager.getLineStationGroups().get(i));
-                }
-            }
-
-            ArrayList<StationTracker> tempTracker = dataManager.getStationTracker();
-            for (int i = 0; i < tempTracker.size(); i++) {
-                if (tempTracker.get(i).getName().equals(nodeToRemoveString)) {
-                    tempTracker.remove(i);
-                }
-            }
-
-            for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                if (dataManager.getShapes().get(i) instanceof LineGroups) {
-                    LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
-                    if (tempGroup.getLineName().equals(nodeToRemoveString)) {
-                        dataManager.getShapes().remove(tempGroup);
-                    }
-                } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
-                    DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
-                    if (tempText.getText().equals(nodeToRemoveString)) {
-                        dataManager.getShapes().remove(tempText);
-                    }
-                }
-            }
-
-            workspace.getLineBox().getItems().remove(nodeToRemoveString);
-            workspace.getOriginBox().getItems().remove(nodeToRemoveString);
-            workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
-
-            if (!workspace.getLineBox().getItems().isEmpty()) {
-                workspace.getLineBox().getSelectionModel().selectFirst();
-            } else {
-                workspace.getLineBox().getSelectionModel().selectFirst();
-            }
+            transaction = new RemoveLine_Transaction(app, workspace, nodeToRemoveString);
+            dataManager.getjTPS().addTransaction(transaction);
         }
     }
 
@@ -377,129 +283,10 @@ public class MapEditController {
         }
 
         okButton.setOnAction(e -> {
-            if (dataManager.getLines().size() != 0) {
-                if (dataManager.getLines().contains(textField.getText())) {
-                    Alert warningAlert = new Alert(AlertType.WARNING);
-                    warningAlert.setTitle("Similar name");
-                    warningAlert.setContentText("This line already exists");
-                    warningAlert.showAndWait();
-                } else if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                        if (dataManager.getShapes().get(i) instanceof LineGroups) {
-                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
-                            if (tempGroup.getLineName().equals(editedText)) {
-                                tempGroup.setStroke(lineColor.getValue());
-                            }
-                        } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
-                            DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
-                            if (tempText.getText().equals(editedText)) {
-                                tempText.setText(textField.getText());
-                            }
-                        }
-                    }
-                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                        if (dataManager.getShapes().get(i) instanceof DraggableStation) {
-                            DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                            ArrayList<StationEnds> stationEnds = tempStation.getStationEnds();
-                            for(int l = 0; l < stationEnds.size(); l++){
-                                if(stationEnds.get(l).getLeftEnd().equals(editedText)){
-                                    stationEnds.get(l).setLeftEnd(textField.getText());
-                                }
-                                if(stationEnds.get(l).getRightEnd().equals(editedText)){
-                                    stationEnds.get(l).setRightEnd(textField.getText());
-                                }
-                            }
-                          /*  if (tempStation.getLeftEnd().equals(editedText)) {
-                                tempStation.setLeftEnd(textField.getText());
-                            }
-                            if (tempStation.getRightEnd().equals(editedText)) {
-                                tempStation.setRightend(textField.getText());
-                            }*/
-                        } else if (dataManager.getShapes().get(i) instanceof LineGroups) {
-                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
-                            if (tempGroup.getLineName().equals(editedText)) {
-                                tempGroup.setLineName(textField.getText());
-                            }
-                            if (tempGroup.getLeftEnd().equals(editedText)) {
-                                tempGroup.setLeftEnd(textField.getText());
-                            }
-                            if (tempGroup.getRightEnd().equals(editedText)) {
-                                tempGroup.setRightend(textField.getText());
-                            }
-                        }
-                    }
-                    for(int i = 0; i < tempTracker.size(); i++){
-                        if(tempTracker.get(i).getName().equals(editedText)){
-                            tempTracker.get(i).setName(textField.getText());
-                        }
-                    }
-                    dataManager.removeLineName(editedText);
-                    dataManager.addLineName(textField.getText());
-                    workspace.getLineBox().getItems().add(textField.getText());
-                    workspace.getLineBox().getItems().remove(editedText);
-                    workspace.getLineBox().valueProperty().set(textField.getText());
-                    System.out.println(workspace.getLineBox().getValue());
-                    tempStage.close();
-                }
-            } else {
-                if (textField.getText() != null && !textField.getText().isEmpty()) {
-                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                        if (dataManager.getShapes().get(i) instanceof LineGroups) {
-                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
-                            if (tempGroup.getLineName().equals(editedText)) {
-                                tempGroup.setStroke(lineColor.getValue());
-                            }
-                        } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
-                            DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
-                            if (tempText.getText().equals(editedText)) {
-                                tempText.setText(textField.getText());
-                            }
-                        }
-                    }
-                    for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                        if (dataManager.getShapes().get(i) instanceof DraggableStation) {
-                            DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                            ArrayList<StationEnds> stationEnds = tempStation.getStationEnds();
-                            for(int l = 0; l < stationEnds.size(); l++){
-                                if(stationEnds.get(l).getLeftEnd().equals(editedText)){
-                                    stationEnds.get(l).setLeftEnd(textField.getText());
-                                }
-                                if(stationEnds.get(l).getRightEnd().equals(editedText)){
-                                    stationEnds.get(l).setRightEnd(textField.getText());
-                                }
-                            }
-                         
-                        } else if (dataManager.getShapes().get(i) instanceof LineGroups) {
-                            LineGroups tempGroup = (LineGroups) dataManager.getShapes().get(i);
-                            if (tempGroup.getLineName().equals(editedText)) {
-                                tempGroup.setLineName(textField.getText());
-                            }
-                            if (tempGroup.getLeftEnd().equals(editedText)) {
-                                tempGroup.setLeftEnd(textField.getText());
-                            }
-                            if (tempGroup.getRightEnd().equals(editedText)) {
-                                tempGroup.setRightend(textField.getText());
-                            }
-                        }
-                    }
-                    for(int i = 0; i < tempTracker.size(); i++){
-                        if(tempTracker.get(i).getName().equals(editedText)){
-                            tempTracker.get(i).setName(textField.getText());
-                        }
-                    }
-                    dataManager.removeLineName(editedText);
-                    dataManager.addLineName(textField.getText());
-                    workspace.getLineBox().getItems().add(textField.getText());
-                    workspace.getLineBox().getItems().remove(editedText);
-                    workspace.getLineBox().valueProperty().set(textField.getText());
-                    tempStage.close();
-                } else {
-                    Alert warningAlert = new Alert(AlertType.WARNING);
-                    warningAlert.setTitle("Error");
-                    warningAlert.setContentText("There is nothing typed into the field");
-                    warningAlert.showAndWait();
-                }
-            }
+            transaction = new EditLine_Transaction(app, workspace, lineColor.getValue(), textField.getText(), editedText, tempTracker);
+            dataManager.getjTPS().addTransaction(transaction);
+            tempStage.close();
+
         });
         cancelButton.setOnAction(e -> {
             tempStage.close();
@@ -816,9 +603,6 @@ public class MapEditController {
         DraggableImage temp = new DraggableImage();
         //ImagePattern tempPattern = new ImagePattern(img);
 
-        //  m3Workspace workspaceManager = (m3Workspace) app.getWorkspaceComponent();
-        //  transaction = new AddShape_Transaction(app, temp);
-        //   dataManager.getjTPS().addTransaction(transaction);
     }
 
     public void processExpandMap() {
@@ -936,13 +720,13 @@ public class MapEditController {
         double j = 0;
         if(shape instanceof DraggableText){
             DraggableText tempText = (DraggableText) shape;
-            double xCord = tempText.getX(); //xcord of item.
-            double yCord = tempText.getY(); //ycord of item
-            double offset = 0; //offset, which is calculated by xcord - i
-            double snapPointX = 0; //this will find the smallest difference between the lines and xcord
-            double snapPointY = 0; //this willl find the smallest difference between the lines and ycord
-            double newXcord = 0; //this will be the final x cord
-            double newYcord = 0; //this will be the final y cord
+            double xCord = tempText.getX(); 
+            double yCord = tempText.getY(); 
+            double offset = 0; 
+            double snapPointX = 0; 
+            double snapPointY = 0; 
+            double newXcord = 0; 
+            double newYcord = 0; 
             while(i < width){
                 if(i % 20 == 0){
                     offset = xCord - i;
@@ -1058,6 +842,44 @@ public class MapEditController {
         }
     }
     
+    public void processRoute() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        String origin = workspace.getOriginBox().getSelectionModel().getSelectedItem();
+        String destination = workspace.getDestinationBox().getSelectionModel().getSelectedItem();
+        Iterator<Station> it = null;
+        ArrayList<StationTracker> tracker = dataManager.getStationTracker();
+        ArrayList<String> trackerElements = new ArrayList<String>();
+        for (int i = 0; i < tracker.size(); i++) {
+            ArrayList<String> stations = tracker.get(i).getStationNames();
+            Iterator itr = stations.iterator();
+            it = new Iterator<Station>() {
+                @Override
+                public boolean hasNext() {
+                    return itr.hasNext();
+                }
+
+                @Override
+                public Station next() {
+                    return new Station((String) itr.next());
+                }
+            };
+            
+        }
+        StationGraph sg = new StationGraph(it);
+        Station start = new Station(origin);
+        Station goal = new Station(destination);
+        List<Station> path = sg.minimumWeightPath(start, goal);
+        if(path == null){
+            System.out.println("No path found");
+        }
+        else{
+            for(Station station : path){
+                System.out.print(station + " ");
+            }
+            System.out.println();
+        }
+    }
+
     /**
      * This method processes a user request to take a snapshot of the
      * current scene.

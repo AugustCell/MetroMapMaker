@@ -37,15 +37,11 @@ public class DragShape_Transaction implements jTPS_Transaction{
     public void doTransaction() {
         node.drag(destX, destY);
         node.setLocationAndSize(destX, destY, node.getWidth(), node.getHeight());
-        //((m3Workspace)appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(oldNode);
-       // ((m3Workspace)appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(newNode);
     }
 
     @Override
     public void undoTransaction() {
         node.undoDrag(oldX, oldY);
         node.setLocationAndSize(oldX, oldY, node.getWidth(), node.getHeight());
-       // ((m3Workspace)appHelp.getWorkspaceComponent()).getCanvas().getChildren().add(oldNode);
-        //((m3Workspace)appHelp.getWorkspaceComponent()).getCanvas().getChildren().remove(newNode);
     }
 }

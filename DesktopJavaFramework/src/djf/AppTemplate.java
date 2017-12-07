@@ -102,6 +102,10 @@ public abstract class AppTemplate extends Application {
         return workingFile;
     }
     
+    public void setWorkingFile(File file){
+        workingFile = file;
+    }
+    
     /**
      * Accessor for the file component.
      */
@@ -166,7 +170,7 @@ public abstract class AppTemplate extends Application {
 
                 // NOW OPEN UP THE WINDOW
                 primaryStage.show();
-                helper.handleNewRequest();
+               
 
             }
         } catch (Exception e) {
@@ -236,8 +240,12 @@ public abstract class AppTemplate extends Application {
                 recentLink.setBorder(Border.EMPTY);
                 recentLink.setStyle("-fx-font: 20 arial;");
                 recentLink.setOnAction(e -> {
-                    try {
-                        this.getWorkspaceComponent().resetWorkspace();
+                    String fileName = recentLink.getText();
+                    System.out.println("RECENT MAP NAME " + recentLink.getText().toString());
+                    String fileNameSetter = workDirectory + "\\" + fileName;
+                    File currentFile = new File(fileNameSetter);
+                    setWorkingFile(currentFile);
+                     /*   this.getWorkspaceComponent().resetWorkspace();
                         
                         // RESET THE DATA
                         this.getDataComponent().resetData();
@@ -251,11 +259,11 @@ public abstract class AppTemplate extends Application {
                         // AND MAKE SURE THE FILE BUTTONS ARE PROPERLY ENABLED
                         boolean saved = true;
                         this.getGUI().updateToolbarControls(saved);
-                        helper.setSaved(true);
-                        tempStage.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(AppTemplate.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        helper.setSaved(true);*/
+                    helper.handleLoadFileRequest(fileNameHelp);
+                    helper.setCurrentWorkFile(currentFile);
+                    tempStage.close();
+
                 });
                 leftBox.getChildren().add(recentLink);
             }
@@ -374,6 +382,7 @@ public abstract class AppTemplate extends Application {
                 existingFile = false;
             }
         }
+        helper.handleNewRequest();
     }
 
     /*

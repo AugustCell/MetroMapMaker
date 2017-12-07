@@ -22,6 +22,12 @@ public interface AppFileComponent {
      * This function must be overridden in the actual component and would
      * read app data from a file in the necessary format.
      */
+    public void loadDataFile(AppDataComponent data, String filePath) throws IOException;
+    
+    /**
+     * This function must be overridden in the actual component and would
+     * read app data from a file in the necessary format.
+     */
     public void loadData(AppDataComponent data, String filePath) throws IOException;
 
     /**

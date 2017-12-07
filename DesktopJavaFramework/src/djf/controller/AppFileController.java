@@ -73,6 +73,10 @@ public class AppFileController {
     public void setSaved(boolean choice){
         saved = choice;
     }
+    
+    public void setCurrentWorkFile(File file){
+        currentWorkFile = file;
+    }
     /**
      * This method marks the appropriate variable such that we know
      * that the current Work has been edited since it's been saved.
@@ -339,7 +343,9 @@ public class AppFileController {
         try {
 	    // MAYBE WE ALREADY KNOW THE FILE
 	    if (currentWorkFile != null) {
+                System.out.println("NAME WHEN SAVE IS CALLED " + currentWorkFile.getAbsolutePath().toString());
 		saveWork(currentWorkFile);
+                
 	    }
 	    // OTHERWISE WE NEED TO PROMPT THE USER
 	    else {
@@ -620,7 +626,7 @@ public class AppFileController {
                 app.getDataComponent().resetData();
                 
                 // LOAD THE FILE INTO THE DATA
-                app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
+                app.getFileComponent().loadDataFile(app.getDataComponent(), selectedFile.getAbsolutePath());
                 
 		// MAKE SURE THE WORKSPACE IS ACTIVATED
 		app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
@@ -654,7 +660,7 @@ public class AppFileController {
                 app.getDataComponent().resetData();
                 
                 // LOAD THE FILE INTO THE DATA
-                app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
+                app.getFileComponent().loadDataFile(app.getDataComponent(), selectedFile.getAbsolutePath());
                 
 		// MAKE SURE THE WORKSPACE IS ACTIVATED
 		app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());

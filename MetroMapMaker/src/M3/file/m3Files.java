@@ -35,13 +35,15 @@ import static M3.data.Draggable.TEXT;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
 import M3.data.LineGroups;
+import M3.data.StationEnds;
+import M3.data.StationTracker;
 import java.io.File;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 
 /**
  * This class serves as the file management component for this application,
@@ -52,10 +54,12 @@ import javafx.scene.paint.ImagePattern;
  * @version 1.0
  */
 public class m3Files implements AppFileComponent {
-     // FOR JSON LOADING
+    // FOR JSON LOADING
+
     static final String JSON_BG_COLOR = "background_color";
     static final String JSON_NAME = "name";
     static final String JSON_LINES_DECLARATION = "lines";
+    static final String JSON_LINE_NAME = "line_names";
     static final String JSON_CIRCULAR_STATION = "circular";
     static final String JSON_STATION_NAME = "station_names";
     public final String JSON_LINE_COLOR = "color";
@@ -69,37 +73,42 @@ public class m3Files implements AppFileComponent {
     static final String JSON_TYPE = "type";
     static final String JSON_X = "x";
     static final String JSON_Y = "y";
-    static final String JSON_LINE_WIDTH = "line width";
+    static final String JSON_LINE_WIDTH = "line_width";
     static final String JSON_START_X = "start x";
     public final String JSON_START_Y = "start y";
     public final String JSON_END_X = "end x";
     public final String JSON_END_Y = "end y";
     static final String JSON_WIDTH = "width";
     static final String JSON_HEIGHT = "height";
+    static final String JSON_RADIUS = "radius";
+    static final String JSON_LEFT_END = "left_end";
+    static final String JSON_RIGHT_END = "right_end";
+    static final String JSON_LEFT_END_TYPE = "left_end_type";
+    static final String JSON_RIGHT_END_TYPE = "right_end_type";
+    static final String JSON_FIRST_LINE_BOOLEAN = "First _line_boolean";
+    static final String JSON_LAST_LINE_BOOLEAN = "Last_line_boolean";
     static final String JSON_FILL_COLOR = "fill_color";
     static final String JSON_OUTLINE_COLOR = "outline_color";
     static final String JSON_OUTLINE_THICKNESS = "outline_thickness";
-    static final String JSON_IMAGE_PATTERN = "Image pattern";
+    static final String JSON_IMAGE_PATTERN = "Image_pattern";
     static final String JSON_TEXT_STRING = "Text";
     static final String JSON_TEXT_SIZE = "Size";
     static final String JSON_TEXT_FONT = "Font";
-    
-    
+
     static final String DEFAULT_DOCTYPE_DECLARATION = "<!doctype html>\n";
     static final String DEFAULT_ATTRIBUTE_VALUE = "";
-    
- 
+
     /**
      * This method is for saving user work, which in the case of this
      * application means the data that together draws the logo.
-     * 
+     *
      * @param data The data management component for this application.
-     * 
-     * @param filePath Path (including file name/extension) to where
-     * to save the data to.
-     * 
-     * @throws IOException Thrown should there be an error writing 
-     * out data to the file.
+     *
+     * @param filePath Path (including file name/extension) to where to save the
+     * data to.
+     *
+     * @throws IOException Thrown should there be an error writing out data to
+     * the file.
      */
     @Override
     public void saveData(AppDataComponent data, String filePath) throws IOException {
@@ -108,94 +117,175 @@ public class m3Files implements AppFileComponent {
 
         // FIRST THE BACKGROUND COLOR
         Color bgColor = dataManager.getBackgroundColor();
-        JsonObject bgColorJson = makeJsonColorObject(bgColor);
-
+        JsonObject bgColorJson = null;
+        if (bgColor != null) {
+            bgColorJson = makeJsonColorObject(bgColor);
+        }
+        else{
+            bgColorJson = makeJsonWhiteObject();
+        }
         // NOW BUILD THE JSON OBJCTS TO SAVE
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         ObservableList<Node> shapes = dataManager.getShapes();
         JsonArray shapesArray = null;
-        JsonObject fillColorJson = null;
         for (Node node : shapes) {
             Node shape = (Node) node;
-            if(shape instanceof Group){
-                for(int i = 0; i < ((Group) shape).getChildren().size(); i++){
-                    if (((Group) shape).getChildren().get(i) instanceof DraggableText) {
-                        DraggableText draggableShape = (DraggableText) ((Group)shape).getChildren().get(i);
-                        System.out.println(draggableShape.getClass().toString());
-                        String type = draggableShape.getShapeType();
-                        double x = draggableShape.getX();
-                        double y = draggableShape.getY();
-                        double width = draggableShape.getWidth();
-                        double height = draggableShape.getHeight();
-                        JsonObject shapeJson = Json.createObjectBuilder()
-                                .add(JSON_TYPE, type)
-                                .add(JSON_X, x)
-                                .add(JSON_Y, y)
-                                .add(JSON_TEXT_STRING, draggableShape.getText())
-                                .add(JSON_WIDTH, width)
-                                .add(JSON_HEIGHT, height).build();
-                        arrayBuilder.add(shapeJson);
-                    }
-                    else if(((Group) shape).getChildren().get(i) instanceof DraggableStation){
-                        DraggableStation draggableShape = (DraggableStation) ((Group) shape).getChildren().get(i);
-                        String type = draggableShape.getShapeType();
-                        double x = draggableShape.getX();
-                        double y = draggableShape.getY();
-                        double width = draggableShape.getWidth();
-                        double height = draggableShape.getHeight();
-                        JsonObject shapeJson = Json.createObjectBuilder()
-                                .add(JSON_TYPE, type)
-                                .add(JSON_X, x)
-                                .add(JSON_Y, y)
-                                .add(JSON_WIDTH, width)
-                                .add(JSON_HEIGHT, height)
-                                .add(JSON_NAME, ((DraggableStation) draggableShape).getStationName()).build();
-                        arrayBuilder.add(shapeJson);
-                    } else if (((Group) shape).getChildren().get(i) instanceof LineGroups) {
-                        LineGroups draggableShape = (LineGroups) ((Group) shape).getChildren().get(i);
-                        ArrayList<String> stationNames = new ArrayList<String>();
-                        for(int l = 0; l < ((Group) shape).getChildren().size(); l++){
-                            if (((Group) shape).getChildren().get(l) instanceof LineGroups) {
-                                Node tempLine = ((Group) shape).getChildren().get(l);
-                                if (!((LineGroups) tempLine).getMetroStations().isEmpty()) {
-                                    stationNames.add(((LineGroups) tempLine).getMetroStations().get(0));
-                                }
-                            }
-                        }
-                        String type = draggableShape.getShapeType();
-                      //  double startX = draggableShape.getStartX();
-                      //  double startY = draggableShape.getStartY();
-                      //  double endX = draggableShape.getEndX();
-                      //  double endY = draggableShape.getEndY();
-                        fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
-
-                        JsonArrayBuilder stationArray = Json.createArrayBuilder();
-                        for (int p = 0; p < stationNames.size(); p++) {
-                            stationArray.add(stationNames.get(p));
-                        }
-                        JsonObject shapeJson = Json.createObjectBuilder()
-                                .add(JSON_TYPE, type)
-                          //      .add(JSON_START_X, startX)
-                           //     .add(JSON_START_Y, startY)
-                            //    .add(JSON_END_X, endX)
-                            //    .add(JSON_END_Y, endY)
-                                .add(JSON_LINE_WIDTH, draggableShape.getStrokeWidth())
-                                .add(JSON_FILL_COLOR, fillColorJson)
-                                .add(JSON_NAME, ((LineGroups) draggableShape).getLineName())
-                                .add(JSON_STATION_NAME, stationArray)
-                                .build();
-                        arrayBuilder.add(shapeJson);
-                    }
-                }
-            }
-            if (shape instanceof DraggableImage) {
-                Draggable draggableShape = ((Draggable) shape);
+            
+            if (shape instanceof DraggableText) {
+                DraggableText draggableShape = (DraggableText) shape;
+                JsonObject fillColorJson = null;
+                System.out.println(draggableShape.getClass().toString());
                 String type = draggableShape.getShapeType();
                 double x = draggableShape.getX();
                 double y = draggableShape.getY();
                 double width = draggableShape.getWidth();
                 double height = draggableShape.getHeight();
-                fillColorJson = makeJsonImageObject(((DraggableImage) shape).getPathString());
+                String text = draggableShape.getText();
+                if (draggableShape.getFill() != null) {
+                    fillColorJson = makeJsonColorObject((Color) draggableShape.getFill());
+                }
+                JsonObject shapeJson = Json.createObjectBuilder()
+                        .add(JSON_TYPE, type)
+                        .add(JSON_X, x)
+                        .add(JSON_Y, y)
+                        .add(JSON_TEXT_STRING, text)
+                        .add(JSON_FILL_COLOR, fillColorJson)
+                        .add(JSON_WIDTH, width)
+                        .add(JSON_HEIGHT, height).build();
+                arrayBuilder.add(shapeJson);
+            } 
+            
+            else if (shape instanceof DraggableStation) {
+                DraggableStation draggableShape = (DraggableStation) shape;
+                JsonObject fillColorJson = null;
+                String type = draggableShape.getShapeType();
+                double x = draggableShape.getCenterX();
+                double y = draggableShape.getCenterY();
+                double radius = draggableShape.getRadius();
+                String name = draggableShape.getStationName();
+                ArrayList<String> leftEnd = new ArrayList<String>();
+                ArrayList<String> rightEnd = new ArrayList<String>();
+                ArrayList<String> lineNames = new ArrayList<String>();
+                ArrayList<StationEnds> stationEnds = new ArrayList<StationEnds>();
+                //IF ADDED SEQUENTIALLY THEN EACH NAME WILL HAVE ITS RESPECTIVE LEFT ADN RIGHT END
+                if(!draggableShape.getStationEnds().isEmpty()){
+                    stationEnds = draggableShape.getStationEnds();
+                    for(int i = 0; i < stationEnds.size(); i++){
+                        leftEnd.add(stationEnds.get(i).getLeftEnd());
+                        rightEnd.add(stationEnds.get(i).getRightEnd());
+                        lineNames.add(stationEnds.get(i).getLineName());
+                    }
+                }
+                if(draggableShape.getFill() != null){
+                    fillColorJson = makeJsonColorObject((Color) draggableShape.getFill());
+                }
+                else{
+                    fillColorJson = makeJsonWhiteObject();
+                }
+                
+                JsonArrayBuilder leftEndArray = Json.createArrayBuilder();
+                JsonArrayBuilder rightEndArray = Json.createArrayBuilder();
+                JsonArrayBuilder lineNameArray = Json.createArrayBuilder();
+                if (!draggableShape.getStationEnds().isEmpty()) {
+                    for (int p = 0; p < leftEnd.size(); p++) {
+                        leftEndArray.add(leftEnd.get(p));
+                        rightEndArray.add(rightEnd.get(p));
+                        lineNameArray.add(lineNames.get(p));
+                    }
+                }
+
+                JsonObject shapeJson = Json.createObjectBuilder()
+                        .add(JSON_TYPE, type)
+                        .add(JSON_X, x)
+                        .add(JSON_Y, y)
+                        .add(JSON_RADIUS, radius)
+                        .add(JSON_NAME, name).build();
+                arrayBuilder.add(shapeJson);
+                
+                if(leftEndArray != null){
+                    JsonObject arr = Json.createObjectBuilder()
+                            .add(JSON_LEFT_END, leftEndArray)
+                            .add(JSON_RIGHT_END, rightEndArray)
+                            .add(JSON_LINE_NAME, lineNameArray).build();
+                    arrayBuilder.add(arr);
+                }
+                
+            }
+            
+            else if (shape instanceof LineGroups) {
+                LineGroups draggableShape = (LineGroups) shape;
+                JsonObject fillColorJson = null;
+                String name = draggableShape.getLineName();
+                ArrayList<String> stationNames = new ArrayList<String>();
+                ArrayList<StationTracker> tracker = dataManager.getStationTracker();
+                for (int i = 0; i < tracker.size(); i++){
+                    if(tracker.get(i).getName().equals(name)){
+                        stationNames = tracker.get(i).getStationNames();
+                        break;
+                    }
+                }
+                String type = draggableShape.getShapeType();
+                double startX = draggableShape.getStartX();
+                double startY = draggableShape.getStartY();
+                double endX = draggableShape.getEndX();
+                double endY = draggableShape.getEndY();
+                String leftEnd = draggableShape.getLeftEnd();
+                String rightEnd = draggableShape.getRightEnd();
+                boolean firstLine = draggableShape.getFirstLine();
+                boolean lastLine = draggableShape.getLastLine();
+                double strokeWidth = draggableShape.getStrokeWidth();
+                String leftEndType = draggableShape.getLeftEnd().getClass().toString();
+                String rightEndType = draggableShape.getRightEnd().getClass().toString();
+                
+                if (draggableShape.getFill() != null) {
+                    fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
+                }
+                else{
+                    fillColorJson = makeJsonBlackObject();
+                }
+           
+                JsonArrayBuilder stationArray = null;
+                if (!stationNames.isEmpty()) {
+                    stationArray = Json.createArrayBuilder();
+                    for (int p = 0; p < stationNames.size(); p++) {
+                        stationArray.add(stationNames.get(p));
+                    }
+                }
+                JsonObject shapeJson = Json.createObjectBuilder()
+                        .add(JSON_TYPE, type)
+                        .add(JSON_NAME, name)
+                        .add(JSON_START_X, startX)
+                        .add(JSON_START_Y, startY)
+                        .add(JSON_END_X, endX)
+                        .add(JSON_END_Y, endY)
+                        .add(JSON_LEFT_END, leftEnd)
+                        .add(JSON_RIGHT_END, rightEnd)
+                        .add(JSON_FIRST_LINE_BOOLEAN, firstLine)
+                        .add(JSON_LAST_LINE_BOOLEAN, lastLine)
+                        .add(JSON_LEFT_END_TYPE, leftEndType)
+                        .add(JSON_RIGHT_END_TYPE, rightEndType)
+                        .add(JSON_LINE_WIDTH, strokeWidth)
+                        .add(JSON_FILL_COLOR, fillColorJson)
+                        .build();
+                
+                arrayBuilder.add(shapeJson);
+                
+                if(stationArray != null){
+                    JsonObject arr = Json.createObjectBuilder()
+                            .add(JSON_STATION_NAME, stationArray).build();
+                            arrayBuilder.add(arr);
+                }
+            }
+            
+            else if (shape instanceof DraggableImage) {
+                DraggableImage draggableShape = ((DraggableImage) shape);
+                JsonObject fillColorJson = null;
+                String type = draggableShape.getShapeType();
+                double x = draggableShape.getX();
+                double y = draggableShape.getY();
+                double width = draggableShape.getWidth();
+                double height = draggableShape.getHeight();
+                fillColorJson = makeJsonImageObject(draggableShape.getPathString());
                 JsonObject outlineColorJson = makeJsonColorObject((Color) ((Shape) shape).getStroke());
                 double outlineThickness = ((Shape) shape).getStrokeWidth();
 
@@ -209,28 +299,10 @@ public class m3Files implements AppFileComponent {
                         .add(JSON_OUTLINE_COLOR, outlineColorJson)
                         .add(JSON_OUTLINE_THICKNESS, outlineThickness).build();
                 arrayBuilder.add(shapeJson);
-            } 
-            
-            else if (shape instanceof DraggableText) {
-                Draggable draggableShape = ((Draggable) shape);
-                String type = draggableShape.getShapeType();
-                double x = draggableShape.getX();
-                double y = draggableShape.getY();
-                double width = draggableShape.getWidth();
-                double height = draggableShape.getHeight();
-                JsonObject shapeJson = Json.createObjectBuilder()
-                        .add(JSON_TYPE, type)
-                        .add(JSON_X, x)
-                        .add(JSON_Y, y)
-                        .add(JSON_TEXT_STRING, ((DraggableText)shape).getText())
-                        .add(JSON_WIDTH, width)
-                        .add(JSON_HEIGHT, height).build();
-                arrayBuilder.add(shapeJson);
             }
 
         }
         shapesArray = arrayBuilder.build();
-
 
         // THEN PUT IT ALL TOGETHER IN A JsonObject
         JsonObject dataManagerJSO = Json.createObjectBuilder()
@@ -266,12 +338,54 @@ public class m3Files implements AppFileComponent {
 	return colorJson;
     }
     
+    private JsonObject makeJsonWhiteObject(){
+        JsonObject colorJson = Json.createObjectBuilder()
+                .add(JSON_RED, 1.0)
+                .add(JSON_GREEN, 1.0)
+                .add(JSON_BLUE, 1.0)
+                .add(JSON_ALPHA, 1.0).build();
+        return colorJson;
+    }
+    
+    private JsonObject makeJsonBlackObject(){
+        JsonObject colorJson = Json.createObjectBuilder()
+                .add(JSON_RED, 0.0)
+                .add(JSON_GREEN, 0.0)
+                .add(JSON_BLUE, 0.0)
+                .add(JSON_ALPHA, 1.0).build();
+        return colorJson;
+    }
+    
     private JsonObject makeJsonImageObject(String pattern){
         JsonObject colorJson = Json.createObjectBuilder()
                 .add(JSON_IMAGE_PATTERN, pattern).build();
         return colorJson;
     }
-      
+     
+    public void loadDataFile(AppDataComponent data, String filePath) throws IOException{
+        // CLEAR THE OLD DATA OUT
+        m3Data dataManager = (m3Data) data;
+        dataManager.resetData();
+
+        // LOAD THE JSON FILE WITH ALL THE DATA
+        JsonObject json = loadJSONFile(filePath);
+
+        // LOAD THE BACKGROUND COLOR
+        Color bgColor = loadColor(json, JSON_BG_COLOR);
+        dataManager.setBackgroundColor(bgColor);
+
+        // AND NOW LOAD ALL THE SHAPES
+        JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
+        for (int i = 0; i < jsonShapeArray.size(); i++) {
+            JsonObject jsonShape = jsonShapeArray.getJsonObject(i);
+            Node shape;
+
+            System.out.println(jsonShape.get(JSON_FILL_COLOR));
+            shape = loadShape(jsonShape);
+
+            dataManager.addShape(shape);
+        }
+    }
     /**
      * This method loads data from a JSON formatted file into the data 
      * management component and then forces the updating of the workspace

@@ -52,7 +52,7 @@ public class m3Data implements AppDataComponent {
     
     ArrayList<StationTracker> stationTracker = new ArrayList<StationTracker>();
     
-    Rectangle clip = new Rectangle(1200, 1200);
+    Rectangle clip = new Rectangle(4000, 4000);
     
    
     boolean boxChecked;

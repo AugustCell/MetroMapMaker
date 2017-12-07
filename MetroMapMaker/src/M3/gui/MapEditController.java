@@ -598,6 +598,7 @@ public class MapEditController {
         Image img = SwingFXUtils.toFXImage(bufferImg, null);
         String imagePath = selectedFile.getPath();
         scene.setCursor(Cursor.DEFAULT);
+       
 
         dataManager.setState(m3State.SELECTING_SHAPE);
         DraggableImage temp = new DraggableImage();
@@ -660,8 +661,8 @@ public class MapEditController {
     */
     public void processShowGridLines(){
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
-        double width = 2000;
-        double height = 2000;
+        double width = 4000;
+        double height = 4000;
         double i = 0;
         double j = 0;
 
@@ -714,8 +715,8 @@ public class MapEditController {
     public void processSnapped(){
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         Node shape = dataManager.getSelectedShape();
-        double width = 2000;
-        double height = 2000;
+        double width = 4000;
+        double height = 4000;
         double i = 0;
         double j = 0;
         if(shape instanceof DraggableText){

@@ -44,7 +44,7 @@ public class LineGroups extends Line{
         lastLine = false;
         straightened = false;
     }
-    
+        
     public void setLineName(String name){
         lineName = name;
     }

@@ -23,24 +23,24 @@
         },
         {
             "type":"TEXT",
-            "x":148.0,
-            "y":148.0,
-            "Text":"www",
+            "x":173.0,
+            "y":110.0,
+            "Text":"1",
             "fill_color":{
                 "red":0.0,
                 "green":0.0,
                 "blue":0.0,
                 "alpha":1.0
             },
-            "width":25.998046875,
+            "width":6.0,
             "height":0.0
         },
         {
             "type":"STATION",
-            "x":138.0,
-            "y":158.0,
+            "x":163.0,
+            "y":120.0,
             "radius":10.0,
-            "name":"www"
+            "name":"1"
         },
         {
             "left_end":[

@@ -14,6 +14,7 @@ import M3.data.DraggableImage;
 import M3.data.DraggableLine;
 import M3.data.DraggableStation;
 import M3.data.DraggableText;
+import M3.data.GridLine;
 import M3.data.LineGroups;
 import M3.data.StationEnds;
 import M3.data.StationTracker;
@@ -91,6 +92,7 @@ public class CanvasController {
             Node shape = dataManager.selectTopShape(x, y);
             Scene scene = app.getGUI().getPrimaryScene();
 
+            
             // AND START DRAGGING IT
             if (shape != null) {
 

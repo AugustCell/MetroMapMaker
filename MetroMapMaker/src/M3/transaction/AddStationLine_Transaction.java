@@ -141,6 +141,12 @@ public class AddStationLine_Transaction implements jTPS_Transaction {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLeftLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -196,6 +202,12 @@ public class AddStationLine_Transaction implements jTPS_Transaction {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLeftLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -259,6 +271,12 @@ public class AddStationLine_Transaction implements jTPS_Transaction {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLeftLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -321,6 +339,12 @@ public class AddStationLine_Transaction implements jTPS_Transaction {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLeftLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());

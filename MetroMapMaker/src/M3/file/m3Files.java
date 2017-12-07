@@ -140,6 +140,7 @@ public class m3Files implements AppFileComponent {
                 double y = draggableShape.getY();
                 double width = draggableShape.getWidth();
                 double height = draggableShape.getHeight();
+                
                 String text = draggableShape.getText();
                 if (draggableShape.getFill() != null) {
                     fillColorJson = makeJsonColorObject((Color) draggableShape.getFill());
@@ -234,8 +235,12 @@ public class m3Files implements AppFileComponent {
                 boolean firstLine = draggableShape.getFirstLine();
                 boolean lastLine = draggableShape.getLastLine();
                 double strokeWidth = draggableShape.getStrokeWidth();
-                String leftEndType = draggableShape.getLeftEnd().getClass().toString();
-                String rightEndType = draggableShape.getRightEnd().getClass().toString();
+                String leftEndType = draggableShape.getLeftElementType();
+                String rightEndType = draggableShape.getRightElementType();
+                System.out.println("left element type :" + leftEndType);
+                System.out.println("right element type:" + rightEndType);
+           
+                        
                 
                 if (draggableShape.getFill() != null) {
                     fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());

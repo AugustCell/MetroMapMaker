@@ -142,6 +142,10 @@ public class StationController {
                                 }
                                 newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                 newLine.setRightend(((DraggableText) rightEndElement).getText());
+                                
+                                newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                                newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                                
                                 newLine.setStrokeWidth(5);
                                 newLine.setStroke(oldLeftLine.getStroke());
                                 workspace.getCanvas().getChildren().remove(oldLeftLine);
@@ -179,6 +183,9 @@ public class StationController {
                                 }
                                 newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                                 newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                                
+                                newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                                newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                                 ArrayList<StationEnds> tempEnds = ((DraggableStation) rightEndElement).getStationEnds();
                                 for (int l = 0; l < tempEnds.size(); l++) {
@@ -226,6 +233,9 @@ public class StationController {
                                 }
                                 newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                 newLine.setRightend(((DraggableText) rightEndElement).getText());
+                                
+                                newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                                newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
 
                                 ArrayList<StationEnds> tempEnds = ((DraggableStation) leftEndElement).getStationEnds();
                                 for (int l = 0; l < tempEnds.size(); l++) {
@@ -272,6 +282,9 @@ public class StationController {
                                 }
                                 newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                                 newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                                
+                                newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                                newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                                 ArrayList<StationEnds> tempLeftEnds = ((DraggableStation) leftEndElement).getStationEnds();
                                 for (int l = 0; l < tempLeftEnds.size(); l++) {
@@ -423,6 +436,10 @@ public class StationController {
                             }
                             newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                             newLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                            
                             newLine.setStrokeWidth(5);
                             newLine.setStroke(oldLeftLine.getStroke());
                             workspace.getCanvas().getChildren().remove(oldLeftLine);
@@ -460,6 +477,9 @@ public class StationController {
                             }
                             newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                             newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempEnds = ((DraggableStation) rightEndElement).getStationEnds();
                             for (int l = 0; l < tempEnds.size(); l++) {
@@ -507,6 +527,9 @@ public class StationController {
                             }
                             newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                             newLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempEnds = ((DraggableStation) leftEndElement).getStationEnds();
                             for (int l = 0; l < tempEnds.size(); l++) {
@@ -553,6 +576,9 @@ public class StationController {
                             }
                             newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                             newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempLeftEnds = ((DraggableStation) leftEndElement).getStationEnds();
                             for (int l = 0; l < tempLeftEnds.size(); l++) {
@@ -695,6 +721,12 @@ public class StationController {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLeftLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -737,6 +769,12 @@ public class StationController {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLeftLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -779,6 +817,12 @@ public class StationController {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLeftLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
@@ -820,6 +864,12 @@ public class StationController {
                             newLeftLine.setRightend(stationShape.getStationName());
                             newRightLine.setLeftEnd(stationShape.getStationName());
                             newRightLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLeftLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLeftLine.setRightElementType(stationShape.getClass().toString());
+                            newRightLine.setLeftElementType(stationShape.getClass().toString());
+                            newRightLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
+                            
                             newLeftLine.setStrokeWidth(5);
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());

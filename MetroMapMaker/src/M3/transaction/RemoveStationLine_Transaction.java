@@ -150,6 +150,11 @@ public class RemoveStationLine_Transaction implements jTPS_Transaction {
                             }
                             newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                             newLine.setRightend(((DraggableText) rightEndElement).getText());
+
+                            newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
+
+
                             newLine.setStrokeWidth(5);
                             newLine.setStroke(oldLeftLine.getStroke());
                             workspace.getCanvas().getChildren().remove(oldLeftLine);
@@ -187,6 +192,9 @@ public class RemoveStationLine_Transaction implements jTPS_Transaction {
                             }
                             newLine.setLeftEnd(((DraggableText) leftEndElement).getText());
                             newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLine.setLeftElementType(((DraggableText) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempEnds = ((DraggableStation) rightEndElement).getStationEnds();
                             for (int l = 0; l < tempEnds.size(); l++) {
@@ -234,6 +242,9 @@ public class RemoveStationLine_Transaction implements jTPS_Transaction {
                             }
                             newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                             newLine.setRightend(((DraggableText) rightEndElement).getText());
+                            
+                            newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableText) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempEnds = ((DraggableStation) leftEndElement).getStationEnds();
                             for (int l = 0; l < tempEnds.size(); l++) {
@@ -280,6 +291,9 @@ public class RemoveStationLine_Transaction implements jTPS_Transaction {
                             }
                             newLine.setLeftEnd(((DraggableStation) leftEndElement).getStationName());
                             newLine.setRightend(((DraggableStation) rightEndElement).getStationName());
+                            
+                            newLine.setLeftElementType(((DraggableStation) leftEndElement).getClass().toString());
+                            newLine.setRightElementType(((DraggableStation) rightEndElement).getClass().toString());
 
                             ArrayList<StationEnds> tempLeftEnds = ((DraggableStation) leftEndElement).getStationEnds();
                             for (int l = 0; l < tempLeftEnds.size(); l++) {

@@ -12,11 +12,15 @@
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/DraggableText.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/m3State.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/StationTracker.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/StationGraph.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/DraggableLine.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/AddStation_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveLine_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/AddShape_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/m3Data.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/css/m3Style.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditLine_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/AbstractEdgeWeightedGraph.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/gui/CanvasController.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/LineGroups.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/DragShape_Transaction.java</file>
@@ -25,14 +29,18 @@
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/gui/m3Workspace.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/css/m3_style.css</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/file/m3Files.java</file>
-            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditFillColor_Transaction.java</file>
-            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditText_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/AddLine_Transaction.java</file>
-            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/ChangeText_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveStation_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditStationFillColor_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/Station.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/StationEnds.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/Draggable.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditTextFillColor_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveStationLine_Transaction.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/Graph.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/DraggableStation.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/gui/StationController.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/EdgeWeightedGraph.java</file>
         </group>
     </open-files>
 </project-private>

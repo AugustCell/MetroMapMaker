@@ -384,24 +384,25 @@ public class m3Data implements AppDataComponent {
 	Node shape = getTopShape(x, y);
 	if (shape == selectedShape)
 	    return shape;
-	
-	if (selectedShape != null) {
-	    unhighlightShape(selectedShape);
-	       }
-        if (shape != null) {
-            if(shape instanceof DraggableStation){
+
+        if (selectedShape != null) {
+            unhighlightShape(selectedShape);
+        }
+
+        if (shape instanceof GridLine) {
+            unhighlightShape(selectedShape);
+        } else if (shape != null) {
+            if (shape instanceof DraggableStation) {
                 highlightShape(shape);
-            }
-            else if (shape instanceof Group) {
+            } else if (shape instanceof Group) {
                 Group group = (Group) shape;
                 for (int i = 0; i < group.getChildren().size(); i++) {
                     if (group.getChildren().get(i).contains(x, y)) {
-                        if(group.getChildren().get(i) instanceof DraggableStation){
+                        if (group.getChildren().get(i) instanceof DraggableStation) {
                             highlightShape(group.getChildren().get(i));
                             shape = group.getChildren().get(i);
                             break;
-                        }
-                        else if (group.getChildren().get(i) instanceof DraggableText) {
+                        } else if (group.getChildren().get(i) instanceof DraggableText) {
                             highlightShape(group.getChildren().get(i));
                             shape = group.getChildren().get(i);
                             break;

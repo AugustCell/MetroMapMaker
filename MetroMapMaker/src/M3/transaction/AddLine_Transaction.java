@@ -69,7 +69,9 @@ public class AddLine_Transaction implements jTPS_Transaction {
 
         ((LineGroups) tempNode).setStrokeWidth(5);
         ((LineGroups) tempNode).setLeftEnd(((DraggableText) startLabel).getText());
+        ((LineGroups) tempNode).setLeftElementType(((DraggableText) startLabel).getClass().toString());
         ((LineGroups) tempNode).setRightend(((DraggableText) endLabel).getText());
+        ((LineGroups) tempNode).setRightElementType(((DraggableText) endLabel).getClass().toString());
         ((LineGroups) tempNode).setLeftElementType("text");
         ((LineGroups) tempNode).setRightElementType("text");
         ((DraggableText) startLabel).setStartText(true);

@@ -39,7 +39,9 @@ import M3.data.StationEnds;
 import M3.data.StationTracker;
 import M3.gui.m3Workspace;
 import djf.AppTemplate;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import javax.json.JsonString;
 
@@ -741,12 +744,13 @@ public class m3Files implements AppFileComponent {
         }
     }
 
-    public void processSnapshot() {
+    public void processSnapshot(String filePath) {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         Pane canvas = workspace.getCanvas();
+        String help = "./export/";
         WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
-        String help = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export";
-        File file = new File(help + "\\" + app.getWorkingfile());
+        File file = new File(filePath + "/" + app.getWorkingFileString() + ".png");
+        System.out.println("THIS IS THE SNAPSHOT PATH " + file.getAbsolutePath());
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
         } catch (IOException ioe) {
@@ -757,11 +761,23 @@ public class m3Files implements AppFileComponent {
     @Override
     public void saveExportData(AppDataComponent data, String filePath) throws IOException {
         // GET THE DATA
+        FileChooser directoryHelper = new FileChooser();
+        String exportDirectoryString = "./export/" + app.getWorkingFileString() + "/";
+        directoryHelper.setInitialDirectory(new File(filePath));
+        //C:\Users\Augusto\Netbeans projects\CSE219-Homework2\hw2\MetroMapMaker\.\work\hello
+        File projectFile = new File(directoryHelper.getInitialDirectory() + "/" + app.getWorkingFileString());
+        System.out.println("EXPORT CONCENTRATE " + projectFile.getAbsolutePath().toString());
+        System.out.println("EXPORT WRITE CONCENTRATE " + exportDirectoryString + app.getWorkingFileString());
+        BufferedWriter output = new BufferedWriter(new FileWriter(projectFile));
+        
         m3Data dataManager = (m3Data) data;
+        
+
         // NOW BUILD THE JSON OBJCTS TO SAVE
         JsonArrayBuilder lineBuilder = Json.createArrayBuilder();
         JsonArrayBuilder stationBuilder = Json.createArrayBuilder();
         ObservableList<Node> shapes = dataManager.getShapes();
+        ArrayList<String> addedLines = new ArrayList<String>();
         JsonArray shapesArray = null;
         JsonArray secondaryShapesArray = null;
 
@@ -770,89 +786,89 @@ public class m3Files implements AppFileComponent {
 
             if (shape instanceof LineGroups) {
                 LineGroups draggableShape = (LineGroups) shape;
-                JsonObject fillColorJson = null;
                 String name = draggableShape.getLineName();
-                ArrayList<String> stationNames = new ArrayList<String>();
-                ArrayList<StationTracker> tracker = dataManager.getStationTracker();
-                for (int i = 0; i < tracker.size(); i++) {
-                    if (tracker.get(i).getName().equals(name)) {
-                        stationNames = tracker.get(i).getStationNames();
-                        break;
+                
+                if (!addedLines.contains(name)) {
+                    addedLines.add(name);
+
+                    JsonObject fillColorJson = null;
+                    ArrayList<String> stationNames = new ArrayList<String>();
+                    ArrayList<StationTracker> tracker = dataManager.getStationTracker();
+                    for (int i = 0; i < tracker.size(); i++) {
+                        if (tracker.get(i).getName().equals(name)) {
+                            stationNames = tracker.get(i).getStationNames();
+                            break;
+                        }
                     }
-                }
 
-                if (((LineGroups) draggableShape).getStroke() != null) {
-                    fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
-                } else {
-                    fillColorJson = makeJsonBlackObject();
-                }
-
-                JsonArrayBuilder stationArray = null;
-                if (!stationNames.isEmpty()) {
-                    stationArray = Json.createArrayBuilder();
-                    for (int p = 0; p < stationNames.size(); p++) {
-                        stationArray.add(stationNames.get(p));
+                    if (((LineGroups) draggableShape).getStroke() != null) {
+                        fillColorJson = makeJsonColorObject((Color) draggableShape.getStroke());
+                    } else {
+                        fillColorJson = makeJsonBlackObject();
                     }
+
+                    JsonArrayBuilder stationArray = null;
+                    if (!stationNames.isEmpty()) {
+                        stationArray = Json.createArrayBuilder();
+                        for (int p = 0; p < stationNames.size(); p++) {
+                            stationArray.add(stationNames.get(p));
+                        }
+                    }
+                    JsonArray stationArr = stationArray.build();
+
+                    JsonObject shapeJson = Json.createObjectBuilder()
+                            .add(JSON_NAME, name)
+                            .add(JSON_CIRCULAR, "false")
+                            .add(JSON_FILL_COLOR, fillColorJson)
+                            .add(JSON_STATION_NAME, stationArr)
+                            .build();
+
+                    lineBuilder.add(shapeJson);
                 }
-                JsonArray stationArr = stationArray.build();
-
-                JsonObject shapeJson = Json.createObjectBuilder()
-                        .add(JSON_NAME, name)
-                        .add(JSON_CIRCULAR, "false")
-                        .add(JSON_FILL_COLOR, fillColorJson)
-                        .add(JSON_STATION_NAME, stationArr)
-                        .build();
-
-                lineBuilder.add(shapeJson);
-            }
-
-        }
-        shapesArray = lineBuilder.build();
-
-        for (Node node : shapes) {
-            Node shape = (Node) node;
-
-            if (shape instanceof DraggableStation) {
+            } 
+            
+            else if (shape instanceof DraggableStation) {
                 DraggableStation draggableShape = (DraggableStation) shape;
                 double x = draggableShape.getCenterX();
                 double y = draggableShape.getCenterY();
                 String name = draggableShape.getStationName();
 
-                JsonObject shapeJson = Json.createObjectBuilder()
-                        .add(JSON_NAME, name)
-                        .add(JSON_X, x)
-                        .add(JSON_Y, y)
-                        .build();
-                stationBuilder.add(shapeJson);
+                    JsonObject shapeJson = Json.createObjectBuilder()
+                            .add(JSON_NAME, name)
+                            .add(JSON_X, x)
+                            .add(JSON_Y, y)
+                            .build();
+                    stationBuilder.add(shapeJson);
+                
 
             }
-            secondaryShapesArray = stationBuilder.build();
-
-            // THEN PUT IT ALL TOGETHER IN A JsonObject
-            JsonObject dataManagerJSO = Json.createObjectBuilder()
-                    .add(JSON_NAME, app.getLinkeFile())
-                    .add(JSON_LINES_DECLARATION, shapesArray)
-                    .add(JSON_STATIONS_DECLARATION, secondaryShapesArray)
-                    .add(JSON_SHAPES, shapesArray)
-                    .build();
-
-            // AND NOW OUTPUT IT TO A JSON FILE WITH PRETTY PRINTING
-            Map<String, Object> properties = new HashMap<>(1);
-            properties.put(JsonGenerator.PRETTY_PRINTING, true);
-            JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
-            StringWriter sw = new StringWriter();
-            JsonWriter jsonWriter = writerFactory.createWriter(sw);
-            jsonWriter.writeObject(dataManagerJSO);
-            jsonWriter.close();
-
-            // INIT THE WRITER
-            OutputStream os = new FileOutputStream(filePath);
-            JsonWriter jsonFileWriter = Json.createWriter(os);
-            jsonFileWriter.writeObject(dataManagerJSO);
-            String prettyPrinted = sw.toString();
-            PrintWriter pw = new PrintWriter(filePath);
-            pw.write(prettyPrinted);
-            pw.close();
         }
+        shapesArray = lineBuilder.build();
+        secondaryShapesArray = stationBuilder.build();
+
+        // THEN PUT IT ALL TOGETHER IN A JsonObject
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+                .add(JSON_NAME, app.getWorkingFileString())
+                .add(JSON_LINES_DECLARATION, shapesArray)
+                .add(JSON_STATIONS_DECLARATION, secondaryShapesArray)
+                .build();
+
+        // AND NOW OUTPUT IT TO A JSON FILE WITH PRETTY PRINTING
+        Map<String, Object> properties = new HashMap<>(1);
+        properties.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+        StringWriter sw = new StringWriter();
+        JsonWriter jsonWriter = writerFactory.createWriter(sw);
+        jsonWriter.writeObject(dataManagerJSO);
+        jsonWriter.close();
+
+        // INIT THE WRITER
+        OutputStream os = new FileOutputStream(directoryHelper.getInitialDirectory() + "/" + app.getWorkingFileString());
+        JsonWriter jsonFileWriter = Json.createWriter(os);
+        jsonFileWriter.writeObject(dataManagerJSO);
+        String prettyPrinted = sw.toString();
+        PrintWriter pw = new PrintWriter(directoryHelper.getInitialDirectory() + "/" + app.getWorkingFileString());
+        pw.write(prettyPrinted);
+        pw.close();
     }
 }

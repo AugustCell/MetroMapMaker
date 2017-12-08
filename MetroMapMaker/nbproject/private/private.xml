@@ -27,13 +27,16 @@
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/m3App.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/m3LanguageProperty.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/gui/m3Workspace.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/dGraph.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/css/m3_style.css</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/file/m3Files.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/AddLine_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveStation_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditStationFillColor_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/Station.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveText_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/StationEnds.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/AdjacentList.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/Draggable.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/EditTextFillColor_Transaction.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/transaction/RemoveStationLine_Transaction.java</file>
@@ -41,6 +44,7 @@
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/data/DraggableStation.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/gui/StationController.java</file>
             <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/EdgeWeightedGraph.java</file>
+            <file>file:/C:/Users/Augusto/Netbeans%20projects/CSE219-Homework2/hw2/MetroMapMaker/src/M3/graph/ShortestPath.java</file>
         </group>
     </open-files>
 </project-private>

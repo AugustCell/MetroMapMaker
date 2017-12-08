@@ -891,21 +891,5 @@ public class MapEditController {
         }
     }
     
-    /**
-     * This method processes a user request to take a snapshot of the
-     * current scene.
-     */
-    public void processSnapshot() {
-	m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
-	Pane canvas = workspace.getCanvas();
-	WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
-        String help = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export";
-	File file = new File(help + "\\" + app.getWorkingfile());
-	try {
-	    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-	}
-	catch(IOException ioe) {
-	    ioe.printStackTrace();
-	}
-    }
+    
 }

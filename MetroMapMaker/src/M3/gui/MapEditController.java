@@ -842,37 +842,12 @@ public class MapEditController {
         m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         String origin = workspace.getOriginBox().getSelectionModel().getSelectedItem();
         String destination = workspace.getDestinationBox().getSelectionModel().getSelectedItem();
-        Iterator<Station> it = null;
         ArrayList<StationTracker> tracker = dataManager.getStationTracker();
         ArrayList<String> trackerElements = new ArrayList<String>();
         for (int i = 0; i < tracker.size(); i++) {
             ArrayList<String> stations = tracker.get(i).getStationNames();
             Iterator itr = stations.iterator();
-            it = new Iterator<Station>() {
-                @Override
-                public boolean hasNext() {
-                    return itr.hasNext();
-                }
 
-                @Override
-                public Station next() {
-                    return new Station((String) itr.next());
-                }
-            };
-            
-        }
-        StationGraph sg = new StationGraph(it);
-        Station start = new Station(origin);
-        Station goal = new Station(destination);
-        List<Station> path = sg.minimumWeightPath(start, goal);
-        if(path == null){
-            System.out.println("No path found");
-        }
-        else{
-            for(Station station : path){
-                System.out.print(station + " ");
-            }
-            System.out.println();
         }
     }
 
@@ -924,7 +899,8 @@ public class MapEditController {
 	m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
 	Pane canvas = workspace.getCanvas();
 	WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
-	File file = new File("Logo.png");
+        String help = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export";
+	File file = new File(help + "\\" + app.getWorkingfile());
 	try {
 	    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
 	}

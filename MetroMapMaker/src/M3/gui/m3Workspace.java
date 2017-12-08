@@ -616,7 +616,7 @@ public class m3Workspace extends AppWorkspaceComponent {
              mapEditController.handleAddTextRequets();
          });
          removeElementButton.setOnAction(e -> {
-             
+             mapEditController.removeMapElement();
          });
          textColorButton.setOnAction(e -> {
              mapEditController.changeTextColor();

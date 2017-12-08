@@ -32,7 +32,7 @@ public class m3App extends AppTemplate {
         // THE WORKSPACE NEEDS THE DATA COMPONENT TO EXIST ALREADY
         // WHEN IT IS CONSTRUCTED, AND THE DATA COMPONENT NEEDS THE
         // FILE COMPONENT SO WE MUST BE CAREFUL OF THE ORDER
-        fileComponent = new m3Files();
+        fileComponent = new m3Files(this);
         dataComponent = new m3Data(this);
         workspaceComponent = new m3Workspace(this);
         

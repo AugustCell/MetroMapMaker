@@ -113,9 +113,9 @@ public class DraggableStation extends Circle implements Draggable {
 
     @Override
     public void setLocationAndSize(double initX, double initY, double initWidth, double initHeight) {
-        setCenterX(initX + (initWidth/2));
-	setCenterY(initY + (initHeight/2));
-	setRadius(initWidth/2);
+        setCenterX(initX);
+	setCenterY(initY);
+	setRadius(initWidth);
     }
 
     @Override

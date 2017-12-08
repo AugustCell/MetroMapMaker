@@ -151,6 +151,7 @@ public class AddStationLine_Transaction implements jTPS_Transaction {
                             newRightLine.setStrokeWidth(5);
                             newLeftLine.setStroke(tempGroup.getStroke());
                             newRightLine.setStroke(tempGroup.getStroke());
+                            
 
                             newStationEnd.setLeftEnd(((DraggableText) leftEndElement).getText());
                             newStationEnd.setRightEnd(((DraggableText) rightEndElement).getText());

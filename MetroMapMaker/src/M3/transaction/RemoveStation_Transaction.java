@@ -38,36 +38,35 @@ public class RemoveStation_Transaction implements jTPS_Transaction {
     @Override
     public void doTransaction() {
         dataManager.removeStationName(nodeToRemoveString);
-            workspace.getOriginBox().getItems().remove(nodeToRemoveString);
-            workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
-            workspace.getStationBox().getItems().remove(nodeToRemoveString);
-            for(int i = 0; i < dataManager.getShapes().size(); i++){
-                if(dataManager.getShapes().get(i) instanceof DraggableStation){
-                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                    if(tempStation.getStationName().equals(nodeToRemoveString)){
-                        ArrayList<StationEnds> tempEnds = tempStation.getStationEnds();
-                        if(!tempEnds.isEmpty()){
-                            stationController.removeSpecificStation(nodeToRemoveString);
-                        }
+        workspace.getOriginBox().getItems().remove(nodeToRemoveString);
+        workspace.getDestinationBox().getItems().remove(nodeToRemoveString);
+        workspace.getStationBox().getItems().remove(nodeToRemoveString);
+        for (int i = 0; i < dataManager.getShapes().size(); i++) {
+            if (dataManager.getShapes().get(i) instanceof DraggableStation) {
+                DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                if (tempStation.getStationName().equals(nodeToRemoveString)) {
+                    ArrayList<StationEnds> tempEnds = tempStation.getStationEnds();
+                    if (!tempEnds.isEmpty()) {
+                        stationController.removeSpecificStation(nodeToRemoveString);
                     }
                 }
             }
-            for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
-                if(dataManager.getShapes().get(i) instanceof DraggableStation){
-                    DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
-                    if(tempStation.getStationName().equals(nodeToRemoveString)){
-                        dataManager.getShapes().remove(tempStation);
-                    }
+        }
+        for (int i = dataManager.getShapes().size() - 1; i >= 0; i--) {
+            if (dataManager.getShapes().get(i) instanceof DraggableStation) {
+                DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(i);
+                if (tempStation.getStationName().equals(nodeToRemoveString)) {
+                    dataManager.getShapes().remove(tempStation);
                 }
-                else if(dataManager.getShapes().get(i) instanceof DraggableText){
-                    DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
-                    if(tempText.getText().equals(nodeToRemoveString)){
-                        dataManager.getShapes().remove(tempText);
-                    }
+            } else if (dataManager.getShapes().get(i) instanceof DraggableText) {
+                DraggableText tempText = (DraggableText) dataManager.getShapes().get(i);
+                if (tempText.getText().equals(nodeToRemoveString)) {
+                    dataManager.getShapes().remove(tempText);
                 }
-             
             }
-            workspace.getStationBox().getSelectionModel().selectFirst();
+
+        }
+        workspace.getStationBox().getSelectionModel().selectFirst();
     }
 
     @Override
@@ -76,6 +75,7 @@ public class RemoveStation_Transaction implements jTPS_Transaction {
         DraggableStation tempNode = new DraggableStation();
         
         stationLabel.setText(nodeToRemoveString);
+        stationLabel.setStationText(true);
         dataManager.getStations().add(nodeToRemoveString);
         workspace.getStationBox().getItems().add(nodeToRemoveString);
         workspace.getStationBox().valueProperty().set(nodeToRemoveString);

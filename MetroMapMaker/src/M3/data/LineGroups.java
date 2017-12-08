@@ -29,7 +29,9 @@ public class LineGroups extends Line{
     public String rightElementType;
     boolean firstLine;
     boolean lastLine;
-    boolean straightened;
+    boolean leftBounded;
+    boolean rightBounded;
+    
     
     public LineGroups(){
         lineName = "";
@@ -42,7 +44,8 @@ public class LineGroups extends Line{
         rightElementType = "";
         firstLine = false;
         lastLine = false;
-        straightened = false;
+        leftBounded = false;
+        rightBounded = false;
     }
         
     public void setLineName(String name){
@@ -108,10 +111,12 @@ public class LineGroups extends Line{
     public boolean getLastLine(){
         return lastLine;
     }
-    public void setStraightened(boolean result){
-        straightened = result;
-    }
-    public boolean getStraightened(){
-        return straightened;
+   
+    
+    public void setLocationAndSize(double initX, double initY, double endX, double endY) {
+        startXProperty().set(initX);
+        startYProperty().set(initY);
+        endXProperty().set(endX);
+        endYProperty().set(endY);
     }
 }

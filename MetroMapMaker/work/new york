@@ -1,0 +1,253 @@
+
+{
+    "background_color":{
+        "red":1.0,
+        "green":1.0,
+        "blue":1.0,
+        "alpha":1.0
+    },
+    "shapes":[
+        {
+            "type":"TEXT",
+            "x":262.359375,
+            "y":66.0,
+            "Text":"eeeeewweew",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":63.28125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":414.359375,
+            "y":246.0,
+            "Text":"eeeeewweew",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":63.28125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":246.0,
+            "y":103.0,
+            "Text":"1",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"1",
+            "x":236.0,
+            "y":113.0,
+            "radius":10.0,
+            "left_end":[
+                "eeeeewweew"
+            ],
+            "right_end":[
+                "2"
+            ],
+            "line_names":[
+                "eeeeewweew"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":225.0,
+            "y":194.0,
+            "Text":"2",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"2",
+            "x":215.0,
+            "y":204.0,
+            "radius":10.0,
+            "left_end":[
+                "1"
+            ],
+            "right_end":[
+                "3"
+            ],
+            "line_names":[
+                "eeeeewweew"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":352.0,
+            "y":207.0,
+            "Text":"3",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"3",
+            "x":342.0,
+            "y":217.0,
+            "radius":10.0,
+            "left_end":[
+                "2"
+            ],
+            "right_end":[
+                "eeeeewweew"
+            ],
+            "line_names":[
+                "eeeeewweew"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"eeeeewweew",
+            "start x":262.359375,
+            "start y":66.0,
+            "end x":236.0,
+            "end y":113.0,
+            "left_line_end":"eeeeewweew",
+            "right_line_end":"1",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.6000000238418579,
+                "green":0.3019607961177826,
+                "blue":0.4000000059604645,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"eeeeewweew",
+            "start x":236.0,
+            "start y":113.0,
+            "end x":215.0,
+            "end y":204.0,
+            "left_line_end":"1",
+            "right_line_end":"2",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.6000000238418579,
+                "green":0.3019607961177826,
+                "blue":0.4000000059604645,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"eeeeewweew",
+            "start x":215.0,
+            "start y":204.0,
+            "end x":342.0,
+            "end y":217.0,
+            "left_line_end":"2",
+            "right_line_end":"3",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.6000000238418579,
+                "green":0.3019607961177826,
+                "blue":0.4000000059604645,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"eeeeewweew",
+            "start x":342.0,
+            "start y":217.0,
+            "end x":414.359375,
+            "end y":246.0,
+            "left_line_end":"3",
+            "right_line_end":"eeeeewweew",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.6000000238418579,
+                "green":0.3019607961177826,
+                "blue":0.4000000059604645,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        }
+    ]
+}

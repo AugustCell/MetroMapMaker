@@ -20,6 +20,8 @@ public class DraggableText extends Text implements Draggable{
     boolean startText;
     boolean endText;
     boolean straightened;
+    boolean stationText;
+    boolean lineText;
     
     public DraggableText() {
 	setX(200.0);
@@ -32,6 +34,8 @@ public class DraggableText extends Text implements Draggable{
         startText = false;
         endText = false;
         straightened = false;
+        stationText = false;
+        lineText = false;
         Font font = new Font("Times New Roman", 12);
         setFont(font);
         
@@ -113,13 +117,13 @@ public class DraggableText extends Text implements Draggable{
         height = d;
     }
     public void setStartText(boolean result){
-        startText = true;
+        startText = result;
     }
     public boolean getStartResult(){
         return startText;
     }
     public void setEndText(boolean result){
-        endText = true;
+        endText = result;
     }
     public boolean getEndResult(){
         return endText;
@@ -129,5 +133,17 @@ public class DraggableText extends Text implements Draggable{
     }
     public boolean getStraightened(){
         return straightened;
+    }
+    public void setStationText(boolean result){
+        stationText = result;
+    }
+    public boolean getStationText(){
+        return stationText;
+    }
+    public void setLineText(boolean result){
+        lineText = result;
+    }
+    public boolean getLineText(){
+        return lineText;
     }
 }

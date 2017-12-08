@@ -34,7 +34,9 @@ import M3.transaction.EditTextFont_Transaction;
 import M3.transaction.RemoveLine_Transaction;
 import M3.transaction.RemoveShape_Transaction;
 import M3.transaction.RemoveStation_Transaction;
+import M3.transaction.RemoveText_Transaction;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +56,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -573,36 +580,24 @@ public class MapEditController {
     public void processImageAsBackground() throws IOException{
         Scene scene = app.getGUI().getPrimaryScene();
         m3Workspace workspace = (m3Workspace)app.getWorkspaceComponent();
+        Background background = workspace.getCanvas().getBackground();
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Resource File");
-        ArrayList<String> stringHelper = new ArrayList<String>();
         fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-
         File selectedFile = fc.showOpenDialog(null);
         System.out.println(selectedFile.getPath());
-        
-        
-        stringHelper.add(selectedFile.getPath());
-
-        for(int i = 0; i < stringHelper.size(); i++){
-            if(stringHelper.get(i).equals("\\")){
-                System.out.println("Detected at " + i);
-                stringHelper.add(i , "\\");
-            }
-            
-        }
-        
-        System.out.println(stringHelper);
-        
-        BufferedImage bufferImg = ImageIO.read(selectedFile);
-        Image img = SwingFXUtils.toFXImage(bufferImg, null);
-        String imagePath = selectedFile.getPath();
-        scene.setCursor(Cursor.DEFAULT);
        
-
+        URL url = selectedFile.toURI().toURL();
+        Image image = new Image(url.toExternalForm(), workspace.getCanvas().getPrefWidth(), workspace.getCanvas().getPrefHeight(), false, false);
+        
+        
+        if(selectedFile != null){
+            workspace.getCanvas().setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        }
+       
+        
         dataManager.setState(m3State.SELECTING_SHAPE);
-        DraggableImage temp = new DraggableImage();
-        //ImagePattern tempPattern = new ImagePattern(img);
 
     }
 
@@ -881,6 +876,46 @@ public class MapEditController {
         }
     }
 
+    public void removeMapElement() {
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+        StationController stationController = new StationController(app);
+        Node shape = dataManager.getSelectedShape();
+        
+        if (shape instanceof DraggableStation) {
+            String nodeToRemoveString = ((DraggableStation) shape).getStationName();
+            transaction = new RemoveStation_Transaction(app, workspace, nodeToRemoveString, stationController);
+            dataManager.getjTPS().addTransaction(transaction);
+        }
+      
+        else if(shape instanceof DraggableText){
+            DraggableText tempText = (DraggableText) shape;
+            boolean isLine = false;
+            for(int i = 0; i < dataManager.getShapes().size(); i++){
+                if(dataManager.getShapes().get(i) instanceof LineGroups){
+                    LineGroups tempLine = (LineGroups) dataManager.getShapes().get(i);
+                    if(tempLine.getLineName().equals(tempText.getText())){
+                        isLine = true;
+                        break;
+                    }
+                }
+            }
+            if(isLine){
+                String nodeToRemoveString = tempText.getText();
+                transaction = new RemoveLine_Transaction(app, workspace, nodeToRemoveString);
+                dataManager.getjTPS().addTransaction(transaction);
+            }
+            else{
+                transaction = new RemoveText_Transaction(app, workspace, tempText);
+                dataManager.getjTPS().addTransaction(transaction);
+            }
+        }
+        
+        else if(shape instanceof DraggableImage){
+            transaction = new RemoveShape_Transaction(app, shape);
+            dataManager.getjTPS().addTransaction(transaction);
+        }
+    }
+    
     /**
      * This method processes a user request to take a snapshot of the
      * current scene.

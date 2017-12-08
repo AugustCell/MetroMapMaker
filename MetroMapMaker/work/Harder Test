@@ -1,0 +1,427 @@
+
+{
+    "background_color":{
+        "red":1.0,
+        "green":1.0,
+        "blue":1.0,
+        "alpha":1.0
+    },
+    "shapes":[
+        {
+            "type":"TEXT",
+            "x":92.83984375,
+            "y":250.0,
+            "Text":"e line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":26.3203125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":551.83984375,
+            "y":342.0,
+            "Text":"e line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":26.3203125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":110.5048828125,
+            "y":51.0,
+            "Text":"f line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":24.990234375,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":576.5048828125,
+            "y":164.0,
+            "Text":"f line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":24.990234375,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":194.8359375,
+            "y":341.0,
+            "Text":"i line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":24.328125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":379.8359375,
+            "y":69.0,
+            "Text":"i line",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":24.328125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":275.0,
+            "y":263.0,
+            "Text":"1",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"1",
+            "x":265.0,
+            "y":273.0,
+            "radius":10.0,
+            "left_end":[
+                "e line",
+                "i line"
+            ],
+            "right_end":[
+                "e line",
+                "2"
+            ],
+            "line_names":[
+                "e line",
+                "i line"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":353.0,
+            "y":219.0,
+            "Text":"2",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"2",
+            "x":343.0,
+            "y":229.0,
+            "radius":10.0,
+            "left_end":[
+                "1"
+            ],
+            "right_end":[
+                "3"
+            ],
+            "line_names":[
+                "i line"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":381.0,
+            "y":114.0,
+            "Text":"3",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":6.0,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"3",
+            "x":371.0,
+            "y":124.0,
+            "radius":10.0,
+            "left_end":[
+                "f line",
+                "2"
+            ],
+            "right_end":[
+                "f line",
+                "i line"
+            ],
+            "line_names":[
+                "f line",
+                "i line"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"e line",
+            "start x":92.83984375,
+            "start y":250.0,
+            "end x":265.0,
+            "end y":273.0,
+            "left_line_end":"e line",
+            "right_line_end":"1",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.20000000298023224,
+                "green":0.3019607961177826,
+                "blue":0.7019608020782471,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"e line",
+            "start x":265.0,
+            "start y":273.0,
+            "end x":551.83984375,
+            "end y":342.0,
+            "left_line_end":"1",
+            "right_line_end":"e line",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.20000000298023224,
+                "green":0.3019607961177826,
+                "blue":0.7019608020782471,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"i line",
+            "start x":194.8359375,
+            "start y":341.0,
+            "end x":265.0,
+            "end y":273.0,
+            "left_line_end":"i line",
+            "right_line_end":"1",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.3019607961177826,
+                "green":0.4000000059604645,
+                "blue":0.800000011920929,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"i line",
+            "start x":265.0,
+            "start y":273.0,
+            "end x":343.0,
+            "end y":229.0,
+            "left_line_end":"1",
+            "right_line_end":"2",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.3019607961177826,
+                "green":0.4000000059604645,
+                "blue":0.800000011920929,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"f line",
+            "start x":110.5048828125,
+            "start y":51.0,
+            "end x":371.0,
+            "end y":124.0,
+            "left_line_end":"f line",
+            "right_line_end":"3",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"f line",
+            "start x":371.0,
+            "start y":124.0,
+            "end x":576.5048828125,
+            "end y":164.0,
+            "left_line_end":"3",
+            "right_line_end":"f line",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"i line",
+            "start x":343.0,
+            "start y":229.0,
+            "end x":371.0,
+            "end y":124.0,
+            "left_line_end":"2",
+            "right_line_end":"3",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.3019607961177826,
+                "green":0.4000000059604645,
+                "blue":0.800000011920929,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"i line",
+            "start x":371.0,
+            "start y":124.0,
+            "end x":379.8359375,
+            "end y":69.0,
+            "left_line_end":"3",
+            "right_line_end":"i line",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.3019607961177826,
+                "green":0.4000000059604645,
+                "blue":0.800000011920929,
+                "alpha":1.0
+            },
+            "station_names":[
+                "1",
+                "2",
+                "3"
+            ]
+        }
+    ]
+}

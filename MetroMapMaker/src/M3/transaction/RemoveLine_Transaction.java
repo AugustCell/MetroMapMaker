@@ -97,6 +97,8 @@ public class RemoveLine_Transaction implements jTPS_Transaction{
         startLabel.setY(200);
         endLabel.setX(300);
         endLabel.setY(200);
+        startLabel.setLineText(true);
+        endLabel.setLineText(true);
 
         tempNode.setStrokeWidth(5);
         tempNode.setStroke(previousFill);

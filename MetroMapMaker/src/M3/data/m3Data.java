@@ -389,7 +389,7 @@ public class m3Data implements AppDataComponent {
             unhighlightShape(selectedShape);
         }
 
-        if (shape instanceof GridLine) {
+        if (shape instanceof GridLine || shape instanceof LineGroups) {
             unhighlightShape(selectedShape);
         } else if (shape != null) {
             if (shape instanceof DraggableStation) {

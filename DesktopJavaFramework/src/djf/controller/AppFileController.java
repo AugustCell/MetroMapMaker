@@ -355,8 +355,9 @@ public class AppFileController {
 		fc.setTitle(props.getProperty(SAVE_WORK_TITLE));
 		fc.getExtensionFilters().addAll(
 		new ExtensionFilter(props.getProperty(WORK_FILE_EXT_DESC), props.getProperty(WORK_FILE_EXT)));
-
-		File selectedFile = app.getWorkingfile();      
+                System.out.println("Absolute path " + app.getWorkingfile().getAbsolutePath());
+		File selectedFile = app.getWorkingfile();   
+                System.out.print("SELECTED FILE PATH " + selectedFile.getAbsolutePath());
 		if (selectedFile != null) {
 		    saveWork(selectedFile);
 		}
@@ -373,11 +374,6 @@ public class AppFileController {
         // WE'LL NEED THIS TO GET CUSTOM STUFF
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         try {
-            // MAYBE WE ALREADY KNOW THE FILE
-            if (currentWorkFile != null) {
-                saveWork(currentWorkFile);
-            } // OTHERWISE WE NEED TO PROMPT THE USER
-            else {
                 // PROMPT THE USER FOR A FILE NAME
                 FileChooser fc = new FileChooser();
                 fc.setInitialDirectory(new File(PATH_WORK));
@@ -389,7 +385,7 @@ public class AppFileController {
                 if (selectedFile != null) {
                     saveWork(selectedFile);
                 }
-            }
+            
         } catch (IOException ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
@@ -399,23 +395,13 @@ public class AppFileController {
     public void handleExportRequest(){
         // WE'LL NEED THIS TO GET CUSTOM STUFF
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
-        File file = new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export\\new york");
+        File file = new File("./export/" + app.getWorkingFileString() + "/");
+        System.out.println("EXPORT FILE PATH " + file.getAbsolutePath());
         try {
 	    // MAYBE WE ALREADY KNOW THE FILE
 	    
-            saveWork(file);
-            // OTHERWISE WE NEED TO PROMPT THE USER
-            // PROMPT THE USER FOR A FILE NAME
-            FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File(PATH_WORK));
-            fc.setTitle(props.getProperty(SAVE_WORK_TITLE));
-            fc.getExtensionFilters().addAll(
-                    new ExtensionFilter(props.getProperty(WORK_FILE_EXT_DESC), props.getProperty(WORK_FILE_EXT)));
-
-            File selectedFile = app.getWorkingfile();
-            if (selectedFile != null) {
-                saveWork(selectedFile);
-		}
+            saveExportWork(file);
+         
 	    
         } catch (IOException ioe) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
@@ -425,7 +411,8 @@ public class AppFileController {
     
     private void saveExportWork(File selectedFile) throws IOException {
         // SAVE IT TO A FILE
-	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getPath());
+	app.getFileComponent().saveExportData(app.getDataComponent(), selectedFile.getAbsolutePath());
+        app.getFileComponent().processSnapshot(selectedFile.getAbsolutePath());
 	
 	// MARK IT AS SAVED
 	currentWorkFile = selectedFile;
@@ -444,7 +431,7 @@ public class AppFileController {
     // HELPER METHOD FOR SAVING WORK
     private void saveWork(File selectedFile) throws IOException {
 	// SAVE IT TO A FILE
-	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getPath());
+	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getAbsolutePath());
 	
 	// MARK IT AS SAVED
 	currentWorkFile = selectedFile;
@@ -646,8 +633,9 @@ public class AppFileController {
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
 	
         // AND NOW ASK THE USER FOR THE FILE TO OPEN
-        File tempFile = new File(fileName);
+        File tempFile = new File("C:" + fileName);
         File selectedFile = tempFile;
+        setCurrentWorkFile(tempFile);
         
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK

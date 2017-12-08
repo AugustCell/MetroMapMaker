@@ -18,9 +18,11 @@ public interface AppFileComponent {
      */
     public void saveData(AppDataComponent data, String filePath) throws IOException;
 
+    public void saveExportData(AppDataComponent data, String filePath) throws IOException;
+
     /**
-     * This function must be overridden in the actual component and would
-     * read app data from a file in the necessary format.
+     * This function must be overridden in the actual component and would read
+     * app data from a file in the necessary format.
      */
     public void loadDataFile(AppDataComponent data, String filePath) throws IOException;
     
@@ -41,4 +43,7 @@ public interface AppFileComponent {
      * be used for importing app data from another format.
      */
     public void importData(AppDataComponent data, String filePath) throws IOException;
+    
+    
+    public void processSnapshot(String filePath);
 }

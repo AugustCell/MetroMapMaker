@@ -230,10 +230,6 @@ public class AppGUI {
         saveButton.setOnAction(e -> {
             fileController.handleSaveRequest();
         });
-       /* exitButton.setOnAction(e -> {
-            //fileController.handleExitRequest();
-        });
-        */
         saveAsButton.setOnAction(e -> {
             fileController.handleSaveAsRequest();
         });

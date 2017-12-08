@@ -59,6 +59,7 @@ import properties_manager.InvalidXMLFileFormatException;
  */
 public abstract class AppTemplate extends Application {
 
+    public String linkFile = "";
     // THIS IS THE APP'S FULL JavaFX GUI. NOTE THAT ALL APPS WOULD
     // SHARE A COMMON UI EXCEPT FOR THE CUSTOM WORKSPACE
     protected AppGUI gui;
@@ -79,6 +80,8 @@ public abstract class AppTemplate extends Application {
     protected AppStartupConstants xmlConstants = new AppStartupConstants();
     
     public File workingFile;
+    
+    public String workingFileString;
 
 
     // THIS METHOD MUST BE OVERRIDDEN WHERE THE CUSTOM BUILDER OBJECT
@@ -104,6 +107,17 @@ public abstract class AppTemplate extends Application {
     
     public void setWorkingFile(File file){
         workingFile = file;
+    }
+    public String getLinkFile(){
+        return linkFile;
+    }
+    
+    public void setWorkingFileString(String result){
+        workingFileString = result;
+    }
+    
+    public String getWorkingFileString(){
+        return workingFileString;
     }
     
     /**
@@ -185,14 +199,17 @@ public abstract class AppTemplate extends Application {
         AppFileController helper = new AppFileController(this);
         ArrayList recentMaps = new ArrayList();
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        FileChooser directoryHelper = new FileChooser();
-        directoryHelper.setInitialDirectory(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export"));
-        String workDirectory = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\work";
-        String[] fileNames = directoryHelper.getInitialDirectory().list();
-        if (fileNames != null) {
-            for (int i = 0; i < fileNames.length; i++) {
-                recentMaps.add(fileNames[i]);
-            }
+      //  FileChooser directoryHelper = new FileChooser();
+    //    directoryHelper.setInitialDirectory(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export"));
+       // String workDirectory = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\work";
+        String exportDirectory = "./export/";
+        String workDirectory = "./work/";
+        String workDirectoryExtension = "/work/";
+        File folder = new File(workDirectory);
+        File[] files = folder.listFiles();
+        for(int i = 0; i < files.length; i++){
+            System.out.println("CONCENTRATE " + files[i].toString().substring(files[i].toString().indexOf("./work/") + 8, files[i].toString().length()));
+            recentMaps.add(files[i].toString().substring(files[i].toString().indexOf("./work/") + 8, files[i].toString().length()));
         }
         
         Group root = new Group();
@@ -234,32 +251,22 @@ public abstract class AppTemplate extends Application {
          if (!recentMaps.isEmpty()) {
             for (int i = 0; i < recentMaps.size(); i++) {
                 Hyperlink recentLink = new Hyperlink(recentMaps.get(i).toString());
-                String fileNameHelp = workDirectory + "\\" + recentMaps.get(i).toString();
+                String fileNameHelp = workDirectory + recentMaps.get(i).toString();
                 workingFile = new File(fileNameHelp);
                 System.out.println(fileNameHelp);
                 recentLink.setBorder(Border.EMPTY);
                 recentLink.setStyle("-fx-font: 20 arial;");
                 recentLink.setOnAction(e -> {
                     String fileName = recentLink.getText();
+                    linkFile = recentLink.getText();
+                    setWorkingFileString(linkFile);
                     System.out.println("RECENT MAP NAME " + recentLink.getText().toString());
-                    String fileNameSetter = workDirectory + "\\" + fileName;
+                    String fileNameSetter = workDirectory + fileName;
+                    System.out.println("THIS IS THE FILE NAME SETTER : " + fileNameSetter);
                     File currentFile = new File(fileNameSetter);
+                    System.out.println("WORKING CURRENT FILE " + currentFile.getAbsolutePath());
                     setWorkingFile(currentFile);
-                     /*   this.getWorkspaceComponent().resetWorkspace();
-                        
-                        // RESET THE DATA
-                        this.getDataComponent().resetData();
-                        
-                        // LOAD THE FILE INTO THE DATA
-                        this.getFileComponent().loadData(this.getDataComponent(), fileNameHelp);
-                        
-                        // MAKE SURE THE WORKSPACE IS ACTIVATED
-                        this.getWorkspaceComponent().activateWorkspace(this.getGUI().getAppPane());
-                        
-                        // AND MAKE SURE THE FILE BUTTONS ARE PROPERLY ENABLED
-                        boolean saved = true;
-                        this.getGUI().updateToolbarControls(saved);
-                        helper.setSaved(true);*/
+                   
                     helper.handleLoadFileRequest(fileNameHelp);
                     helper.setCurrentWorkFile(currentFile);
                     tempStage.close();
@@ -340,11 +347,18 @@ public abstract class AppTemplate extends Application {
     }
 
     public void handleWelcomeNewRequest() throws IOException {
-        FileChooser directoryHelper = new FileChooser();
         AppFileController helper = new AppFileController(this);
-        directoryHelper.setInitialDirectory(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export"));
-        String[] fileNames = directoryHelper.getInitialDirectory().list();
-        String workDirectory = "C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\work"; 
+    
+     
+        String workDirectory = "./work/";
+        File folder = new File(workDirectory);
+        File[] files = folder.listFiles();
+        ArrayList<String> fileNames = new ArrayList<String>();
+      
+        for (int i = 0; i < files.length; i++) {
+            fileNames.add(files[i].toString().substring(files[i].toString().indexOf("./work/") + 8, files[i].toString().length()));
+        }
+
         TextInputDialog dialog = new TextInputDialog();
         boolean existingFile = true;
         boolean equalityFlag = false;
@@ -357,12 +371,14 @@ public abstract class AppTemplate extends Application {
                 t.setText(result.get());
                 if (fileNames == null) {
                     handleDirectorySave(t.getText());
-                    workingFile = new File(workDirectory + "\\" + t.getText());
+                    setWorkingFileString(t.getText());
+                    workingFile = new File(workDirectory + t.getText());
+                    linkFile = t.getText();
                     existingFile = false;
                 } else {
 
-                    for (String files : fileNames) {
-                        if (t.getText().equals(files)) {
+                    for (int l = 0; l < fileNames.size(); l++) {
+                        if (t.getText().equals(fileNames.get(l))) {
                             equalityFlag = true;
                         }
                     }
@@ -374,7 +390,9 @@ public abstract class AppTemplate extends Application {
                         equalityFlag = false;
                     } else {
                         handleDirectorySave(t.getText());
-                        workingFile = new File(workDirectory + "\\" + t.getText());
+                        workingFile = new File(workDirectory + t.getText());
+                        setWorkingFileString(t.getText());
+                        linkFile = t.getText();
                         existingFile = false;
                     }
                 }
@@ -392,11 +410,15 @@ public abstract class AppTemplate extends Application {
      */
     public void handleDirectorySave(String file) throws IOException {
         FileChooser directoryHelper = new FileChooser();
-        directoryHelper.setInitialDirectory(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\work"));
-        File projectFile = new File(directoryHelper.getInitialDirectory() + "\\" + file);
+        String workDirectory = "./work/";
+        String exportDirectoryString = "./export/";
+        directoryHelper.setInitialDirectory(new File(workDirectory));
+        File projectFile = new File(directoryHelper.getInitialDirectory() + "/"+ file);
+        System.out.println("WHEN SAVED FIRST TIME " + projectFile.getAbsolutePath().toString());
         BufferedWriter output = new BufferedWriter(new FileWriter(projectFile));
-        directoryHelper.setInitialDirectory(new File("C:\\Users\\Augusto\\Netbeans projects\\CSE219-Homework2\\hw2\\MetroMapMaker\\export"));
-        File exportDirectory = new File(directoryHelper.getInitialDirectory() + "\\" + file);
+        directoryHelper.setInitialDirectory(new File(exportDirectoryString));
+        File exportDirectory = new File(directoryHelper.getInitialDirectory() + "/" + file);
+        System.out.println("WHEN SAVED FIRST EXPORT DIRECTORY NAME " + exportDirectory.getAbsolutePath().toString());
         exportDirectory.mkdir();
     }
 }

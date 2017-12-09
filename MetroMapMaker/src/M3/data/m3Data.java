@@ -54,6 +54,7 @@ public class m3Data implements AppDataComponent {
     
     Rectangle clip = new Rectangle(4000, 4000);
     
+    
    
     boolean boxChecked;
 
@@ -381,8 +382,10 @@ public class m3Data implements AppDataComponent {
     }
 
     public Node selectTopShape(int x, int y) {
-	Node shape = getTopShape(x, y);
-	if (shape == selectedShape)
+        Node shape = getTopShape(x, y);
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
+
+        if (shape == selectedShape)
 	    return shape;
 
         if (selectedShape != null) {
@@ -391,7 +394,25 @@ public class m3Data implements AppDataComponent {
 
         if (shape instanceof GridLine || shape instanceof LineGroups) {
             unhighlightShape(selectedShape);
-        } else if (shape != null) {
+        }
+        else if(shape instanceof DraggableText){
+            DraggableText tempText = (DraggableText) shape;
+            for(int i = 0; i < shapes.size(); i++){
+                if(shapes.get(i) instanceof LineGroups){
+                    LineGroups tempGroup = (LineGroups) shapes.get(i);
+                    if(tempGroup.getLineName().equals(tempText.getText())){
+                        workspace.getLineBox().getSelectionModel().select(tempText.getText());
+                        break;
+                    }
+                }
+            }
+        }
+        
+        else if(shape instanceof DraggableStation){
+            workspace.getStationBox().getSelectionModel().select(((DraggableStation) shape).getStationName());
+        }
+        
+        else if (shape != null) {
             if (shape instanceof DraggableStation) {
                 highlightShape(shape);
             } else if (shape instanceof Group) {
@@ -414,7 +435,6 @@ public class m3Data implements AppDataComponent {
             }
 
             if (!(shape instanceof DraggableImage)) {
-                m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
                 workspace.loadSelectedShapeSettings(shape);
             }
         }

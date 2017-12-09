@@ -522,8 +522,8 @@ public class m3Workspace extends AppWorkspaceComponent {
         //SCROLL PANE OUTSIDE, OUTSIDE IS GROUP. THEN ADD CANVAS TO GROUP
         // AND NOW SETUP THE WORKSPACE
         workspace = new BorderPane();
-        canvas.setPrefWidth(4000);
-        canvas.setPrefHeight(4000);
+        canvas.setPrefWidth(3000);
+        canvas.setPrefHeight(3000);
         canvasGroup.getChildren().add(canvas);
         canvasScroll.setContent(canvasGroup);
         canvasScroll.setPrefViewportWidth(700);

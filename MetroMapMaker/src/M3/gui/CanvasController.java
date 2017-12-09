@@ -49,6 +49,8 @@ public class CanvasController {
     int destLocationY;
     int originX;
     int originY;
+    m3Data dataManager;
+
 
     
     public CanvasController(AppTemplate initApp) {

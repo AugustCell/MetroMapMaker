@@ -1,0 +1,4022 @@
+
+{
+    "background_color":{
+        "red":0.7019608020782471,
+        "green":0.7019608020782471,
+        "blue":0.7019608020782471,
+        "alpha":1.0
+    },
+    "shapes":[
+        {
+            "type":"TEXT",
+            "x":32.66796875,
+            "y":278.0,
+            "Text":"Blue",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":22.6640625,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":487.671875,
+            "y":1401.0,
+            "Text":"Blue",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":22.6640625,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":1083.34765625,
+            "y":117.0,
+            "Text":"Yellow",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":35.326171875,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":535.34765625,
+            "y":1098.0,
+            "Text":"Yellow",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":35.326171875,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":978.3427734375,
+            "y":565.0,
+            "Text":"Green",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":29.314453125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":1741.37109375,
+            "y":1335.0,
+            "Text":"Green",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":29.314453125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":1373.33984375,
+            "y":317.0,
+            "Text":"Red",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":true,
+            "Line_End_Text":false,
+            "width":19.330078125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":773.3349609375,
+            "y":924.0,
+            "Text":"Red",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":true,
+            "width":19.330078125,
+            "Line_label_boolean":true,
+            "Station_label_boolean":false,
+            "height":0.0
+        },
+        {
+            "type":"TEXT",
+            "x":260.0,
+            "y":297.0,
+            "Text":"Roboleira",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":47.3203125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Roboleira",
+            "x":250.0,
+            "y":307.0,
+            "radius":10.0,
+            "left_end":[
+                "Blue"
+            ],
+            "right_end":[
+                "Amadroa Este"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":32.66796875,
+            "start y":278.0,
+            "end x":250.0,
+            "end y":307.0,
+            "left_line_end":"Blue",
+            "right_line_end":"Roboleira",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":391.0,
+            "y":267.0,
+            "Text":"Amadroa Este",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":68.30859375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Amadroa Este",
+            "x":381.0,
+            "y":277.0,
+            "radius":10.0,
+            "left_end":[
+                "Roboleira"
+            ],
+            "right_end":[
+                "Alfernelos"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":250.0,
+            "start y":307.0,
+            "end x":381.0,
+            "end y":277.0,
+            "left_line_end":"Roboleira",
+            "right_line_end":"Amadroa Este",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":500.0,
+            "y":255.0,
+            "Text":"Alfernelos",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":50.6484375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Alfernelos",
+            "x":490.0,
+            "y":265.0,
+            "radius":10.0,
+            "left_end":[
+                "Amadroa Este"
+            ],
+            "right_end":[
+                "Pontinha"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":655.0,
+            "y":244.0,
+            "Text":"Pontinha",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":42.66796875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Pontinha",
+            "x":645.0,
+            "y":254.0,
+            "radius":10.0,
+            "left_end":[
+                "Alfernelos"
+            ],
+            "right_end":[
+                "Carnide"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":750.0,
+            "y":311.0,
+            "Text":"Carnide",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":37.986328125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Carnide",
+            "x":740.0,
+            "y":321.0,
+            "radius":10.0,
+            "left_end":[
+                "Pontinha"
+            ],
+            "right_end":[
+                "Colegio militar"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":381.0,
+            "start y":277.0,
+            "end x":490.0,
+            "end y":265.0,
+            "left_line_end":"Amadroa Este",
+            "right_line_end":"Alfernelos",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":490.0,
+            "start y":265.0,
+            "end x":645.0,
+            "end y":254.0,
+            "left_line_end":"Alfernelos",
+            "right_line_end":"Pontinha",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":645.0,
+            "start y":254.0,
+            "end x":740.0,
+            "end y":321.0,
+            "left_line_end":"Pontinha",
+            "right_line_end":"Carnide",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":810.0,
+            "y":369.0,
+            "Text":"Colegio militar",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":72.990234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Colegio militar",
+            "x":800.0,
+            "y":379.0,
+            "radius":10.0,
+            "left_end":[
+                "Carnide"
+            ],
+            "right_end":[
+                "Alto de moinhos"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":740.0,
+            "start y":321.0,
+            "end x":800.0,
+            "end y":379.0,
+            "left_line_end":"Carnide",
+            "right_line_end":"Colegio militar",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":769.0,
+            "y":451.0,
+            "Text":"Alto de moinhos",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":79.998046875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Alto de moinhos",
+            "x":759.0,
+            "y":461.0,
+            "radius":10.0,
+            "left_end":[
+                "Colegio militar"
+            ],
+            "right_end":[
+                "Larnajerias"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":837.0,
+            "y":503.0,
+            "Text":"Larnajerias",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":53.96484375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Larnajerias",
+            "x":827.0,
+            "y":513.0,
+            "radius":10.0,
+            "left_end":[
+                "Alto de moinhos"
+            ],
+            "right_end":[
+                "Jardin Zoologico"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":794.0,
+            "y":665.0,
+            "Text":"Jardin Zoologico",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":81.650390625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Jardin Zoologico",
+            "x":784.0,
+            "y":675.0,
+            "radius":10.0,
+            "left_end":[
+                "Larnajerias"
+            ],
+            "right_end":[
+                "praca de espana"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":906.0,
+            "y":773.0,
+            "Text":"praca de espana",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":75.94921875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"praca de espana",
+            "x":896.0,
+            "y":783.0,
+            "radius":10.0,
+            "left_end":[
+                "Jardin Zoologico"
+            ],
+            "right_end":[
+                "Sao sebastio"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1020.0,
+            "y":875.0,
+            "Text":"Sao sebastio",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":59.66015625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Sao sebastio",
+            "x":1010.0,
+            "y":885.0,
+            "radius":10.0,
+            "left_end":[
+                "Saldanha",
+                "Saldanha"
+            ],
+            "right_end":[
+                "Red",
+                "Red"
+            ],
+            "line_names":[
+                "Red",
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1031.0,
+            "y":930.0,
+            "Text":"Parque",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":33.322265625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Parque",
+            "x":1021.0,
+            "y":940.0,
+            "radius":10.0,
+            "left_end":[
+                "Sao sebastio"
+            ],
+            "right_end":[
+                "Marque de Pombai"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1025.0,
+            "y":1022.0,
+            "Text":"Marque de Pombai",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":91.3125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Marque de Pombai",
+            "x":1015.0,
+            "y":1032.0,
+            "radius":10.0,
+            "left_end":[
+                "Picoas",
+                "Picoas"
+            ],
+            "right_end":[
+                "Rato",
+                "Rato"
+            ],
+            "line_names":[
+                "Yellow",
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1090.0,
+            "y":1086.0,
+            "Text":"Avenida",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":40.65234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Avenida",
+            "x":1080.0,
+            "y":1096.0,
+            "radius":10.0,
+            "left_end":[
+                "Marque de Pombai"
+            ],
+            "right_end":[
+                "Restaudores"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1125.0,
+            "y":1161.0,
+            "Text":"Restaudores",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":58.65234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Restaudores",
+            "x":1115.0,
+            "y":1171.0,
+            "radius":10.0,
+            "left_end":[
+                "Avenida"
+            ],
+            "right_end":[
+                "Chiado"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1228.0,
+            "y":1309.0,
+            "Text":"Chiado",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":34.6640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Chiado",
+            "x":1218.0,
+            "y":1319.0,
+            "radius":10.0,
+            "left_end":[
+                "Rossio",
+                "Rossio"
+            ],
+            "right_end":[
+                "Santo",
+                "Santo"
+            ],
+            "line_names":[
+                "Green",
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":815.0,
+            "y":1392.0,
+            "Text":"Cali de sodre",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":63.31640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Cali de sodre",
+            "x":805.0,
+            "y":1402.0,
+            "radius":10.0,
+            "left_end":[
+                "Chiado"
+            ],
+            "right_end":[
+                "Blue"
+            ],
+            "line_names":[
+                "Blue"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":800.0,
+            "start y":379.0,
+            "end x":759.0,
+            "end y":461.0,
+            "left_line_end":"Colegio militar",
+            "right_line_end":"Alto de moinhos",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":759.0,
+            "start y":461.0,
+            "end x":827.0,
+            "end y":513.0,
+            "left_line_end":"Alto de moinhos",
+            "right_line_end":"Larnajerias",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":827.0,
+            "start y":513.0,
+            "end x":784.0,
+            "end y":675.0,
+            "left_line_end":"Larnajerias",
+            "right_line_end":"Jardin Zoologico",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":784.0,
+            "start y":675.0,
+            "end x":896.0,
+            "end y":783.0,
+            "left_line_end":"Jardin Zoologico",
+            "right_line_end":"praca de espana",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":896.0,
+            "start y":783.0,
+            "end x":1010.0,
+            "end y":885.0,
+            "left_line_end":"praca de espana",
+            "right_line_end":"Sao sebastio",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1010.0,
+            "start y":885.0,
+            "end x":1021.0,
+            "end y":940.0,
+            "left_line_end":"Sao sebastio",
+            "right_line_end":"Parque",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1021.0,
+            "start y":940.0,
+            "end x":1015.0,
+            "end y":1032.0,
+            "left_line_end":"Parque",
+            "right_line_end":"Marque de Pombai",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1015.0,
+            "start y":1032.0,
+            "end x":1080.0,
+            "end y":1096.0,
+            "left_line_end":"Marque de Pombai",
+            "right_line_end":"Avenida",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1080.0,
+            "start y":1096.0,
+            "end x":1115.0,
+            "end y":1171.0,
+            "left_line_end":"Avenida",
+            "right_line_end":"Restaudores",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1115.0,
+            "start y":1171.0,
+            "end x":1218.0,
+            "end y":1319.0,
+            "left_line_end":"Restaudores",
+            "right_line_end":"Chiado",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":1218.0,
+            "start y":1319.0,
+            "end x":805.0,
+            "end y":1402.0,
+            "left_line_end":"Chiado",
+            "right_line_end":"Cali de sodre",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Blue",
+            "start x":805.0,
+            "start y":1402.0,
+            "end x":487.671875,
+            "end y":1401.0,
+            "left_line_end":"Cali de sodre",
+            "right_line_end":"Blue",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.20000000298023224,
+                "blue":0.6000000238418579,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Roboleira",
+                "Amadroa Este",
+                "Alfernelos",
+                "Pontinha",
+                "Carnide",
+                "Colegio militar",
+                "Alto de moinhos",
+                "Larnajerias",
+                "Jardin Zoologico",
+                "praca de espana",
+                "Sao sebastio",
+                "Parque",
+                "Marque de Pombai",
+                "Avenida",
+                "Restaudores",
+                "Chiado",
+                "Cali de sodre"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1072.0,
+            "y":191.0,
+            "Text":"Odivelas",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":42.65625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Odivelas",
+            "x":1062.0,
+            "y":201.0,
+            "radius":10.0,
+            "left_end":[
+                "Yellow"
+            ],
+            "right_end":[
+                "Senor Rohubado"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1236.0,
+            "y":244.0,
+            "Text":"Senor Rohubado",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":80.326171875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Senor Rohubado",
+            "x":1226.0,
+            "y":254.0,
+            "radius":10.0,
+            "left_end":[
+                "Odivelas"
+            ],
+            "right_end":[
+                "Amexitora"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1239.0,
+            "y":336.0,
+            "Text":"Amexitora",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":51.31640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Amexitora",
+            "x":1229.0,
+            "y":346.0,
+            "radius":10.0,
+            "left_end":[
+                "Senor Rohubado"
+            ],
+            "right_end":[
+                "Lumiar"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1183.0,
+            "y":513.0,
+            "Text":"Quionta de conchas",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":94.634765625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Quionta de conchas",
+            "x":1173.0,
+            "y":523.0,
+            "radius":10.0,
+            "left_end":[
+                "Lumiar"
+            ],
+            "right_end":[
+                "Campo Grande"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1122.0,
+            "y":564.0,
+            "Text":"Campo Grande",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":72.978515625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Campo Grande",
+            "x":1112.0,
+            "y":574.0,
+            "radius":10.0,
+            "left_end":[
+                "Telheras",
+                "Telheras"
+            ],
+            "right_end":[
+                "Alvalde",
+                "Alvalde"
+            ],
+            "line_names":[
+                "Green",
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1105.0,
+            "y":663.0,
+            "Text":"Ciuda Universidad",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":90.31640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Ciuda Universidad",
+            "x":1095.0,
+            "y":673.0,
+            "radius":10.0,
+            "left_end":[
+                "Campo Grande"
+            ],
+            "right_end":[
+                "Entre Campos"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1294.0,
+            "y":734.0,
+            "Text":"Entre Campos",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":68.3203125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Entre Campos",
+            "x":1284.0,
+            "y":744.0,
+            "radius":10.0,
+            "left_end":[
+                "Ciuda Universidad"
+            ],
+            "right_end":[
+                "Campo Pequeno"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1327.0,
+            "y":809.0,
+            "Text":"Campo Pequeno",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":78.990234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Campo Pequeno",
+            "x":1317.0,
+            "y":819.0,
+            "radius":10.0,
+            "left_end":[
+                "Entre Campos"
+            ],
+            "right_end":[
+                "Saldanha"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1290.0,
+            "y":898.0,
+            "Text":"Saldanha",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":43.986328125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Saldanha",
+            "x":1280.0,
+            "y":908.0,
+            "radius":10.0,
+            "left_end":[
+                "Alamada",
+                "Alamada"
+            ],
+            "right_end":[
+                "Sao sebastio",
+                "Sao sebastio"
+            ],
+            "line_names":[
+                "Red",
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1155.0,
+            "y":965.0,
+            "Text":"Picoas",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":31.330078125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Picoas",
+            "x":1145.0,
+            "y":975.0,
+            "radius":10.0,
+            "left_end":[
+                "Saldanha"
+            ],
+            "right_end":[
+                "Marque de Pombai"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":905.0,
+            "y":1101.0,
+            "Text":"Rato",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":22.6640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Rato",
+            "x":895.0,
+            "y":1111.0,
+            "radius":10.0,
+            "left_end":[
+                "Marque de Pombai"
+            ],
+            "right_end":[
+                "Yellow"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1243.0,
+            "y":407.0,
+            "Text":"Lumiar",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":35.3203125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Lumiar",
+            "x":1233.0,
+            "y":417.0,
+            "radius":10.0,
+            "left_end":[
+                "Amexitora"
+            ],
+            "right_end":[
+                "Quionta de conchas"
+            ],
+            "line_names":[
+                "Yellow"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1083.34765625,
+            "start y":117.0,
+            "end x":1062.0,
+            "end y":201.0,
+            "left_line_end":"Yellow",
+            "right_line_end":"Odivelas",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1062.0,
+            "start y":201.0,
+            "end x":1226.0,
+            "end y":254.0,
+            "left_line_end":"Odivelas",
+            "right_line_end":"Senor Rohubado",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1226.0,
+            "start y":254.0,
+            "end x":1229.0,
+            "end y":346.0,
+            "left_line_end":"Senor Rohubado",
+            "right_line_end":"Amexitora",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1229.0,
+            "start y":346.0,
+            "end x":1233.0,
+            "end y":417.0,
+            "left_line_end":"Amexitora",
+            "right_line_end":"Lumiar",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1233.0,
+            "start y":417.0,
+            "end x":1173.0,
+            "end y":523.0,
+            "left_line_end":"Lumiar",
+            "right_line_end":"Quionta de conchas",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1173.0,
+            "start y":523.0,
+            "end x":1112.0,
+            "end y":574.0,
+            "left_line_end":"Quionta de conchas",
+            "right_line_end":"Campo Grande",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1112.0,
+            "start y":574.0,
+            "end x":1095.0,
+            "end y":673.0,
+            "left_line_end":"Campo Grande",
+            "right_line_end":"Ciuda Universidad",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1095.0,
+            "start y":673.0,
+            "end x":1284.0,
+            "end y":744.0,
+            "left_line_end":"Ciuda Universidad",
+            "right_line_end":"Entre Campos",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1284.0,
+            "start y":744.0,
+            "end x":1317.0,
+            "end y":819.0,
+            "left_line_end":"Entre Campos",
+            "right_line_end":"Campo Pequeno",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1317.0,
+            "start y":819.0,
+            "end x":1280.0,
+            "end y":908.0,
+            "left_line_end":"Campo Pequeno",
+            "right_line_end":"Saldanha",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1280.0,
+            "start y":908.0,
+            "end x":1145.0,
+            "end y":975.0,
+            "left_line_end":"Saldanha",
+            "right_line_end":"Picoas",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1145.0,
+            "start y":975.0,
+            "end x":1015.0,
+            "end y":1032.0,
+            "left_line_end":"Picoas",
+            "right_line_end":"Marque de Pombai",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":1015.0,
+            "start y":1032.0,
+            "end x":895.0,
+            "end y":1111.0,
+            "left_line_end":"Marque de Pombai",
+            "right_line_end":"Rato",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Yellow",
+            "start x":895.0,
+            "start y":1111.0,
+            "end x":535.34765625,
+            "end y":1098.0,
+            "left_line_end":"Rato",
+            "right_line_end":"Yellow",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":1.0,
+                "green":1.0,
+                "blue":0.3019607961177826,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Odivelas",
+                "Senor Rohubado",
+                "Amexitora",
+                "Lumiar",
+                "Quionta de conchas",
+                "Campo Grande",
+                "Ciuda Universidad",
+                "Entre Campos",
+                "Campo Pequeno",
+                "Saldanha",
+                "Picoas",
+                "Marque de Pombai",
+                "Rato"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1058.0,
+            "y":560.0,
+            "Text":"Telheras",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":41.30859375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Telheras",
+            "x":1048.0,
+            "y":570.0,
+            "radius":10.0,
+            "left_end":[
+                "Green"
+            ],
+            "right_end":[
+                "Campo Grande"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1412.0,
+            "y":664.0,
+            "Text":"Alvalde",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":37.986328125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Alvalde",
+            "x":1402.0,
+            "y":674.0,
+            "radius":10.0,
+            "left_end":[
+                "Campo Grande"
+            ],
+            "right_end":[
+                "Roma"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1578.0,
+            "y":812.0,
+            "Text":"Roma",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":28.6640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Roma",
+            "x":1568.0,
+            "y":822.0,
+            "radius":10.0,
+            "left_end":[
+                "Alvalde"
+            ],
+            "right_end":[
+                "Areeiro"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1544.0,
+            "y":888.0,
+            "Text":"Areeiro",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":36.64453125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Areeiro",
+            "x":1534.0,
+            "y":898.0,
+            "radius":10.0,
+            "left_end":[
+                "Roma"
+            ],
+            "right_end":[
+                "Alamada"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1533.0,
+            "y":936.0,
+            "Text":"Alamada",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":43.3125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Alamada",
+            "x":1523.0,
+            "y":946.0,
+            "radius":10.0,
+            "left_end":[
+                "Olalas",
+                "Olalas"
+            ],
+            "right_end":[
+                "Saldanha",
+                "Saldanha"
+            ],
+            "line_names":[
+                "Red",
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1530.0,
+            "y":1003.0,
+            "Text":"Arrolos",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":36.662109375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Arrolos",
+            "x":1520.0,
+            "y":1013.0,
+            "radius":10.0,
+            "left_end":[
+                "Alamada"
+            ],
+            "right_end":[
+                "Anjos"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1513.0,
+            "y":1085.0,
+            "Text":"Anjos",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":28.669921875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Anjos",
+            "x":1503.0,
+            "y":1095.0,
+            "radius":10.0,
+            "left_end":[
+                "Arrolos"
+            ],
+            "right_end":[
+                "Intedente"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1499.0,
+            "y":1192.0,
+            "Text":"Intedente",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":44.642578125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Intedente",
+            "x":1489.0,
+            "y":1202.0,
+            "radius":10.0,
+            "left_end":[
+                "Anjos"
+            ],
+            "right_end":[
+                "Martin Moniz"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1478.0,
+            "y":1267.0,
+            "Text":"Martin Moniz",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":66.990234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Martin Moniz",
+            "x":1468.0,
+            "y":1277.0,
+            "radius":10.0,
+            "left_end":[
+                "Intedente"
+            ],
+            "right_end":[
+                "Rossio"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1248.0,
+            "y":1255.0,
+            "Text":"Rossio",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":32.677734375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Rossio",
+            "x":1238.0,
+            "y":1265.0,
+            "radius":10.0,
+            "left_end":[
+                "Martin Moniz"
+            ],
+            "right_end":[
+                "Chiado"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1457.0,
+            "y":1378.0,
+            "Text":"Santo",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":27.333984375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Santo",
+            "x":1447.0,
+            "y":1388.0,
+            "radius":10.0,
+            "left_end":[
+                "Chiado"
+            ],
+            "right_end":[
+                "Green"
+            ],
+            "line_names":[
+                "Green"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":978.3427734375,
+            "start y":565.0,
+            "end x":1048.0,
+            "end y":570.0,
+            "left_line_end":"Green",
+            "right_line_end":"Telheras",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1048.0,
+            "start y":570.0,
+            "end x":1112.0,
+            "end y":574.0,
+            "left_line_end":"Telheras",
+            "right_line_end":"Campo Grande",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1112.0,
+            "start y":574.0,
+            "end x":1402.0,
+            "end y":674.0,
+            "left_line_end":"Campo Grande",
+            "right_line_end":"Alvalde",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1402.0,
+            "start y":674.0,
+            "end x":1568.0,
+            "end y":822.0,
+            "left_line_end":"Alvalde",
+            "right_line_end":"Roma",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1568.0,
+            "start y":822.0,
+            "end x":1534.0,
+            "end y":898.0,
+            "left_line_end":"Roma",
+            "right_line_end":"Areeiro",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1534.0,
+            "start y":898.0,
+            "end x":1523.0,
+            "end y":946.0,
+            "left_line_end":"Areeiro",
+            "right_line_end":"Alamada",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1523.0,
+            "start y":946.0,
+            "end x":1520.0,
+            "end y":1013.0,
+            "left_line_end":"Alamada",
+            "right_line_end":"Arrolos",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1520.0,
+            "start y":1013.0,
+            "end x":1503.0,
+            "end y":1095.0,
+            "left_line_end":"Arrolos",
+            "right_line_end":"Anjos",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1503.0,
+            "start y":1095.0,
+            "end x":1489.0,
+            "end y":1202.0,
+            "left_line_end":"Anjos",
+            "right_line_end":"Intedente",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1489.0,
+            "start y":1202.0,
+            "end x":1468.0,
+            "end y":1277.0,
+            "left_line_end":"Intedente",
+            "right_line_end":"Martin Moniz",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1468.0,
+            "start y":1277.0,
+            "end x":1238.0,
+            "end y":1265.0,
+            "left_line_end":"Martin Moniz",
+            "right_line_end":"Rossio",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1238.0,
+            "start y":1265.0,
+            "end x":1218.0,
+            "end y":1319.0,
+            "left_line_end":"Rossio",
+            "right_line_end":"Chiado",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1218.0,
+            "start y":1319.0,
+            "end x":1447.0,
+            "end y":1388.0,
+            "left_line_end":"Chiado",
+            "right_line_end":"Santo",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Green",
+            "start x":1447.0,
+            "start y":1388.0,
+            "end x":1741.37109375,
+            "end y":1335.0,
+            "left_line_end":"Santo",
+            "right_line_end":"Green",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.10196078568696976,
+                "green":0.3019607961177826,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Telheras",
+                "Campo Grande",
+                "Alvalde",
+                "Roma",
+                "Areeiro",
+                "Alamada",
+                "Arrolos",
+                "Anjos",
+                "Intedente",
+                "Martin Moniz",
+                "Rossio",
+                "Chiado",
+                "Santo"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1486.0,
+            "y":245.0,
+            "Text":"Aeroporto",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":49.318359375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Aeroporto",
+            "x":1476.0,
+            "y":255.0,
+            "radius":10.0,
+            "left_end":[
+                "Red"
+            ],
+            "right_end":[
+                "Encamio"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1615.0,
+            "y":210.0,
+            "Text":"Encamio",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":42.650390625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Encamio",
+            "x":1605.0,
+            "y":220.0,
+            "radius":10.0,
+            "left_end":[
+                "Aeroporto"
+            ],
+            "right_end":[
+                "Moscavide"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1812.0,
+            "y":304.0,
+            "Text":"Moscavide",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":52.65234375,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Moscavide",
+            "x":1802.0,
+            "y":314.0,
+            "radius":10.0,
+            "left_end":[
+                "Encamio"
+            ],
+            "right_end":[
+                "Oriente"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1882.0,
+            "y":414.0,
+            "Text":"Oriente",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":35.982421875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Oriente",
+            "x":1872.0,
+            "y":424.0,
+            "radius":10.0,
+            "left_end":[
+                "Moscavide"
+            ],
+            "right_end":[
+                "Cabo Ruvio"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1791.0,
+            "y":495.0,
+            "Text":"Cabo Ruvio",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":57.66796875,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Cabo Ruvio",
+            "x":1781.0,
+            "y":505.0,
+            "radius":10.0,
+            "left_end":[
+                "Oriente"
+            ],
+            "right_end":[
+                "Olivias"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1808.0,
+            "y":615.0,
+            "Text":"Olivias",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":34.6640625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Olivias",
+            "x":1798.0,
+            "y":625.0,
+            "radius":10.0,
+            "left_end":[
+                "Cabo Ruvio"
+            ],
+            "right_end":[
+                "Chelas"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1756.0,
+            "y":756.0,
+            "Text":"Chelas",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":32.66015625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Chelas",
+            "x":1746.0,
+            "y":766.0,
+            "radius":10.0,
+            "left_end":[
+                "Olivias"
+            ],
+            "right_end":[
+                "Bela Vista"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1723.0,
+            "y":840.0,
+            "Text":"Bela Vista",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":50.3203125,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Bela Vista",
+            "x":1713.0,
+            "y":850.0,
+            "radius":10.0,
+            "left_end":[
+                "Chelas"
+            ],
+            "right_end":[
+                "Olalas"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"TEXT",
+            "x":1663.0,
+            "y":917.0,
+            "Text":"Olalas",
+            "fill_color":{
+                "red":0.0,
+                "green":0.0,
+                "blue":0.0,
+                "alpha":1.0
+            },
+            "Line_Start_Text":false,
+            "Line_End_Text":false,
+            "width":30.65625,
+            "Line_label_boolean":false,
+            "Station_label_boolean":true,
+            "height":0.0
+        },
+        {
+            "type":"STATION",
+            "name":"Olalas",
+            "x":1653.0,
+            "y":927.0,
+            "radius":10.0,
+            "left_end":[
+                "Bela Vista"
+            ],
+            "right_end":[
+                "Alamada"
+            ],
+            "line_names":[
+                "Red"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1373.33984375,
+            "start y":317.0,
+            "end x":1476.0,
+            "end y":255.0,
+            "left_line_end":"Red",
+            "right_line_end":"Aeroporto",
+            "First _line_boolean":true,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableText",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1476.0,
+            "start y":255.0,
+            "end x":1605.0,
+            "end y":220.0,
+            "left_line_end":"Aeroporto",
+            "right_line_end":"Encamio",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1605.0,
+            "start y":220.0,
+            "end x":1802.0,
+            "end y":314.0,
+            "left_line_end":"Encamio",
+            "right_line_end":"Moscavide",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1802.0,
+            "start y":314.0,
+            "end x":1872.0,
+            "end y":424.0,
+            "left_line_end":"Moscavide",
+            "right_line_end":"Oriente",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1872.0,
+            "start y":424.0,
+            "end x":1781.0,
+            "end y":505.0,
+            "left_line_end":"Oriente",
+            "right_line_end":"Cabo Ruvio",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1781.0,
+            "start y":505.0,
+            "end x":1798.0,
+            "end y":625.0,
+            "left_line_end":"Cabo Ruvio",
+            "right_line_end":"Olivias",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1798.0,
+            "start y":625.0,
+            "end x":1746.0,
+            "end y":766.0,
+            "left_line_end":"Olivias",
+            "right_line_end":"Chelas",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1746.0,
+            "start y":766.0,
+            "end x":1713.0,
+            "end y":850.0,
+            "left_line_end":"Chelas",
+            "right_line_end":"Bela Vista",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1713.0,
+            "start y":850.0,
+            "end x":1653.0,
+            "end y":927.0,
+            "left_line_end":"Bela Vista",
+            "right_line_end":"Olalas",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1653.0,
+            "start y":927.0,
+            "end x":1523.0,
+            "end y":946.0,
+            "left_line_end":"Olalas",
+            "right_line_end":"Alamada",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1523.0,
+            "start y":946.0,
+            "end x":1280.0,
+            "end y":908.0,
+            "left_line_end":"Alamada",
+            "right_line_end":"Saldanha",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1280.0,
+            "start y":908.0,
+            "end x":1010.0,
+            "end y":885.0,
+            "left_line_end":"Saldanha",
+            "right_line_end":"Sao sebastio",
+            "First _line_boolean":false,
+            "Last_line_boolean":false,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableStation",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        },
+        {
+            "type":"LINE",
+            "name":"Red",
+            "start x":1010.0,
+            "start y":885.0,
+            "end x":773.3349609375,
+            "end y":924.0,
+            "left_line_end":"Sao sebastio",
+            "right_line_end":"Red",
+            "First _line_boolean":false,
+            "Last_line_boolean":true,
+            "left_end_type":"class M3.data.DraggableStation",
+            "right_end_type":"class M3.data.DraggableText",
+            "line_width":5.0,
+            "fill_color":{
+                "red":0.7019608020782471,
+                "green":0.10196078568696976,
+                "blue":0.10196078568696976,
+                "alpha":1.0
+            },
+            "station_names":[
+                "Aeroporto",
+                "Encamio",
+                "Moscavide",
+                "Oriente",
+                "Cabo Ruvio",
+                "Olivias",
+                "Chelas",
+                "Bela Vista",
+                "Olalas",
+                "Alamada",
+                "Saldanha",
+                "Sao sebastio"
+            ]
+        }
+    ]
+}

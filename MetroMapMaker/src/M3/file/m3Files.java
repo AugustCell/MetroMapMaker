@@ -445,6 +445,7 @@ public class m3Files implements AppFileComponent {
     public void loadData(AppDataComponent data, String filePath) throws IOException {
         // CLEAR THE OLD DATA OUT
         m3Data dataManager = (m3Data) data;
+        m3Workspace workspace = (m3Workspace) app.getWorkspaceComponent();
         dataManager.resetData();
 
         if (new File(filePath).length() != 0) {
@@ -455,6 +456,8 @@ public class m3Files implements AppFileComponent {
             // LOAD THE BACKGROUND COLOR
             Color bgColor = loadColor(json, JSON_BG_COLOR);
             dataManager.setBackgroundColor(bgColor);
+            workspace.getBackgroundColorPicker().setValue(bgColor);
+            
 
             // AND NOW LOAD ALL THE SHAPES
             JsonArray jsonShapeArray = json.getJsonArray(JSON_SHAPES);
@@ -764,7 +767,6 @@ public class m3Files implements AppFileComponent {
         FileChooser directoryHelper = new FileChooser();
         String exportDirectoryString = "./export/" + app.getWorkingFileString() + "/";
         directoryHelper.setInitialDirectory(new File(filePath));
-        //C:\Users\Augusto\Netbeans projects\CSE219-Homework2\hw2\MetroMapMaker\.\work\hello
         File projectFile = new File(directoryHelper.getInitialDirectory() + "/" + app.getWorkingFileString());
         System.out.println("EXPORT CONCENTRATE " + projectFile.getAbsolutePath().toString());
         System.out.println("EXPORT WRITE CONCENTRATE " + exportDirectoryString + app.getWorkingFileString());

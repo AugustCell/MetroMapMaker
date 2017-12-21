@@ -503,7 +503,6 @@ public class m3Files implements AppFileComponent {
             String noPrefix = jsonShape.get(JSON_FILL_COLOR).toString().substring(jsonShape.get(JSON_FILL_COLOR).toString().indexOf(prefix) + prefix.length());
             noPrefix = noPrefix.substring(0, noPrefix.length() - 2);
             String finalPath = "file:///" + noPrefix;
-            System.out.println("Image path " + finalPath);
             URL url = new URL(finalPath);
             Color outlineColor = loadColor(jsonShape, JSON_OUTLINE_COLOR);
             double outlineThickness = getDataAsDouble(jsonShape, JSON_OUTLINE_THICKNESS);
@@ -544,12 +543,7 @@ public class m3Files implements AppFileComponent {
             String rightEnd = jsonShape.getString(JSON_RIGHT_LINE_END).toString();
             String leftEndType = jsonShape.getString(JSON_LEFT_END_TYPE).toString();
             String rightEndType = jsonShape.getString(JSON_RIGHT_END_TYPE).toString();
-            System.out.println("THIS IS THE LINE NAME " + name);
-            System.out.println("THIS IS THE LEFT END TYPE " + leftEndType);
-            System.out.println("THIS IS THE RIGHT END TYPE " + rightEndType);
-            System.out.println("THIS IS THE LEFT END DEBUG NOW: " + leftEnd);
-            System.out.println("THIS IS THE RIGHT END DEBUG NOW: " + rightEnd);
-
+            
             JsonArray arr = jsonShape.getJsonArray(JSON_STATION_NAME);
             StationTracker newTracker = new StationTracker();
             ArrayList<StationTracker> tracker = dataManager.getStationTracker();
@@ -559,7 +553,6 @@ public class m3Files implements AppFileComponent {
             for (int i = 0; i < arr.size(); i++) {
                 JsonString tempObj = arr.getJsonString(i);
                 tempString = tempObj.toString().substring(1, tempObj.toString().length() - 1);
-                System.out.println("THIS IS THE STATION ADDED NAME : " + tempString);
                 newTracker.addStationName(tempString);
                 loadStations(tracker, newTracker, tempString);
 
@@ -611,9 +604,6 @@ public class m3Files implements AppFileComponent {
                 ends.setLeftEnd(leftString);
                 ends.setRightEnd(rightString);
                 ends.setLineName(nameString);
-                System.out.println("CONCENTRATE LEFT END " + ends.getLeftEnd());
-                System.out.println("CONCENTRATE RIGHT END " + ends.getRightEnd());
-                System.out.println("CONCENTRATE LINE NAME " + ends.getLineName());
                 ((DraggableStation) draggableShape).getStationEnds().add(ends);
             }
 
@@ -716,9 +706,6 @@ public class m3Files implements AppFileComponent {
                 for (int l = 0; l < dataManager.getShapes().size(); l++) {
                     if (dataManager.getShapes().get(l) instanceof DraggableText) {
                         DraggableText tempText = (DraggableText) dataManager.getShapes().get(l);
-                        System.out.println("This is the text class : " + tempText.getClass().toString());
-                        System.out.println("This is the line left class : " + tempLine.getLeftElementType());
-                        System.out.println("This is the line right class : " + tempLine.getRightElementType());
                         if (tempLine.getLeftEnd().equals(tempText.getText()) && tempLine.getLeftElementType().equals(tempText.getClass().toString())
                                 && tempText.getStartResult()) {
                             tempLine.startXProperty().bind(tempText.xProperty());
@@ -730,9 +717,6 @@ public class m3Files implements AppFileComponent {
                         }
                     } else if (dataManager.getShapes().get(l) instanceof DraggableStation) {
                         DraggableStation tempStation = (DraggableStation) dataManager.getShapes().get(l);
-                        System.out.println("This is the text class : " + tempStation.getClass().toString());
-                        System.out.println("This is the line left class : " + tempLine.getLeftElementType());
-                        System.out.println("This is the line right class : " + tempLine.getRightElementType());
                         if (tempLine.getLeftEnd().equals(tempStation.getStationName()) && tempLine.getLeftElementType().equals(tempStation.getClass().toString())) {
                             tempLine.startXProperty().bind(tempStation.centerXProperty());
                             tempLine.startYProperty().bind(tempStation.centerYProperty());
@@ -768,8 +752,6 @@ public class m3Files implements AppFileComponent {
         String exportDirectoryString = "./export/" + app.getWorkingFileString() + "/";
         directoryHelper.setInitialDirectory(new File(filePath));
         File projectFile = new File(directoryHelper.getInitialDirectory() + "/" + app.getWorkingFileString());
-        System.out.println("EXPORT CONCENTRATE " + projectFile.getAbsolutePath().toString());
-        System.out.println("EXPORT WRITE CONCENTRATE " + exportDirectoryString + app.getWorkingFileString());
         BufferedWriter output = new BufferedWriter(new FileWriter(projectFile));
         
         m3Data dataManager = (m3Data) data;

@@ -402,6 +402,7 @@ public class m3Data implements AppDataComponent {
                     LineGroups tempGroup = (LineGroups) shapes.get(i);
                     if(tempGroup.getLineName().equals(tempText.getText())){
                         workspace.getLineBox().getSelectionModel().select(tempText.getText());
+                        highlightShape(shape);
                         break;
                     }
                 }
@@ -410,6 +411,7 @@ public class m3Data implements AppDataComponent {
         
         else if(shape instanceof DraggableStation){
             workspace.getStationBox().getSelectionModel().select(((DraggableStation) shape).getStationName());
+            highlightShape(shape);
         }
         
         else if (shape != null) {

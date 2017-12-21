@@ -23,8 +23,6 @@ import M3.data.LineGroups;
 import M3.data.StationEnds;
 import M3.data.StationTracker;
 import static M3.data.m3State.SELECTING_SHAPE;
-import M3.graph.Station;
-import M3.graph.StationGraph;
 import M3.transaction.AddLine_Transaction;
 import M3.transaction.AddStation_Transaction;
 import M3.transaction.EditLine_Transaction;
